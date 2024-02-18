@@ -1,0 +1,54 @@
+---
+sidebar_position: 2
+pagination_prev:
+pagination_next:
+title: "Dynabank"
+---
+
+## Dynabankinsuracart.com
+
+The application is a fully-featured application showcasing shopping cart, banking, and insurance sites. In the application diagram below, you can see the various functions provided and the technology stacks used.
+
+### Pepper
+
+[Pepper](/docs/pepper) is a great way to deploy this application on a kubernetes cluster in the cloud of your choice.
+
+### Features
+
+- modern front end design
+- production-grade services architecture
+- user based load generator
+- pre-populated fields making it easy to try out
+
+![DynaBankInsurCart](/img/DynaBankInsuraCart.png)
+
+### Deployment
+
+[Pepper](/docs/pepper) is a great way to deploy this application on a kubernetes cluster in the cloud of your choice.
+
+The application has been tested on AKS/EKS/GKE clusters. The smallest recommended size is 4 cpu and 16gb memory. The smallest possible size is 2cpu 8GB memory.
+
+It will install into the dbic namespace.
+
+Download the yaml.
+
+```bash
+curl https://raw.githubusercontent.com/suchcodewow/dbic/main/deploy/dbic.yaml > ~/dbic.yaml
+```
+
+Apply.
+
+```bash
+kubectl apply -f ~/dbic.yaml
+```
+
+Once deployed, the load generator will immediately start creating traffic. On default cloud kubernetes installations, you can login to the application as well.
+
+Find the IP/hostname by running:
+
+```bash
+kubectl get svc -n dbic
+```
+
+Paste the result into your browser.
+![Dynabank](/img/dynabank.jpg)

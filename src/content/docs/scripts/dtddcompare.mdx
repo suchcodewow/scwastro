@@ -1,0 +1,53 @@
+---
+pagination_prev:
+pagination_next:
+title: Deployment Comparison
+---
+
+# Dynatrace vs Datadog demo apps compared
+
+## Summary
+
+- Dynatrace **Dynabank** & Datadog **Storedog** are demo applications built to showcase their respective Observability solutions
+- By removing app components from deployment & config files, it is clear how many changes each solution needs for Observability
+- This process was done for Dynabank and Storedog with details shown below
+- The **choice is clear** between Dynatrace and Datadog on which solution is **sustainable at scale**
+
+### Initial Deployment Comparison
+
+Quick comparison below on [Dynatrace **Dynabank**](https://github.com/suchcodewow/dbic) and [Datadog **Storedog**](https://github.com/datadog/storedog):
+
+![Comparison Overview](/img/compare1.png)
+
+**Both** applications are actively used today to showcase their best offerings for Observability.
+
+**Both** have an agent-based deployment model.
+
+### Overall Application Changes Comparison
+
+But what about configuration?
+
+To compare apples-to-apples, this image shows the Docker Compose files minus what is needed for the original application - **leaving everything required to add Observability**:
+
+![Comparison Docker Compose](/img/compare2.png)
+
+Given that both demo apps put their "best foot forward"- it's clear which solution is working relentlessly to make deployment effortless and sustainable at scale.
+
+### Individual Services Comparison
+
+The application configuration required beyond the Docker Compose file make the difference even more apparent. It's espiecally clear if you consider that **Dynabank has 8 unique technologies vs 5 in Storedog**.
+
+Similar to previous, **the screenshot below shows everywhere application configuration is required** with the application code removed.
+
+![Compare Application Files](/img/compare3.png)
+
+### Conclusion
+
+Working in technology can be extremely rewarding- but always requires a lot of teamwork and a lot of time to enable change. It's crystal clear which Observability solution really understands that dynamic and has the expertise to a deliver the best solution with the least changes.
+
+It's important to be critical of a solution requiring many changes because:
+
+- Initial implementation will take much longer. The math to calculate work hours is staggering: hours to understand change needed X dev/operations teams required to deploy change X # of services in application X # of applications that need Observability.
+- More code changes means **more time spent maintaining Observability instead of leveraging it**. And if the math above wasn't already overwhelming, it becomes lethal when multiplying again with updating the code every time an Observability change is needed.
+
+Ultimately, which Observability solution is best for your organization should be determined during an evaluation. But make sure to evaluate as much as you can- across as much of your ecosystem as you can. Then take a few minutes to count how many hours deployment took & how many changes were made. It doesn't help to deploy a solution that requires more time to maintain than the value it provides.

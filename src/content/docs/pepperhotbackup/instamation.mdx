@@ -1,0 +1,85 @@
+---
+sidebar_position: 3
+---
+
+# Hands On: Instamation on Azure
+
+Our company has instructed us to build and deploy a modern quoting service.
+
+We've developed Instamation (tm) and chosen to deploy it as an Azure Web App for easy scalability and configuration.
+
+## Deploy
+
+1. In the Azure Console, go to "App Services."
+1. Type your class id (sessionX#) into the filter top right.
+1. You should see just ONE web app and click to select. It will be in the _format scw-webapp-[classname]_.
+1. Select the Deployment Center (blue highlight) then External Git as the source (green highlight).  
+   ![awa1](/img/awa1.png)
+1. Copy the following service repository link into the repository field:
+
+```bash
+https://github.com/suchcodewow/instamationsvc
+```
+
+1. Type `main` for the branch (blue highlight) then Save (green highlight).
+   :::tip
+   The "example/grey" branch example is also named main. You do need to type `main` into this field to be able to save.
+   :::
+   ![awa2](/img/awa2.png)
+1. Go back to the overview page (blue highlight) and click the default domain (green highlight) to see your new service.
+   ![awa3](/img/awa3.png)
+1. The deployment will likely take a minute or two. You might see a boilerplate message the first time you click- or it might not respond. When successfully deployed, you should see a simple json response simlar to:
+
+```bash
+{"status":"ready","appname":"scw-webapp-[classname]"}
+```
+
+When this appears, it means your service is working! You are ready to move to the next step.
+
+### Tab 6: Instamation Web App
+
+Slide the tab for your Azure Web App into the 6th slot.
+
+1. Copy the URL of your azure web service from the address bar at the top of your browser to use later.
+
+## Dynatrace Extension
+
+1. In the inset-menu, click on _Extensions_ within the _Development Tools_ section.
+1. Click Add in the main window. Search/Find Dynatrace Oneagent and select it:
+   ![extension1](/img/extension1.png)
+1. At the bottom of the panel, check the agreement box, then click _Add_.
+1. Hang tight for a few seconds until it loads, then click the small browse box:
+   ![extension2](/img/extension2.png)
+1. Briefly switch to Tab #1. In Pepper, choose the option for `Dynatrace: Token Details`. You might need to scroll up slightly to see the output.
+1. Using the image below as a guide, fill in the environment ID, token, and then the server URL.
+   ![extension3](/img/extension3.png)
+1. Click _Install OneAgent_ and hang tight until you see _Enjoy monitoring from Dynatrace._ at the top of the screen.
+1. In the _Overview_ page of your web app, click the _Restart_ button.
+
+:::tip Lab vs Real World
+For most Dynatrace deployments, only the Environment ID is needed. Since we're using Dynatrace tenants that contain the word 'sprint' instead of the normal 'live', we need to specify the Server URL.
+:::
+
+## Dynabank & Azure Web App
+
+1. In Tab #6 showing the Instamation service API response, copy the URL from the address bar.
+1. In Dynabank, Log-in using any random name provided with the orange button top right.
+1. Click the orange button top right and click _Operations_.
+   ![dynabankwebapp1](/img/dynabankwebapp1.png)
+1. In the _Estimation Service URL box_, paste in the URL of the Instamation service, then click _save_.
+1. Confirm it worked by checking for a _successfully configured_ message. The App Name should reflect your user id (sessionX#). (The value is retrieved directly from your web service to make sure it worked.)
+   ![dynabankwebapp2](/img/dynabankwebapp2.png)
+1. New Collecticare quotes will now automatically by quoted by the Instamation Service. You can check on it by going to Administration:
+   ![dynabankwebapp3](/img/dynabankwebapp3.png)
+1. Review new Collecticare quotes on the first administration panel. Instead of quotes showing up in the _new_ state, they will show as _quoted_ instead:
+   ![dynabankwebapp4](/img/dynabankwebapp4.png)
+
+### Diagnostic settings
+
+1. Back in Tab #3, scroll down to diagnostic settings and click (green box).
+1. Click _Add Diagnostic Setting_.
+   ![dynabankwebapp1](/img/webappsetting.png)
+1. Click _App Service Application Logs_ (green box) and click _Stream to Event Hub_ (blue box).
+1. Make sure the hub namespace matches below & select the shown event hub.
+   ![dynabankwebapp1](/img/appdiagnostic.png)
+1. Click _save_ in the top left corner.

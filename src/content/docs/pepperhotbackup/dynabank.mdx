@@ -1,0 +1,97 @@
+---
+sidebar_position: 2
+---
+
+# Hands On: Dynabank
+
+## Deploy Dynabank
+
+1. In tab #1 University Terminal, make sure Pepper is running and select the option to `Download demo apps yaml files`.
+1. Select the option to `Deploy: dbic`. Use the `refresh pods` option as needed over a few minutes until you have all pods deployed.
+1. When 10/10 pods show ready, click the HTTP link to open Dynabank (or select/drag with mouse right-click to copy, and paste into a new tab).
+
+### Tab 5: Dynabank (Customer)
+
+We recommend moving the Dynabank tab over to position #5 if not there already.
+
+## Explore Dynabank
+
+Dynabank provides its customers the best of everything! It's your "One Stop Shop for Non-Stop Shopping!"
+
+You can:
+
+- pay bills from your bank account
+- get quotes for car/home insurance
+- shop for everything you need
+
+And with the newly announced acquistion of Collecticare (tm):
+
+- get specialty boutique insurance for your incredibly valuable antiques
+
+### Login
+
+Login with any name provided in the top right. Make sure to try the features above!  
+Also, go to the "Administration" panel in the top right and confirm Collecticare quotes appear- but are in the "new" state.
+
+## (Quickly) Explore Dynatrace
+
+### A) Smartscape
+
+1. In your Dynatrace tenant, select the "Smartscape" option from the menu. You'll see that Dynatrace has already generated a topology view.
+   ![smartscape](/img/explore1.jpg)
+2. Click any components in Dynatrace to show the automatically tracked vertical relationships for that entity.
+   ![verticalsmartscape](/img/explore2.jpg)
+
+This visibility is unparalled when planning to move applications to another data center or cloud; All dependencies are clearly visible.
+
+### B) Services View
+
+1. Select "Services" on the left menu. Dynatrace shows all detected services and key metrics for each.
+1. Select the "SpecialtyAPI" for Collecticare to see a dashboard and further drilldowns for it:
+
+- The top left block shows what calls this service, what this service depends on, and where it's running
+- Bottom left shows service KPI's like failure rate & throughput
+- Dynatrace always keeps everything connected. The right side shows ways to view the service flow, back up the chain, and individual traces
+
+In the generation 3 UI, you'll see the front-end calls incoming to the API & backend calls going to the database.
+![services](/img/specialtytopology.png)
+
+In either view, it's clear that transactions only go to the database.
+
+### C) Kubernetes View
+
+1. Select "Kubernetes" from the left menu (under ), then click on the cluster matching your id.
+
+You'll see a cluster overview, namespaces, workloads, and the option to turn on cluster events.
+![services](/img/explore10.jpg)
+
+2. Try clicking on the "dbic" namespace on the lower right to see infrastructure metrics.
+
+3. From here, check out the services running and click ordersAPI.
+
+4. On this page, you can see Dynatrace automatically building visibility up to the services provided & down into the infrastructure.
+
+### D) Databases View
+
+![services](/img/explore4.jpg)
+
+1. Select "Databases" on the left menu, then "dbic". Similar to services, Dynatrace constantly tracks service dependencies, and underlying infrastructure at all times.
+2. Database calls from any source are shown here with the ability to reverse back up the chain with the "view backtrace" button.
+
+### E) Application View
+
+![services](/img/explore6.jpg)
+
+1. Select "Frontend" on the left menu (under "Applications & Microservices")
+2. Select "My Web Application"
+3. Select "1 service" in the lower right of top box.
+   ![appservice](/img/appservice.jpg)
+4. Select "view service flow" to show this applications ecosystem front to back.
+
+:::tip
+It's easy to split applications into their own views. It's done by selecting the "..." in the applications view and "editing detection settings"
+:::
+
+## Conclusion
+
+After confirming Observability across our existing application, we'll move forward with deploying additional Azure resources.

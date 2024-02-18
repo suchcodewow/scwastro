@@ -1,0 +1,57 @@
+---
+pagination_prev:
+pagination_next:
+sidebar_position: 2
+---
+
+# Azure API Check
+
+## Purpose
+
+The script below tests the connection to the Azure API from your Dynatrace Active Gate (Windows or Linux). It isolates problems with both network (firewall) and credential issues.
+
+## Usage
+
+Download the script and run on your Active Gate. Powershell is required for Windows.
+
+Possible outcomes:
+
+- Failed to Authenticate: There is something wrong with the credentials and the error should provide more detail.
+- Credentials Authenticated, but FAILED to retrieve subscriptions: The account successfully authenticated, but doesn't have permissions to any subscriptions
+- Successfully Connected and retrieved subscriptions: Credentials worked and retrieved at least 1 subscription. These account details should work in Dynatrace!
+
+## Download and Run
+
+### Windows: Option 1
+
+Open terminal and download with:
+
+```bash
+pwsh -c invoke-webrequest -Uri https://www.suchcodewow.io/manifests/azurecheck.ps1 -OutFile azurecheck.ps1
+```
+
+Run the file with:
+
+```bash
+pwsh azurecheck.ps1
+```
+
+### Windows: Option 2
+
+[Direct Download](/manifests/azurecheck.ps1)
+
+Open a terminal prompt and run `azurecheck.ps1`.
+
+### Linux
+
+Download the script with:
+
+```bash
+curl https://www.suchcodewow.io/manifests/azurecheck.sh > ~/azurecheck.sh && chmod +x ~/azurecheck.sh
+```
+
+Run with:
+
+```bash
+~/azurecheck.sh
+```
