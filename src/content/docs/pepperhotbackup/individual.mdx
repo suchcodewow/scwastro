@@ -1,5 +1,6 @@
 ---
-sidebar_position: 1
+sidebar:
+  order: 1
 title: Azure and Dynatrace
 ---
 
@@ -117,7 +118,7 @@ We'll walk through these steps together, but if you're feeling a bit saucy and a
 | Data Source | Request - Path |
 | Operator    | exists         |
 
-![bizevents2](/img/bizevents2.png)
+![bizevents2](/src/assets/img/bizevents2.png)
 
 1. In the _Event meta data_ section, set the following values:
 
@@ -152,16 +153,16 @@ We'll walk through these steps together, but if you're feeling a bit saucy and a
 1. Go to Settings -> Preferences -> OneAgent features.
 1. In the Filter by box, type `business event` and press ENTER.
 1. Toggle ON _Business Event [Opt-in]_ for .NET, Go, Java, Node.js, and Webserver. Select the drop-down arrow for each and toggle ON _Instrucmentation enabled_.
-   ![oneagentpref1](/img/bizevent1.png)
+   ![oneagentpref1](/src/assets/img/bizevent1.png)
 1. Click _Save Changes_ bottom left of screen.
 1. Clear the Filter box (click blue x) and type `node fetch` and press ENTER.
-   ![node fetch](/img/settingfetch.png)
+   ![node fetch](/src/assets/img/settingfetch.png)
 1. Click _Save Changes_ bottom left of screen.
 1. Clear the Filter box (click blue x) and type `node log` and press ENTER.
-   ![node fetch](/img/nodelog.png)
+   ![node fetch](/src/assets/img/nodelog.png)
 1. Click _Save Changes_ bottom left of screen.
 1. Clear the Filter box (click blue x) and type `net` and press ENTER.
-   ![node fetch](/img/settingnet.png)
+   ![node fetch](/src/assets/img/settingnet.png)
 1. Click _Save Changes_ bottom left of screen.
 
 ## Conclusion

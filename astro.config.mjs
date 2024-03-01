@@ -5,7 +5,11 @@ import starlight from "@astrojs/starlight";
 export default defineConfig({
   integrations: [
     starlight({
+      favicon: "favicon.ico",
       title: "SuchCodeWow",
+      components: {
+        Sidebar: "./src/components/Sidebar.astro",
+      },
       logo: {
         src: "./src/assets/wow.png",
       },
@@ -15,15 +19,16 @@ export default defineConfig({
       },
       sidebar: [
         {
-          label: "Workshops",
-          items: [
-            // Each item here is one entry in the navigation menu.
-            { label: "Example Guide", link: "/guides/example/" },
-          ],
+          label: "Full Stack Front-to-Back",
+          autogenerate: { directory: "fullstack" },
         },
         {
-          label: "Reference",
-          autogenerate: { directory: "reference" },
+          label: "Pepper",
+          autogenerate: { directory: "pepper" },
+        },
+        {
+          label: "Scripts",
+          autogenerate: { directory: "scripts" },
         },
       ],
     }),

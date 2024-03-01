@@ -1,5 +1,6 @@
 ---
-sidebar_position: 3
+sidebar:
+  order: 3
 title: Logs
 ---
 
@@ -48,7 +49,7 @@ Validate the environment variables:
 echo -e CLUSTERID=$CLUSTERID '\n' DTNODEID=$DTNODEID '\n' NODENAME=$NODENAME '\n' NAMESPACEID=$NAMESPACEID '\n' NAMESPACENAME=$NAMESPACENAME '\n' PODNAME=$PODNAME '\n' PODID=$PODID
 ```
 
-![Log 2](/img/log_2.png)
+![Log 2](/src/assets/img/log_2.png)
 
 Create `ENVDOMAIN` and `APITOKEN` envrionment variables:
 
@@ -74,7 +75,7 @@ Navigate to Dynatrace Envrionment > Logs (refresh page)
 
 Please take a moment to mark the spreadsheet _Logs - Validated Logs_ column for your row with `done`.
 
-![Log 3](/img/log_3.png)
+![Log 3](/src/assets/img/log_3.png)
 
 #### Create a metric out of a logs
 
@@ -87,11 +88,11 @@ status: error
 k8s.namespace.name: dynatrace
 ```
 
-![Log 4](/img/log_4.png)
+![Log 4](/src/assets/img/log_4.png)
 
 Click on `Create Metric`
 
-![Log 5](/img/log_5.png)
+![Log 5](/src/assets/img/log_5.png)
 
 Set key to:
 
@@ -108,7 +109,7 @@ dt.entity.cloud_application_instance
 
 Click on `Save Changes`
 
-![Log 6](/img/log_6.png)
+![Log 6](/src/assets/img/log_6.png)
 
 Execute the Log Ingest POST (x3)
 
@@ -131,7 +132,7 @@ Add the following `filterBy`:
 Kubernetes namespace:Name: Dynatrace
 ```
 
-![Log 7](/img/log_7.png)
+![Log 7](/src/assets/img/log_7.png)
 
 #### Analyze and Alert
 
@@ -139,7 +140,7 @@ We will create a Log Event that will generate problems.
 
 Navigate to `Settings` > `Log Monitoring` > `Log Events` and Click on `Add Log Event`
 
-![Log 8](/img/log_8.png)
+![Log 8](/src/assets/img/log_8.png)
 
 Set the following values:
 
@@ -153,7 +154,7 @@ Title: Perform 2022 Log Error Event
 Event Type: Error
 ```
 
-![Log 9](/img/log_9.png)
+![Log 9](/src/assets/img/log_9.png)
 
 Add the following properties:
 
@@ -163,13 +164,13 @@ KEY dt.entity.cloud_application_instance VALUE {dt.entity.cloud_application_inst
 KEY dt.entity.cloud_application_namespace VALUE {dt.entity.cloud_application_namespace}
 ```
 
-![Log 10](/img/log_10.png)
+![Log 10](/src/assets/img/log_10.png)
 
 Execute the Log Ingest POST (x3)
 
 Navigate to `Problems` (refresh page) and look for the `Perform 2022 Log Error Event`
 
-![Log 11](/img/log_11.png)
+![Log 11](/src/assets/img/log_11.png)
 
 ### :checkered_flag: Checkpoint
 
