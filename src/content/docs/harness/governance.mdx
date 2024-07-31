@@ -4,40 +4,54 @@ sidebar:
 title: "Lab B - Governance"
 ---
 
-# Lab 2 - DevSecOps
+## Goals
 
-**Summary:** Our security team has implemented orchestration of **Fortify** and **OWASP** scans for our code in a reusable form **(templates)**. In order to improve our security posture they have also added policies to enforce us to include those templates
+With Harness, governance and security is paramount- and the platform is uniquely built to provide peace of mind for security teams while empowering software delivery.
 
-![](https://lh7-us.googleusercontent.com/docsz/AD_4nXcLr5TGcKRWOjVgB_sCAHHEeLPyd6EBdnkt2-mq_imTkZbQMEwJD03Q1wZyhWqHxoCNIIYWJWlRbnZrvZn2pPYIwTzXlOGdhMDEgn-J2JnK7lVastmfpdwTqDHXjpP0DK3TgU1gM-Ec_0iZLicWV7KpgW2FdXUCcAtraDGaEz8hI3dpWGLXkg?key=cRG2cvp_PHVW0KG2Gq6Y_A)
+In this section, we'll get a view of how a security team could implement critical security policies.. and then show how developers can elegantly, easily meet those policies.
 
-**Learning Objective(s):**
+## Lab Guide
 
-- Understand how governance plays a role in the path to production
+:::tip[There can be only one!]
+The steps below are just to show how it can be done- you won't have access directly since it's done outside the typical lab permissions. We just need 1 person to be the security team here. Sorry. I'm not sure how to pick. Maybe the first person to call out "Highlander" gets to be the security team? Is that even still a thing? I feel old.
+:::
 
-- Reusable templates make developer’s life easier
+    ### Security Team - implement policy
 
-- DevSecOps practices can be easily achieved
+1. Just for the one person assigned as security team:  
+   Click **organization** at the top of page  
+   Click **Organization Settings** on the left  
+   Scroll down to **Security and Governance** and click **Policies**  
+   Click **Policy sets** in the top right  
+   View the policy with the mini hamburger button and \*_edit_  
+   Finally, flip the switch of "enforced" to on
 
-**Steps**
+   ### Development team - What does it mean?
 
-1. In the existing pipeline, within the Build stage **before** PushToDockerhub step click on the plus icon to add a new step
+1. In Pipeline Runner: click **Re-run Pipeline**, then click **Re-run pipeline**
+1. A popup will show an upcoming security deadline requiring security
 
-2. Instead of add step select use template\
-   ![](https://lh7-us.googleusercontent.com/docsz/AD_4nXeC5rTVxlk7DeZeU_cINwcKo6Nf2wVW9brQ9MiCEfppJwmU-uH3QcNZ53qTxhur57KeySksoDBg9EqjhgKOgAEDKon6iNz9cFxozBe9VZssV-t77VNo6t1zPUvm6e2NOZJDKncxd9c2GM4HE-h-L4cIOl4u6Uqx_azoKchMdg?key=cRG2cvp_PHVW0KG2Gq6Y_A)
+   ### Development team - Meet the policy!
 
-3. Select **DevX Fortify Scan**
+1. In the top right of Pipeline Runner: click **Edit Pipeline**
+   ![edit pipeline](/src/img/harness2edit.png)
+1. In the pipeline: **1** click **Build**, **2** click **Execution**, **3** hover and click before small add symbol, **4** add template
+   ![insert devx](/src/img/harness2adddevx.png)
+1. Instead of add step select use template\
 
-4. Name the step **Fortify**
+1. Select **DevX Fortify Scan**
 
-5. In the existing pipeline, within the Build stage **after** PushToDockerhub step click on the plus icon to add a new step
+1. Name the step **Fortify**
 
-6. Instead of add step select use template
+1. In the existing pipeline, within the Build stage **after** PushToDockerhub step click on the plus icon to add a new step
 
-7. Select **OWASP**
+1. Instead of add step select use template
 
-8. Name the step OWASP
+1. Select **OWASP**
 
-9. Click **Save** and then click **Run** to execute the pipeline with the following inputs
+1. Name the step OWASP
+
+1. Click **Save** and then click **Run** to execute the pipeline with the following inputs
 
 | Input       | Value | Notes |
 | ----------- | ----- | ----- |
