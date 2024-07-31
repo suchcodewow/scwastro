@@ -1,0 +1,80 @@
+---
+sidebar:
+  order: 4
+title: "Lab C - Deploy Frontend"
+---
+
+# Lab 3 - Continuous Deploy - Frontend
+
+### Summary: Extend your existing pipeline to take the artifact built in the CI/Build stage and deploy it to an environment
+
+**Learning Objective(s):**
+
+- Add a second stage to an existing pipeline
+
+- Create a k8s service
+
+- Incorporate an advanced deployment strategy such as Canary
+
+- Create custom Harness variables
+
+- Create an Input Set
+
+**Steps**
+
+2. In the existing pipeline, add a Deployment stage by clicking **Add Stage** and select **Deploy** as the Stage Type
+
+3. Enter the following values and click on **Set Up Stage**
+
+| Input           | Value      | Notes |
+| --------------- | ---------- | ----- |
+| Stage Name      | frontend   |       |
+| Deployment Type | Kubernetes |       |
+
+4. Configure the **frontend** Stage with the following\
+   **Service**
+
+- Click **+Add Service** and configure as follows\*\*\*\*
+
+| Input                      | Value                                       | Notes                              |
+| -------------------------- | ------------------------------------------- | ---------------------------------- |
+| Name                       | frontend                                    |                                    |
+| Deployment Type            | Kubernetes                                  |                                    |
+| \* **Add Manifest**        |                                             |                                    |
+| Manifest Type              | K8s Manifest                                |                                    |
+| K8s Manifest Store         | Code                                        |                                    |
+| Manifest Identifier        | templates                                   |                                    |
+| Repository                 | harnessrepo                                 |                                    |
+| Branch                     | main                                        |                                    |
+| File/Folder Path           | harness-deploy/frontend/manifests           |                                    |
+| Values.yaml                | harness-deploy/frontend/values.yaml         |                                    |
+| - **Add Artifact Source**  |                                             |                                    |
+| Artifact Repository Type   | Docker Registry                             |                                    |
+| Docker Registry Connector  | dockerhub                                   |                                    |
+| Artifact Source Identifier | frontend                                    |                                    |
+| Image Path                 | nikpap/harness-workshop                     |                                    |
+| Tag                        | <+variable.username>-<+pipeline.sequenceId> | *Switch to expression and set to*  |
+
+**Environment**
+
+The target infrastructure has been pre-created for us. The application will be deployed to a k8s cluster on the given namespace
+
+- Click **- Select -** on the environment input box \*\*\*\*
+
+- Select **prod** environment\*\*\*\*
+
+| Input | Value | Notes                                                             |
+| ----- | ----- | ----------------------------------------------------------------- |
+| Name  | prod  | Make sure to select the environment and infrastructure definition |
+
+- Click **- Select -** on the environment input box \*\*\*\*
+
+- From the dropdown select k8s
+
+| Input | Value | Notes |
+| ----- | ----- | ----- |
+| Name  | k8s   |       |
+
+**Execution**
+
+- Select **Rolling** and click on **Use Strategy**, the frontend is a static application so no need to do canary, new features will be managed by Feature Flags at a later stage of this lab

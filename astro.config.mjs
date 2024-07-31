@@ -7,6 +7,7 @@ export default defineConfig({
     starlight({
       favicon: "favicon.ico",
       title: "suchcodewow",
+      customCss: ["./src/styles.css"],
       components: {
         Sidebar: "./src/components/Sidebar.astro",
       },
@@ -31,8 +32,8 @@ export default defineConfig({
           autogenerate: { directory: "scripts" },
         },
         {
-          label: "Harness CICD",
-          autogenerate: { directory: "harnesscicd" },
+          label: "Harness",
+          autogenerate: { directory: "harness" },
         },
       ],
     }),

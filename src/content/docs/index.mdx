@@ -1,19 +1,41 @@
 ---
-title: Perfect!  You're here!
+title: 🚀 Build fast/Learn fast with SCW Tutorials and Workshops
+head:
+  - tag: title
+    content: Build fast/Learn fast with SCW Tutorials and Workshops
 template: splash
+editUrl: false
+lastUpdated: false
+hero:
+  title: Build something AWESOME
+  tagline: Learn fast building real-world projects with carefully crafted tutorials and workshops
+  image:
+    alt: Build fast
+    file: /src/img/crane.png
 ---
 
-import { Card, CardGrid, LinkCard } from "@astrojs/starlight/components";
+import { Card, CardGrid, LinkCard, Icon } from "@astrojs/starlight/components";
 
-_Enjoy workshops, tutorials, and applications carefully crafted to provide MAXIMUM hands-on learning in MINIMAL time._
+<CardGrid stagger>
+  <Card title="Build from scratch..." icon="add-document">
+    Get your bearings building complete projects from scratch to confidently understand key concepts.
+  </Card>
+  <Card title="...and build FAST" icon="rocket">
+    Your time is valuable! And it's difficult carving out multiple time blocks. All workshops are carefully assembled to
+    provide meaningful content in a half-day or less.
+  </Card>
+  <Card title="Application helpers and scripts" icon="puzzle">
+    Once you know how and why something works, check out the library of FREE helpers to accelerate the process in more
+    spaces.
+  </Card>
+</CardGrid>
 
-### Most popular
+# Most run workshops
 
-<br />
 <a href="/harnesscicd">
-  <h4>Hardness CICD</h4>
+  <h4>Harness CICD</h4>
 </a>
-[![A mushroom-head robot](/src/img/harness.png "Harness")](/harnesscicd)
+[![Harness Image](/src/img/harness.png "Harness")](/harnesscicd)
 <br />
 <a href="/fullstack">
   <h4>Dynatrace Fullstack</h4>

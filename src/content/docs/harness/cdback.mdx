@@ -1,0 +1,59 @@
+---
+sidebar:
+  order: 5
+title: "Lab D - Deploy Backend"
+---
+
+# Lab 4 - Continuous Deploy - Backend
+
+### Summary: Extend your existing pipeline to derisk production deployments
+
+**Learning Objective(s):**
+
+- Utilise complex deployment strategies to reduce blast radius of a release
+
+**Steps**
+
+5. In the existing pipeline, add a Deployment stage by clicking **Add Stage** and select **Deploy** as the Stage Type
+
+6. Enter the following values and click on **Set Up Stage**
+
+| Input           | Value      | Notes |
+| --------------- | ---------- | ----- |
+| Stage Name      | backend    |       |
+| Deployment Type | Kubernetes |       |
+
+7. Configure the **backend** Stage with the following\
+   **Service**
+
+- Click **Select Service** and configure as follows\*\*\*\*
+
+| Input | Value   | Notes |
+| ----- | ------- | ----- |
+| Name  | backend |       |
+
+**Environment**
+
+The target infrastructure has been pre-created for us and we used it in the previous stage. To reuse the same environment
+
+- Click **- Propagate Environment From**
+
+- Select **Stage \[frontend]**
+
+**Execution**
+
+- Select **Canary**  and click on **Use Strategy**
+
+8. Click **Save** and then click **Run** to execute the pipeline with the following inputs. As a bonus, save your inputs as an Input Set before executing (see below)
+
+| Input       | Value | Notes       |
+| ----------- | ----- | ----------- |
+| Branch Name | main  | Leave as is |
+
+9. While the canary deployment is ongoing navigate to the web page and see if you can spot the canary (use the check release button)
+
+| project            | domain        | suffix |
+| ------------------ | ------------- | ------ |
+| http\://project_id | .cie-bootcamp | .co.uk |
+
+![](https://lh7-us.googleusercontent.com/docsz/AD_4nXfmb1N3lAe0EOnEun9neU9y3ilqy3HbxfnWfUMzF3FsykslwgQfU_W4pE0wlt5kYSp6_mTs7cVP0anhJ7uvtsytal2qX3ZEq3vvOT3DOBUzE9SZ3rpwkAHP6e_ExdRbo5VmN2kpxdFlp6u8iGaKwhW_uyAohEmJurkjmEB2Ww?key=cRG2cvp_PHVW0KG2Gq6Y_A)
