@@ -93,18 +93,18 @@ Real applications have names like 'booksforyou.com' and configure several networ
 For this tutorial series, we're using nip.io to elegantly provides the same functionality without cost. Anything before **.nip.io** is sent to the IP address. This means we can access any number of services on our single kubernetes cluster. Without nip.io, we'd be limited to hosting a single web service on our cluster's IP address.
 
 For example, **dtorders-frontend.192.168.1.100.nip.io** and **dtorders-customer.192.168.1.100.nip.io** both go to **192.168.100** but nginx sees the entire URL coming in and can route the request to the appropriate service.
-![science](/src/img/science.png)
+![science](../../../../img/science.png)
 :::
 
 ## :checkered_flag: Checkpoint
 
 Find the URL for the application frontend above. Copy and paste the URL into your browser. You should see an application page similar to below.
 
-![dtorders frontend](/src/img/dtorders-frontend.png)
+![dtorders frontend](../../../../img/dtorders-frontend.png)
 
 In your Dynatrace tenant, go to **services**. You should see catalog, customer, order, and frontend services with significant request rates.
 
-![dtorders frontend](/src/img/dtorders_services.png)
+![dtorders frontend](../../../../img/dtorders_services.png)
 
 Under **Frontend** applications, _My Web Application_ should also have traffic and "real user" sessions. (Session replay can be enabled to capture replays.)
 

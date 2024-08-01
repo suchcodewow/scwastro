@@ -12,7 +12,7 @@ export default defineConfig({
         Sidebar: "./src/components/Sidebar.astro",
       },
       logo: {
-        src: "./src/img/wow.png",
+        src: "/src/img/wow.png",
       },
       tableOfContents: {
         minHeadingLevel: 2,

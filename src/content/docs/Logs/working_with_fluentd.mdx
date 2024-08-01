@@ -172,7 +172,7 @@ kubectl get pod -o=custom-columns=NODE:.spec.nodeName,NAME:.metadata.name --all-
 
 Find your nginx pod and it's associated node. Find the fluentd pod with the same node (IP address):
 
-![Prometheus_1](/src/img/nginx-to-fluentd.png)
+![Prometheus_1](../../../img/nginx-to-fluentd.png)
 
 Shows the logs from that pod:
 
@@ -431,7 +431,7 @@ Run the kubectl command to get the daemonsets:
 kubectl get ds -A
 ```
 
-![FluentD_1](/src/img/fluentd_ds.png)
+![FluentD_1](../../../img/fluentd_ds.png)
 
 If the result is fluentd, run the command below as-is. Otherwise update the name before running.
 
@@ -441,7 +441,7 @@ If the result is fluentd, run the command below as-is. Otherwise update the name
 kubectl get ds fluentd -o jsonpath='{.spec.template.spec.containers[0].ports[].containerPort}{"\n"}' -n nondynatrace
 ```
 
-![FluentD_2](/src/img/fluentd_port.png)
+![FluentD_2](../../../img/fluentd_port.png)
 
 Open the configuration file below and replace the port.
 
@@ -478,7 +478,7 @@ Create a graph with :
 - aggregator : Percentile 90th
 - Split by : service
 
-![fluentd_1_1](/src/img/dt_fluentd_metrics.png)
+![fluentd_1_1](../../../img/dt_fluentd_metrics.png)
 
 #### Create a Pie graph showing the status code per services
 
@@ -489,7 +489,7 @@ Create a graph with :
 - aggregator : Count
 - Split by : status,service
 
-![fluentd_1_2](/src/img/dtu_fluentd_metrics_status.png)
+![fluentd_1_2](../../../img/dtu_fluentd_metrics_status.png)
 
 ### :checkered_flag: Checkpoint
 

@@ -178,7 +178,7 @@ Modify the logstream pipeline by adding the filter that will exclude log stream 
 
 #### Add the record transformer to your logstream
 
-![fluentd_2_1](/src/img/dt_fluentd_record_transformer.png)
+![fluentd_2_1](../../../img/dt_fluentd_record_transformer.png)
 
 #### Add the dynatrace output plugin
 
@@ -222,18 +222,18 @@ Please take a moment to mark the spreadsheet _fluentd - switched to Dynatrace pl
 
 All the ingested logs from the dynatrace Operator and from fluentd will be available in the Log viewer.
 Click on the left menu Observe and Explore/Logs
-![fluentd_2_2](/src/img/dt_fluentd_logviewer.png)
+![fluentd_2_2](../../../img/dt_fluentd_logviewer.png)
 
 #### Filter the logs to see our logs
 
 To create a metric out of a log stream requires to create the right log filter.
 Look a the log properties of fluentd, and create the filter that will only show logs related to our application.
-![fluentd_2_3](/src/img/dt_fluentd_log_detail.png)
+![fluentd_2_3](../../../img/dt_fluentd_log_detail.png)
 
 #### Create a metric out of our logs
 
 Create a metric exposing the label `responsetime` time ingested by dynatrace
-![fluentd_2_4](/src/img/dt_fluentd_log_create_metric.png)
+![fluentd_2_4](../../../img/dt_fluentd_log_create_metric.png)
 
 #### Create traffic to generate new logs
 
