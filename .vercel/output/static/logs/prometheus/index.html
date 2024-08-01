@@ -1,1292 +1,176 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr" data-has-toc data-has-sidebar data-theme="dark" class="astro-bguv2lll">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Prometheus | suchcodewow</title>
-    <link rel="canonical" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <meta name="generator" content="Astro v4.12.2" />
-    <meta name="generator" content="Starlight v0.25.2" />
-    <meta property="og:title" content="Prometheus" />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" />
-    <meta property="og:locale" content="en" />
-    <meta property="og:description" />
-    <meta property="og:site_name" content="suchcodewow" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Prometheus" />
-    <meta name="twitter:description" />
-    <script>
-      window.StarlightThemeProvider = (() => {
-        const storedTheme = typeof localStorage !== "undefined" && localStorage.getItem("starlight-theme");
-        const theme = storedTheme || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
-        document.documentElement.dataset.theme = theme === "light" ? "light" : "dark";
-        return {
-          updatePickers(theme = storedTheme || "auto") {
-            document.querySelectorAll("starlight-theme-select").forEach((picker) => {
-              const select = picker.querySelector("select");
-              if (select) select.value = theme;
-              /** @type {HTMLTemplateElement | null} */
-              const tmpl = document.querySelector(`#theme-icons`);
-              const newIcon = tmpl && tmpl.content.querySelector("." + theme);
-              if (newIcon) {
-                const oldIcon = picker.querySelector("svg.label-icon");
-                if (oldIcon) {
-                  oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
-                }
-              }
-            });
-          },
-        };
-      })();
-    </script>
-    <template id="theme-icons"
-      ><svg
-        aria-hidden="true"
-        class="light astro-c6vsoqas"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        style="--sl-icon-size: 1em"
-      >
-        <path
-          d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"
-        />
-      </svg>
-      <svg
-        aria-hidden="true"
-        class="dark astro-c6vsoqas"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        style="--sl-icon-size: 1em"
-      >
-        <path
-          d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"
-        />
-      </svg>
-      <svg
-        aria-hidden="true"
-        class="auto astro-c6vsoqas"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        style="--sl-icon-size: 1em"
-      >
-        <path
-          d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"
-        />
-      </svg>
-    </template>
-    <link rel="stylesheet" href="/_astro/index.BZ_lKDUn.css" />
-    <style>
-      :root {
-        --sl-badge-default-border: var(--sl-color-accent);
-        --sl-badge-default-bg: var(--sl-color-accent-low);
-        --sl-badge-default-text: #fff;
-        --sl-badge-note-border: var(--sl-color-blue);
-        --sl-badge-note-bg: var(--sl-color-blue-low);
-        --sl-badge-note-text: #fff;
-        --sl-badge-danger-border: var(--sl-color-red);
-        --sl-badge-danger-bg: var(--sl-color-red-low);
-        --sl-badge-danger-text: #fff;
-        --sl-badge-success-border: var(--sl-color-green);
-        --sl-badge-success-bg: var(--sl-color-green-low);
-        --sl-badge-success-text: #fff;
-        --sl-badge-caution-border: var(--sl-color-orange);
-        --sl-badge-caution-bg: var(--sl-color-orange-low);
-        --sl-badge-caution-text: #fff;
-        --sl-badge-tip-border: var(--sl-color-purple);
-        --sl-badge-tip-bg: var(--sl-color-purple-low);
-        --sl-badge-tip-text: #fff;
-      }
-      [data-theme="light"]:root {
-        --sl-badge-default-bg: var(--sl-color-accent-high);
-        --sl-badge-note-bg: var(--sl-color-blue-high);
-        --sl-badge-danger-bg: var(--sl-color-red-high);
-        --sl-badge-success-bg: var(--sl-color-green-high);
-        --sl-badge-caution-bg: var(--sl-color-orange-high);
-        --sl-badge-tip-bg: var(--sl-color-purple-high);
-      }
-      .sl-badge:where(.astro-avdet4wd) {
-        display: inline-block;
-        border: 1px solid var(--sl-color-border-badge);
-        border-radius: 0.25rem;
-        font-family: var(--sl-font-system-mono);
-        line-height: normal;
-        color: var(--sl-color-text-badge);
-        background-color: var(--sl-color-bg-badge);
-        overflow-wrap: anywhere;
-      }
-      .sidebar-content .sl-badge:where(.astro-avdet4wd) {
-        line-height: 1;
-        font-size: var(--sl-text-xs);
-        padding: 0.125rem 0.375rem;
-      }
-      .sidebar-content a[aria-current="page"] > .sl-badge:where(.astro-avdet4wd) {
-        --sl-color-bg-badge: transparent;
-        --sl-color-border-badge: currentColor;
-        color: inherit;
-      }
-      .default:where(.astro-avdet4wd) {
-        --sl-color-bg-badge: var(--sl-badge-default-bg);
-        --sl-color-border-badge: var(--sl-badge-default-border);
-        --sl-color-text-badge: var(--sl-badge-default-text);
-      }
-      .note:where(.astro-avdet4wd) {
-        --sl-color-bg-badge: var(--sl-badge-note-bg);
-        --sl-color-border-badge: var(--sl-badge-note-border);
-        --sl-color-text-badge: var(--sl-badge-note-text);
-      }
-      .danger:where(.astro-avdet4wd) {
-        --sl-color-bg-badge: var(--sl-badge-danger-bg);
-        --sl-color-border-badge: var(--sl-badge-danger-border);
-        --sl-color-text-badge: var(--sl-badge-danger-text);
-      }
-      .success:where(.astro-avdet4wd) {
-        --sl-color-bg-badge: var(--sl-badge-success-bg);
-        --sl-color-border-badge: var(--sl-badge-success-border);
-        --sl-color-text-badge: var(--sl-badge-success-text);
-      }
-      .tip:where(.astro-avdet4wd) {
-        --sl-color-bg-badge: var(--sl-badge-tip-bg);
-        --sl-color-border-badge: var(--sl-badge-tip-border);
-        --sl-color-text-badge: var(--sl-badge-tip-text);
-      }
-      .caution:where(.astro-avdet4wd) {
-        --sl-color-bg-badge: var(--sl-badge-caution-bg);
-        --sl-color-border-badge: var(--sl-badge-caution-border);
-        --sl-color-text-badge: var(--sl-badge-caution-text);
-      }
-      .small:where(.astro-avdet4wd) {
-        font-size: var(--sl-text-xs);
-        padding: 0.125rem 0.25rem;
-      }
-      .medium:where(.astro-avdet4wd) {
-        font-size: var(--sl-text-sm);
-        padding: 0.175rem 0.35rem;
-      }
-      .large:where(.astro-avdet4wd) {
-        font-size: var(--sl-text-base);
-        padding: 0.225rem 0.45rem;
-      }
-      .sl-markdown-content :is(h1, h2, h3, h4, h5, h6) .sl-badge:where(.astro-avdet4wd) {
-        vertical-align: middle;
-      }
-      .card-grid:where(.astro-zntqmydn) {
-        display: grid;
-        gap: 1rem;
-      }
-      .card-grid:where(.astro-zntqmydn) > * {
-        margin-top: 0 !important;
-      }
-      @media (min-width: 50rem) {
-        .card-grid:where(.astro-zntqmydn) {
-          grid-template-columns: 1fr 1fr;
-          gap: 1.5rem;
-        }
-        .stagger:where(.astro-zntqmydn) {
-          --stagger-height: 5rem;
-          padding-bottom: var(--stagger-height);
-        }
-        .stagger:where(.astro-zntqmydn) > *:nth-child(2n) {
-          transform: translateY(var(--stagger-height));
-        }
-      }
-      .card:where(.astro-v5tidmuc) {
-        --sl-card-border: var(--sl-color-purple);
-        --sl-card-bg: var(--sl-color-purple-low);
-        border: 1px solid var(--sl-color-gray-5);
-        background-color: var(--sl-color-black);
-        padding: clamp(1rem, calc(0.125rem + 3vw), 2.5rem);
-        flex-direction: column;
-        gap: clamp(0.5rem, calc(0.125rem + 1vw), 1rem);
-      }
-      .card:where(.astro-v5tidmuc):nth-child(4n + 1) {
-        --sl-card-border: var(--sl-color-orange);
-        --sl-card-bg: var(--sl-color-orange-low);
-      }
-      .card:where(.astro-v5tidmuc):nth-child(4n + 3) {
-        --sl-card-border: var(--sl-color-green);
-        --sl-card-bg: var(--sl-color-green-low);
-      }
-      .card:where(.astro-v5tidmuc):nth-child(4n + 4) {
-        --sl-card-border: var(--sl-color-red);
-        --sl-card-bg: var(--sl-color-red-low);
-      }
-      .card:where(.astro-v5tidmuc):nth-child(4n + 5) {
-        --sl-card-border: var(--sl-color-blue);
-        --sl-card-bg: var(--sl-color-blue-low);
-      }
-      .title:where(.astro-v5tidmuc) {
-        font-weight: 600;
-        font-size: var(--sl-text-h4);
-        color: var(--sl-color-white);
-        line-height: var(--sl-line-height-headings);
-        gap: 1rem;
-        align-items: center;
-      }
-      .card:where(.astro-v5tidmuc) .icon:where(.astro-v5tidmuc) {
-        border: 1px solid var(--sl-card-border);
-        background-color: var(--sl-card-bg);
-        padding: 0.2em;
-        border-radius: 0.25rem;
-      }
-      .card:where(.astro-v5tidmuc) .body:where(.astro-v5tidmuc) {
-        margin: 0;
-        font-size: clamp(var(--sl-text-sm), calc(0.5rem + 1vw), var(--sl-text-body));
-      }
-      svg:where(.astro-c6vsoqas) {
-        color: var(--sl-icon-color);
-        font-size: var(--sl-icon-size, 1em);
-        width: 1em;
-        height: 1em;
-      }
-      .sl-steps {
-        --bullet-size: calc(var(--sl-line-height) * 1rem);
-        --bullet-margin: 0.375rem;
-        list-style: none;
-        counter-reset: steps-counter var(--sl-steps-start, 0);
-        padding-inline-start: 0;
-      }
-      .sl-steps > li {
-        counter-increment: steps-counter;
-        position: relative;
-        padding-inline-start: calc(var(--bullet-size) + 1rem);
-        padding-bottom: 1px;
-        min-height: calc(var(--bullet-size) + var(--bullet-margin));
-      }
-      .sl-steps > li + li {
-        margin-top: 0;
-      }
-      .sl-steps > li:before {
-        content: counter(steps-counter);
-        position: absolute;
-        top: 0;
-        inset-inline-start: 0;
-        width: var(--bullet-size);
-        height: var(--bullet-size);
-        line-height: var(--bullet-size);
-        font-size: var(--sl-text-xs);
-        font-weight: 600;
-        text-align: center;
-        color: var(--sl-color-white);
-        background-color: var(--sl-color-gray-6);
-        border-radius: 99rem;
-        box-shadow: inset 0 0 0 1px var(--sl-color-gray-5);
-      }
-      .sl-steps > li:not(:last-of-type):after {
-        --guide-width: 1px;
-        content: "";
-        position: absolute;
-        top: calc(var(--bullet-size) + var(--bullet-margin));
-        bottom: var(--bullet-margin);
-        inset-inline-start: calc((var(--bullet-size) - var(--guide-width)) / 2);
-        width: var(--guide-width);
-        background-color: var(--sl-color-hairline-light);
-      }
-      .sl-steps > li > :first-child {
-        --lh: calc(1em * var(--sl-line-height));
-        --shift-y: calc(0.5 * (var(--bullet-size) - var(--lh)));
-        transform: translateY(var(--shift-y));
-        margin-bottom: var(--shift-y);
-      }
-      .sl-steps > li > :first-child:where(h1, h2, h3, h4, h5, h6) {
-        --lh: calc(1em * var(--sl-line-height-headings));
-      }
-      @supports (--prop: 1lh) {
-        .sl-steps > li > :first-child {
-          --lh: 1lh;
-        }
-      }
-    </style>
-    <script type="module" src="/_astro/hoisted.DfIZDHVP.js"></script>
-    <script type="module" src="/_astro/page.LS5KDvwX.js"></script>
-  </head>
-  <body class="astro-bguv2lll">
-    <a href="#_top" class="astro-7q3lir66">Skip to content</a>
-    <div class="page sl-flex astro-vrdttmbt">
-      <header class="header astro-vrdttmbt">
-        <div class="header sl-flex astro-kmkmnagf">
-          <div class="title-wrapper sl-flex astro-kmkmnagf">
-            <a href="/" class="site-title sl-flex astro-m46x6ez3">
-              <img class="astro-m46x6ez3" alt="" src="/_astro/wow.Cken7KQM.png" width="512" height="509" />
-              <span class="astro-m46x6ez3"> suchcodewow </span>
-            </a>
-          </div>
-          <div class="sl-flex astro-kmkmnagf">
-            <site-search data-translations="{&#34;placeholder&#34;:&#34;Search&#34;}" class="astro-v37mnknz">
-              <button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-v37mnknz">
-                <svg
-                  aria-hidden="true"
-                  class="astro-v37mnknz astro-c6vsoqas"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  style="--sl-icon-size: 1em"
-                >
-                  <path
-                    d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"
-                  />
-                </svg>
-                <span class="sl-hidden md:sl-block astro-v37mnknz" aria-hidden="true">Search</span>
-                <kbd class="sl-hidden md:sl-flex astro-v37mnknz" style="display: none">
-                  <kbd class="astro-v37mnknz">Ctrl</kbd><kbd class="astro-v37mnknz">K</kbd>
-                </kbd>
-              </button>
-              <dialog style="padding: 0" aria-label="Search" class="astro-v37mnknz">
-                <div class="dialog-frame sl-flex astro-v37mnknz">
-                  <button data-close-modal class="sl-flex md:sl-hidden astro-v37mnknz">Cancel</button>
-                  <div class="search-container astro-v37mnknz">
-                    <div id="starlight__search" class="astro-v37mnknz"></div>
-                  </div>
-                </div>
-              </dialog>
-            </site-search>
-            <script>
-              (() => {
-                const openBtn = document.querySelector("button[data-open-modal]");
-                const shortcut = openBtn?.querySelector("kbd");
-                if (!openBtn || !(shortcut instanceof HTMLElement)) return;
-                const platformKey = shortcut.querySelector("kbd");
-                if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
-                  platformKey.textContent = "⌘";
-                  openBtn.setAttribute("aria-keyshortcuts", "Meta+K");
-                }
-                shortcut.style.display = "";
-              })();
-            </script>
-          </div>
-          <div class="sl-hidden md:sl-flex right-group astro-kmkmnagf">
-            <div class="sl-flex social-icons astro-kmkmnagf">
-              <a href="https://github.com/suchcodewow/scwastro" rel="me" class="sl-flex astro-wy4te6ga"
-                ><span class="sr-only astro-wy4te6ga">GitHub</span
-                ><svg
-                  aria-hidden="true"
-                  class="astro-wy4te6ga astro-c6vsoqas"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  style="--sl-icon-size: 1em"
-                >
-                  <path
-                    d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"
-                  />
-                </svg>
-              </a>
-            </div>
-            <starlight-theme-select>
-              <label style="--sl-select-width: 6.25em" class="astro-4yphtoen">
-                <span class="sr-only astro-4yphtoen">Select theme</span>
-                <svg
-                  aria-hidden="true"
-                  class="icon label-icon astro-4yphtoen astro-c6vsoqas"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  style="--sl-icon-size: 1em"
-                >
-                  <path
-                    d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"
-                  />
-                </svg>
-                <select value="auto" class="astro-4yphtoen">
-                  <option value="dark" class="astro-4yphtoen">Dark</option>
-                  <option value="light" class="astro-4yphtoen">Light</option>
-                  <option value="auto" selected="true" class="astro-4yphtoen">Auto</option>
-                </select>
-                <svg
-                  aria-hidden="true"
-                  class="icon caret astro-4yphtoen astro-c6vsoqas"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  style="--sl-icon-size: 1em"
-                >
-                  <path
-                    d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"
-                  />
-                </svg>
-              </label>
-            </starlight-theme-select>
-            <script>
-              StarlightThemeProvider.updatePickers();
-            </script>
-          </div>
-        </div>
-      </header>
-      <nav class="sidebar astro-vrdttmbt" aria-label="Main">
-        <starlight-menu-button class="astro-jif73yzw">
-          <button
-            aria-expanded="false"
-            aria-label="Menu"
-            aria-controls="starlight__sidebar"
-            class="sl-flex md:sl-hidden astro-jif73yzw"
-          >
-            <svg
-              aria-hidden="true"
-              class="astro-jif73yzw astro-c6vsoqas"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              style="--sl-icon-size: 1em"
-            >
-              <path
-                d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"
-              />
-            </svg>
-          </button>
-        </starlight-menu-button>
-        <div id="starlight__sidebar" class="sidebar-pane astro-vrdttmbt">
-          <div class="sidebar-content sl-flex astro-vrdttmbt">
-            <ul class="top-level astro-3ii7xxms"></ul>
-            <div class="md:sl-hidden">
-              <div class="mobile-preferences sl-flex astro-wu23bvmt">
-                <div class="sl-flex social-icons astro-wu23bvmt">
-                  <a href="https://github.com/suchcodewow/scwastro" rel="me" class="sl-flex astro-wy4te6ga"
-                    ><span class="sr-only astro-wy4te6ga">GitHub</span
-                    ><svg
-                      aria-hidden="true"
-                      class="astro-wy4te6ga astro-c6vsoqas"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      style="--sl-icon-size: 1em"
-                    >
-                      <path
-                        d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"
-                      />
-                    </svg>
-                  </a>
-                </div>
-                <starlight-theme-select>
-                  <label style="--sl-select-width: 6.25em" class="astro-4yphtoen">
-                    <span class="sr-only astro-4yphtoen">Select theme</span>
-                    <svg
-                      aria-hidden="true"
-                      class="icon label-icon astro-4yphtoen astro-c6vsoqas"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      style="--sl-icon-size: 1em"
-                    >
-                      <path
-                        d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"
-                      />
-                    </svg>
-                    <select value="auto" class="astro-4yphtoen">
-                      <option value="dark" class="astro-4yphtoen">Dark</option>
-                      <option value="light" class="astro-4yphtoen">Light</option>
-                      <option value="auto" selected="true" class="astro-4yphtoen">Auto</option>
-                    </select>
-                    <svg
-                      aria-hidden="true"
-                      class="icon caret astro-4yphtoen astro-c6vsoqas"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      style="--sl-icon-size: 1em"
-                    >
-                      <path
-                        d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"
-                      />
-                    </svg>
-                  </label>
-                </starlight-theme-select>
-                <script>
-                  StarlightThemeProvider.updatePickers();
-                </script>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-      <div class="main-frame astro-vrdttmbt">
-        <div class="lg:sl-flex astro-67yu43on">
-          <aside class="right-sidebar-container astro-67yu43on">
-            <div class="right-sidebar astro-67yu43on">
-              <div class="lg:sl-hidden astro-pb3aqygn">
-                <mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-doynk5tl"
-                  ><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-doynk5tl">
-                    <details id="starlight__mobile-toc" class="astro-doynk5tl">
-                      <summary id="starlight__on-this-page--mobile" class="sl-flex astro-doynk5tl">
-                        <div class="toggle sl-flex astro-doynk5tl">
-                          On this page<svg
-                            aria-hidden="true"
-                            class="caret astro-doynk5tl astro-c6vsoqas"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            style="--sl-icon-size: 1rem"
-                          >
-                            <path
-                              d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"
-                            />
-                          </svg>
-                        </div>
-                        <span class="display-current astro-doynk5tl"></span>
-                      </summary>
-                      <div class="dropdown astro-doynk5tl">
-                        <ul class="isMobile astro-g2bywc46" style="--depth: 0">
-                          <li class="astro-g2bywc46" style="--depth: 0">
-                            <a href="#_top" class="astro-g2bywc46" style="--depth: 0">
-                              <span class="astro-g2bywc46" style="--depth: 0">Overview</span>
-                            </a>
-                            <ul class="isMobile astro-g2bywc46" style="--depth: 1">
-                              <li class="astro-g2bywc46" style="--depth: 1">
-                                <a
-                                  href="#integrating-dynatrace-with-prometheus"
-                                  class="astro-g2bywc46"
-                                  style="--depth: 1"
-                                >
-                                  <span class="astro-g2bywc46" style="--depth: 1"
-                                    >Integrating Dynatrace With Prometheus</span
-                                  >
-                                </a>
-                              </li>
-                              <li class="astro-g2bywc46" style="--depth: 1">
-                                <a
-                                  href="#setup-prometheus-exporter-for-metric-ingest"
-                                  class="astro-g2bywc46"
-                                  style="--depth: 1"
-                                >
-                                  <span class="astro-g2bywc46" style="--depth: 1"
-                                    >Setup Prometheus Exporter For Metric Ingest</span
-                                  >
-                                </a>
-                              </li>
-                              <li class="astro-g2bywc46" style="--depth: 1">
-                                <a href="#checkered_flag-checkpoint" class="astro-g2bywc46" style="--depth: 1">
-                                  <span class="astro-g2bywc46" style="--depth: 1">:checkered_flag: Checkpoint</span>
-                                </a>
-                              </li>
-                              <li class="astro-g2bywc46" style="--depth: 1">
-                                <a href="#checkered_flag-checkpoint-1" class="astro-g2bywc46" style="--depth: 1">
-                                  <span class="astro-g2bywc46" style="--depth: 1">:checkered_flag: Checkpoint</span>
-                                </a>
-                              </li>
-                              <li class="astro-g2bywc46" style="--depth: 1">
-                                <a href="#visualize-the-metrics-in-dynatrace" class="astro-g2bywc46" style="--depth: 1">
-                                  <span class="astro-g2bywc46" style="--depth: 1"
-                                    >Visualize the metrics in Dynatrace</span
-                                  >
-                                </a>
-                              </li>
-                              <li class="astro-g2bywc46" style="--depth: 1">
-                                <a href="#checkered_flag-checkpoint-2" class="astro-g2bywc46" style="--depth: 1">
-                                  <span class="astro-g2bywc46" style="--depth: 1">:checkered_flag: Checkpoint</span>
-                                </a>
-                              </li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </div>
-                    </details>
-                  </nav></mobile-starlight-toc
-                >
-              </div>
-              <div class="right-sidebar-panel sl-hidden lg:sl-block astro-pb3aqygn">
-                <div class="sl-container astro-pb3aqygn">
-                  <starlight-toc data-min-h="2" data-max-h="3"
-                    ><nav aria-labelledby="starlight__on-this-page">
-                      <h2 id="starlight__on-this-page">On this page</h2>
-                      <ul class="astro-g2bywc46" style="--depth: 0">
-                        <li class="astro-g2bywc46" style="--depth: 0">
-                          <a href="#_top" class="astro-g2bywc46" style="--depth: 0">
-                            <span class="astro-g2bywc46" style="--depth: 0">Overview</span>
-                          </a>
-                          <ul class="astro-g2bywc46" style="--depth: 1">
-                            <li class="astro-g2bywc46" style="--depth: 1">
-                              <a
-                                href="#integrating-dynatrace-with-prometheus"
-                                class="astro-g2bywc46"
-                                style="--depth: 1"
-                              >
-                                <span class="astro-g2bywc46" style="--depth: 1"
-                                  >Integrating Dynatrace With Prometheus</span
-                                >
-                              </a>
-                            </li>
-                            <li class="astro-g2bywc46" style="--depth: 1">
-                              <a
-                                href="#setup-prometheus-exporter-for-metric-ingest"
-                                class="astro-g2bywc46"
-                                style="--depth: 1"
-                              >
-                                <span class="astro-g2bywc46" style="--depth: 1"
-                                  >Setup Prometheus Exporter For Metric Ingest</span
-                                >
-                              </a>
-                            </li>
-                            <li class="astro-g2bywc46" style="--depth: 1">
-                              <a href="#checkered_flag-checkpoint" class="astro-g2bywc46" style="--depth: 1">
-                                <span class="astro-g2bywc46" style="--depth: 1">:checkered_flag: Checkpoint</span>
-                              </a>
-                            </li>
-                            <li class="astro-g2bywc46" style="--depth: 1">
-                              <a href="#checkered_flag-checkpoint-1" class="astro-g2bywc46" style="--depth: 1">
-                                <span class="astro-g2bywc46" style="--depth: 1">:checkered_flag: Checkpoint</span>
-                              </a>
-                            </li>
-                            <li class="astro-g2bywc46" style="--depth: 1">
-                              <a href="#visualize-the-metrics-in-dynatrace" class="astro-g2bywc46" style="--depth: 1">
-                                <span class="astro-g2bywc46" style="--depth: 1"
-                                  >Visualize the metrics in Dynatrace</span
-                                >
-                              </a>
-                            </li>
-                            <li class="astro-g2bywc46" style="--depth: 1">
-                              <a href="#checkered_flag-checkpoint-2" class="astro-g2bywc46" style="--depth: 1">
-                                <span class="astro-g2bywc46" style="--depth: 1">:checkered_flag: Checkpoint</span>
-                              </a>
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </nav></starlight-toc
-                  >
-                </div>
-              </div>
-            </div>
-          </aside>
-          <div class="main-pane astro-67yu43on">
-            <main data-pagefind-body lang="en" dir="ltr" class="astro-bguv2lll">
-              <div class="content-panel astro-7nkwcw3z">
-                <div class="sl-container astro-7nkwcw3z"><h1 id="_top" class="astro-j6tvhyss">Prometheus</h1></div>
-              </div>
-              <div class="content-panel astro-7nkwcw3z">
-                <div class="sl-container astro-7nkwcw3z">
-                  <div class="sl-markdown-content">
-                    <h1 id="prometheus">Prometheus</h1>
-                    <h3 id="integrating-dynatrace-with-prometheus">Integrating Dynatrace With Prometheus</h3>
-                    <p>In this module we’ll learn how to integrate Dynatrace with Prometheus in Kubernetes.</p>
-                    <ul>
-                      <li>Setup Node Exporter for Metric Ingest</li>
-                      <li>Setup ActiveGate to scrape Prometheus Metrics</li>
-                      <li>Setup Kube-state Metric Exporter for Metric Ingest</li>
-                      <li>Setup Nginx Exporter for Metric Ingest</li>
-                      <li>Visualize Metric in Dynatrace</li>
-                    </ul>
-                    <h3 id="setup-prometheus-exporter-for-metric-ingest">
-                      Setup Prometheus Exporter For Metric Ingest
-                    </h3>
-                    <p>
-                      Let’s explore how the promethues-node-exporter is exposing metrics. There are some things we need
-                      to gather from the exporter:
-                    </p>
-                    <ul>
-                      <li>Port</li>
-                      <li>Metric Url Endpoint</li>
-                    </ul>
-                    <h4 id="step-1-identifying-port---node-exporter">Step 1: Identifying Port - Node Exporter</h4>
-                    <p>
-                      Let’s identify the port exposed by the Node Exporter. The node exporter is deployed as a Daemonset
-                      by the Prometheus Operator.
-                    </p>
-                    <p>Run the kubectl command to get all daemonsets:</p>
-                    <div class="expressive-code">
-                      <link rel="stylesheet" href="/_astro/ec.d6kn2.css" />
-                      <script type="module" src="/_astro/ec.3zb7u.js"></script>
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">get</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">ds</span></div></div></code></pre>
-                        <div class="copy">
-                          <button title="Copy to clipboard" data-copied="Copied!" data-code="kubectl get ds">
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p><img src="../../../img/prom_1.png" alt="Prometheus_1" /></p>
-                    <p>
-                      If the name matches prometheus-node-exporter run the command below as written. If not, update the
-                      name to match before executing.
-                    </p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">get</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">ds</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">prometheus-node-exporter</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3C63B3">-o</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">jsonpath=</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#9B504E">{.spec.template.spec.containers[0].ports[].containerPort}{"\n"}</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="kubectl get ds prometheus-node-exporter -o jsonpath=&#x27;{.spec.template.spec.containers[0].ports[].containerPort}{&#x22;\n&#x22;}&#x27;"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p><img src="../../../img/prom_2.png" alt="Prometheus_2" /></p>
-                    <h4 id="step-2-validate-the-prometheus-metrics-by-exposing-exporter-port-to-localhost">
-                      Step 2: Validate the prometheus metrics by exposing exporter port to localhost.
-                    </h4>
-                    <p>Run the kubectl command:</p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">Kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">get</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">pod</span></div></div></code></pre>
-                        <div class="copy">
-                          <button title="Copy to clipboard" data-copied="Copied!" data-code="Kubectl get pod">
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p><img src="../../../img/prom_4.png" alt="Prometheus_4" /></p>
-                    <p>
-                      Copy the name of one of the prometheus-node-exporter pods, replace the POD NAME and PORT with the
-                      port identified above and run the command:
-                    </p>
-                    <ul>
-                      <li>This will expose the port to the host to be accessible on localhost.</li>
-                    </ul>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">port-forward</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">{POD</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">NAME}</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">{PORT}:{PORT}</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="kubectl port-forward {POD NAME} {PORT}:{PORT}"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p><img src="../../../img/prom_4.1.png" alt="Prometheus_4.1" /></p>
-                    <h4 id="step-3-test-and-identifying-prometheus-metric-url-endpoint">
-                      Step 3: Test and identifying prometheus metric url endpoint
-                    </h4>
-                    <p>
-                      The Metric Url is typically /metrics. In our case it is /metrics. Duplicate the ‘<a
-                        href="https://university.dynatrace.com/"
-                        >https://university.dynatrace.com/</a
-                      >’ tab, this should open another instance of the virtural classroom. Then terminal into the
-                      Bastion Host. Run the following curl command:
-                    </p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">http://localhost:PORT/metrics</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="curl http://localhost:PORT/metrics"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p><img src="../../../img/prom_3.png" alt="Prometheus_3" /></p>
-                    <p>The result should be a large output of available node exporter metrics:</p>
-                    <p><img src="../../../img/prom_3.3.png" alt="Prometheus_3.3" /></p>
-                    <h3 id="checkered_flag-checkpoint">:checkered_flag: Checkpoint</h3>
-                    <p>
-                      Please take a moment to mark the spreadsheet <em>Prometheus - Test Metric Endpoint</em> column for
-                      your row with <code dir="auto">done</code>.
-                    </p>
-                    <h4 id="setup-activegate-to-scrape-prometheus-node-exporter-metrics">
-                      Setup ActiveGate to scrape Prometheus-node-exporter Metrics
-                    </h4>
-                    <p>
-                      To be able to let the Active Gate scrape the prometheus metric from the node exporter, we need to
-                      :
-                    </p>
-                    <ul>
-                      <li>define the Dynatrace Annotations</li>
-                      <li>create a Service attach to the node exporters</li>
-                    </ul>
-                    <p>
-                      Use <code dir="auto">vim</code> to edit the following file -
-                      <code dir="auto">hotday_script/prometheus/serice_nodexporter_template.yaml</code>:
-                    </p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">vim</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">~/hotday_script/prometheus/serice_nodexporter_template.yaml</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="vim ~/hotday_script/prometheus/serice_nodexporter_template.yaml"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p>
-                      Update the annotation section replacing the value of ‘metric.dynatrace.com/port’ annotation with
-                      the correct port, current value is TO_DEFINE.
-                    </p>
-                    <h5 id="before">Before</h5>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">metadata:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#82AAFF;--1:#3C63B3">annotations:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#82AAFF;--1:#3C63B3">metrics.dynatrace.com/path:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#9B504E">/metrics</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#82AAFF;--1:#3C63B3">metrics.dynatrace.com/port:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#9B504E">TO_DEFINE</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#82AAFF;--1:#3C63B3">metrics.dynatrace.com/scrape:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#9B504E">true</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="metadata:  annotations:    metrics.dynatrace.com/path: &#x22;/metrics&#x22;    metrics.dynatrace.com/port: &#x22;TO_DEFINE&#x22;    metrics.dynatrace.com/scrape: &#x22;true&#x22;"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <h5 id="after-replace-to_define-with-port-identified">
-                      After (replace TO_DEFINE with port identified)
-                    </h5>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">metadata:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#82AAFF;--1:#3C63B3">annotations:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#82AAFF;--1:#3C63B3">metrics.dynatrace.com/path:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#9B504E">/metrics</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#82AAFF;--1:#3C63B3">metrics.dynatrace.com/port:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#9B504E">9100</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#82AAFF;--1:#3C63B3">metrics.dynatrace.com/scrape:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#9B504E">true</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="metadata:  annotations:    metrics.dynatrace.com/path: &#x22;/metrics&#x22;    metrics.dynatrace.com/port: &#x22;9100&#x22;    metrics.dynatrace.com/scrape: &#x22;true&#x22;"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p>Deploy the new Service :</p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">apply</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3C63B3">-f</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">~/hotday_script/prometheus/serice_nodexporter_template.yaml</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="kubectl apply -f ~/hotday_script/prometheus/serice_nodexporter_template.yaml"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <h4 id="setup-kube-state-metric-exporter-for-metric-ingest">
-                      Setup Kube-state Metric Exporter for Metric Ingest
-                    </h4>
-                    <p>Similar steps to ‘Setup Node Exporter for Metric Ingest’</p>
-                    <p>Run the describe kubectl command to identify port:</p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">get</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">deployment</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">prometheus-kube-state-metrics</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3C63B3">-o</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">jsonpath=</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#9B504E">{.spec.template.spec.containers[0].ports[].containerPort}{"\n"}</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="kubectl get deployment prometheus-kube-state-metrics -o jsonpath=&#x27;{.spec.template.spec.containers[0].ports[].containerPort}{&#x22;\n&#x22;}&#x27;"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p>
-                      Identify the pod name of the kube-state metric pod, replace the POD NAME and PORT with the port
-                      identified above and run the command: This will expose the port to the host to be accessible on
-                      localhost.
-                    </p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">port-forward</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">{POD</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">NAME}</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">{PORT}:{PORT}</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="kubectl port-forward {POD NAME} {PORT}:{PORT}"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p>Verify the metrics are exposed by executing the curl command in the second terminal:</p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">http://localhost:PORT/metrics</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="curl http://localhost:PORT/metrics"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p>
-                      Use vim to update the <code dir="auto">hotday_script/prometheus/service_template.yaml</code> file
-                      with the correct port:
-                    </p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">vim</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">~/hotday_script/prometheus/service_template.yaml</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="vim ~/hotday_script/prometheus/service_template.yaml"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p>replace TO_DEFINE with port identified in 1.</p>
-                    <p>Deploy the new Service :</p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">apply</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3C63B3">-f</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">~/hotday_script/prometheus/service_template.yaml</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="kubectl apply -f ~/hotday_script/prometheus/service_template.yaml"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <h4 id="setup-nginx-exporter-for-metric-ingest">Setup Nginx Exporter for Metric Ingest</h4>
-                    <p>
-                      Similar to above, we want to ingest metrics from the nginx ingress controller. In the default
-                      namespace, nginx ingress controller has been deployed.
-                    </p>
-                    <p>Run the describe kubectl command to identify port:</p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">get</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">deployment</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">nginx-nginx-ingress</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3C63B3">-o</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">jsonpath=</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#9B504E">{.spec.template.spec.containers[0].ports[2].containerPort}{"\n"}</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="kubectl get deployment nginx-nginx-ingress -o jsonpath=&#x27;{.spec.template.spec.containers[0].ports[2].containerPort}{&#x22;\n&#x22;}&#x27;"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p>
-                      Identify the pod name of the nginx-nginx-ingress pod, replace the POD NAME and PORT with the port
-                      identified above and run the command:
-                    </p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span class="indent"> </span><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">port-forward</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">{POD</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">NAME}</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">{PORT}:{PORT}</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="kubectl port-forward {POD NAME} {PORT}:{PORT}"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p>This will expose the port to the host to be accessible on localhost.</p>
-                    <p>Verify the metrics are exposed by executing the curl command in the second terminal:</p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">http://localhost:PORT/metrics</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="curl http://localhost:PORT/metrics"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p>
-                      Use vim to update the
-                      <code dir="auto">hotday_script/prometheus/service__nginx_template.yaml</code> file with the
-                      correct port
-                    </p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">vim</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">~/hotday_script/prometheus/service__nginx_template.yaml</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="vim ~/hotday_script/prometheus/service__nginx_template.yaml"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p>Replace TO_DEFINE with port identified in 1.</p>
-                    <p>Deploy the new Service :</p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">apply</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3C63B3">-f</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">~/hotday_script/prometheus/service__nginx_template.yaml</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="kubectl apply -f ~/hotday_script/prometheus/service__nginx_template.yaml"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <h3 id="checkered_flag-checkpoint-1">:checkered_flag: Checkpoint</h3>
-                    <p>
-                      Please take a moment to mark the spreadsheet <em>Prometheus - Setup 3 Exporters</em> column for
-                      your row with <code dir="auto">done</code>.
-                    </p>
-                    <h3 id="visualize-the-metrics-in-dynatrace">Visualize the metrics in Dynatrace</h3>
-                    <h4 id="metrics">Metrics</h4>
-                    <p>All the ingested metrics can be found in “Metrics”.</p>
-                    <p>Open <code dir="auto">Metrics</code>, and search for:</p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kube_pod</span></div></div></code></pre>
-                        <div class="copy">
-                          <button title="Copy to clipboard" data-copied="Copied!" data-code="kube_pod">
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p><img src="../../../img/prom_metrics_screen.png" alt="prom_metrics_screen" /></p>
-                    <h4 id="data-explorer">Data explorer</h4>
-                    <p>All available metrics can be dashboarded using the ‘Data Explorer’</p>
-                    <p>Open ‘Data Explorer’, and search for:</p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kube_pod_status_phase</span></div></div></code></pre>
-                        <div class="copy">
-                          <button title="Copy to clipboard" data-copied="Copied!" data-code="kube_pod_status_phase">
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p><img src="../../../img/prom_5.png" alt="Prometheus 5" /></p>
-                    <p>
-                      Select the <code dir="auto">kube_pod_status_phase</code> metric, and add the following
-                      <code dir="auto">filter by</code> dimensions:
-                    </p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">pod:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">frontend-xyz...</span></div></div><div class="ec-line"><div class="code">
-</div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">phase:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">Running</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="pod: frontend-xyz...phase: Running"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p><img src="../../../img/prom_6.png" alt="Prometheus 6" /></p>
-                    <p>Select the visualization <code dir="auto">single value</code></p>
-                    <p><img src="../../../img/prom_7.png" alt="Prometheus 7" /></p>
-                    <h3 id="checkered_flag-checkpoint-2">:checkered_flag: Checkpoint</h3>
-                    <p>
-                      Please take a moment to mark the spreadsheet <em>Prometheus - Setup Data Explorer</em> column for
-                      your row with <code dir="auto">done</code>.
-                    </p>
-                    <h4 id="nginx-ingress-controller">Nginx ingress controller</h4>
-                    <p>
-                      The current environment use a Nginx Ingress controller to expose the following services out of the
-                      cluster:
-                    </p>
-                    <ul>
-                      <li>
-                        the active gate (to be able to utilize the api) though the service
-                        <code dir="auto">fluentd-activegate</code> located in the namespace
-                        <code dir="auto">nondynatrace</code>
-                      </li>
-                      <li>
-                        the hipster-shop through the service <code dir="auto">frontend</code> located in the namespace
-                        <code dir="auto">hipster-shop</code>
-                      </li>
-                    </ul>
-                    <p>
-                      To understand the health of our ingress, it would be useful to be able to split any of the
-                      statistics by :
-                    </p>
-                    <ul>
-                      <li>the service name</li>
-                      <li>the name of the ingress</li>
-                      <li>the namespace of the ingress</li>
-                    </ul>
-                    <p>Create a <code dir="auto">data explorer</code> chart for the following metric:</p>
-                    <div class="expressive-code">
-                      <figure class="frame is-terminal not-content">
-                        <figcaption class="header">
-                          <span class="title"></span><span class="sr-only">Terminal window</span>
-                        </figcaption>
-                        <pre
-                          data-language="bash"
-                        ><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">nginx_ingress_nginx_http_requests_total.count</span></div></div></code></pre>
-                        <div class="copy">
-                          <button
-                            title="Copy to clipboard"
-                            data-copied="Copied!"
-                            data-code="nginx_ingress_nginx_http_requests_total.count"
-                          >
-                            <div></div>
-                          </button>
-                        </div>
-                      </figure>
-                    </div>
-                    <p>
-                      In the Data explorer search for
-                      <code dir="auto">nginx_ingress_nginx_http_requests_total.count</code>
-                    </p>
-                    <p><img src="../../../img/prom_8.png" alt="Prometheus 8" /></p>
-                    <p>Do you have the right dimension to split the statistic by service name?</p>
-                  </div>
-                  <footer class="sl-flex astro-3yyafb3n">
-                    <div class="meta sl-flex astro-3yyafb3n"></div>
-                    <div class="pagination-links astro-u2l5gyhi" dir="ltr"></div>
-                  </footer>
-                </div>
-              </div>
-            </main>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
-</html>
+<!DOCTYPE html><html lang="en" dir="ltr" data-has-toc data-has-sidebar data-theme="dark" class="astro-bguv2lll"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Prometheus | suchcodewow</title><link rel="canonical"/><link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/><meta name="generator" content="Astro v4.12.2"/><meta name="generator" content="Starlight v0.25.2"/><meta property="og:title" content="Prometheus"/><meta property="og:type" content="article"/><meta property="og:url"/><meta property="og:locale" content="en"/><meta property="og:description"/><meta property="og:site_name" content="suchcodewow"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Prometheus"/><meta name="twitter:description"/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg> <svg aria-hidden="true" class="dark astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg> <svg aria-hidden="true" class="auto astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> </template><link rel="stylesheet" href="/_astro/index.BZ_lKDUn.css">
+<style>:root{--sl-badge-default-border: var(--sl-color-accent);--sl-badge-default-bg: var(--sl-color-accent-low);--sl-badge-default-text: #fff;--sl-badge-note-border: var(--sl-color-blue);--sl-badge-note-bg: var(--sl-color-blue-low);--sl-badge-note-text: #fff;--sl-badge-danger-border: var(--sl-color-red);--sl-badge-danger-bg: var(--sl-color-red-low);--sl-badge-danger-text: #fff;--sl-badge-success-border: var(--sl-color-green);--sl-badge-success-bg: var(--sl-color-green-low);--sl-badge-success-text: #fff;--sl-badge-caution-border: var(--sl-color-orange);--sl-badge-caution-bg: var(--sl-color-orange-low);--sl-badge-caution-text: #fff;--sl-badge-tip-border: var(--sl-color-purple);--sl-badge-tip-bg: var(--sl-color-purple-low);--sl-badge-tip-text: #fff}[data-theme=light]:root{--sl-badge-default-bg: var(--sl-color-accent-high);--sl-badge-note-bg: var(--sl-color-blue-high);--sl-badge-danger-bg: var(--sl-color-red-high);--sl-badge-success-bg: var(--sl-color-green-high);--sl-badge-caution-bg: var(--sl-color-orange-high);--sl-badge-tip-bg: var(--sl-color-purple-high)}.sl-badge:where(.astro-avdet4wd){display:inline-block;border:1px solid var(--sl-color-border-badge);border-radius:.25rem;font-family:var(--sl-font-system-mono);line-height:normal;color:var(--sl-color-text-badge);background-color:var(--sl-color-bg-badge);overflow-wrap:anywhere}.sidebar-content .sl-badge:where(.astro-avdet4wd){line-height:1;font-size:var(--sl-text-xs);padding:.125rem .375rem}.sidebar-content a[aria-current=page]>.sl-badge:where(.astro-avdet4wd){--sl-color-bg-badge: transparent;--sl-color-border-badge: currentColor;color:inherit}.default:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-default-bg);--sl-color-border-badge: var(--sl-badge-default-border);--sl-color-text-badge: var(--sl-badge-default-text)}.note:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-note-bg);--sl-color-border-badge: var(--sl-badge-note-border);--sl-color-text-badge: var(--sl-badge-note-text)}.danger:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-danger-bg);--sl-color-border-badge: var(--sl-badge-danger-border);--sl-color-text-badge: var(--sl-badge-danger-text)}.success:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-success-bg);--sl-color-border-badge: var(--sl-badge-success-border);--sl-color-text-badge: var(--sl-badge-success-text)}.tip:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-tip-bg);--sl-color-border-badge: var(--sl-badge-tip-border);--sl-color-text-badge: var(--sl-badge-tip-text)}.caution:where(.astro-avdet4wd){--sl-color-bg-badge: var(--sl-badge-caution-bg);--sl-color-border-badge: var(--sl-badge-caution-border);--sl-color-text-badge: var(--sl-badge-caution-text)}.small:where(.astro-avdet4wd){font-size:var(--sl-text-xs);padding:.125rem .25rem}.medium:where(.astro-avdet4wd){font-size:var(--sl-text-sm);padding:.175rem .35rem}.large:where(.astro-avdet4wd){font-size:var(--sl-text-base);padding:.225rem .45rem}.sl-markdown-content :is(h1,h2,h3,h4,h5,h6) .sl-badge:where(.astro-avdet4wd){vertical-align:middle}
+.card-grid:where(.astro-zntqmydn){display:grid;gap:1rem}.card-grid:where(.astro-zntqmydn)>*{margin-top:0!important}@media (min-width: 50rem){.card-grid:where(.astro-zntqmydn){grid-template-columns:1fr 1fr;gap:1.5rem}.stagger:where(.astro-zntqmydn){--stagger-height: 5rem;padding-bottom:var(--stagger-height)}.stagger:where(.astro-zntqmydn)>*:nth-child(2n){transform:translateY(var(--stagger-height))}}
+.card:where(.astro-v5tidmuc){--sl-card-border: var(--sl-color-purple);--sl-card-bg: var(--sl-color-purple-low);border:1px solid var(--sl-color-gray-5);background-color:var(--sl-color-black);padding:clamp(1rem,calc(.125rem + 3vw),2.5rem);flex-direction:column;gap:clamp(.5rem,calc(.125rem + 1vw),1rem)}.card:where(.astro-v5tidmuc):nth-child(4n+1){--sl-card-border: var(--sl-color-orange);--sl-card-bg: var(--sl-color-orange-low)}.card:where(.astro-v5tidmuc):nth-child(4n+3){--sl-card-border: var(--sl-color-green);--sl-card-bg: var(--sl-color-green-low)}.card:where(.astro-v5tidmuc):nth-child(4n+4){--sl-card-border: var(--sl-color-red);--sl-card-bg: var(--sl-color-red-low)}.card:where(.astro-v5tidmuc):nth-child(4n+5){--sl-card-border: var(--sl-color-blue);--sl-card-bg: var(--sl-color-blue-low)}.title:where(.astro-v5tidmuc){font-weight:600;font-size:var(--sl-text-h4);color:var(--sl-color-white);line-height:var(--sl-line-height-headings);gap:1rem;align-items:center}.card:where(.astro-v5tidmuc) .icon:where(.astro-v5tidmuc){border:1px solid var(--sl-card-border);background-color:var(--sl-card-bg);padding:.2em;border-radius:.25rem}.card:where(.astro-v5tidmuc) .body:where(.astro-v5tidmuc){margin:0;font-size:clamp(var(--sl-text-sm),calc(.5rem + 1vw),var(--sl-text-body))}
+svg:where(.astro-c6vsoqas){color:var(--sl-icon-color);font-size:var(--sl-icon-size, 1em);width:1em;height:1em}
+.sl-steps{--bullet-size: calc(var(--sl-line-height) * 1rem);--bullet-margin: .375rem;list-style:none;counter-reset:steps-counter var(--sl-steps-start, 0);padding-inline-start:0}.sl-steps>li{counter-increment:steps-counter;position:relative;padding-inline-start:calc(var(--bullet-size) + 1rem);padding-bottom:1px;min-height:calc(var(--bullet-size) + var(--bullet-margin))}.sl-steps>li+li{margin-top:0}.sl-steps>li:before{content:counter(steps-counter);position:absolute;top:0;inset-inline-start:0;width:var(--bullet-size);height:var(--bullet-size);line-height:var(--bullet-size);font-size:var(--sl-text-xs);font-weight:600;text-align:center;color:var(--sl-color-white);background-color:var(--sl-color-gray-6);border-radius:99rem;box-shadow:inset 0 0 0 1px var(--sl-color-gray-5)}.sl-steps>li:not(:last-of-type):after{--guide-width: 1px;content:"";position:absolute;top:calc(var(--bullet-size) + var(--bullet-margin));bottom:var(--bullet-margin);inset-inline-start:calc((var(--bullet-size) - var(--guide-width)) / 2);width:var(--guide-width);background-color:var(--sl-color-hairline-light)}.sl-steps>li>:first-child{--lh: calc(1em * var(--sl-line-height));--shift-y: calc(.5 * (var(--bullet-size) - var(--lh)));transform:translateY(var(--shift-y));margin-bottom:var(--shift-y)}.sl-steps>li>:first-child:where(h1,h2,h3,h4,h5,h6){--lh: calc(1em * var(--sl-line-height-headings))}@supports (--prop: 1lh){.sl-steps>li>:first-child{--lh: 1lh}}
+</style><script type="module" src="/_astro/hoisted.DfIZDHVP.js"></script>
+<script type="module" src="/_astro/page.LS5KDvwX.js"></script></head> <body class="astro-bguv2lll"> <a href="#_top" class="astro-7q3lir66">Skip to content</a>  <div class="page sl-flex astro-vrdttmbt"> <header class="header astro-vrdttmbt"><div class="header sl-flex astro-kmkmnagf"> <div class="title-wrapper sl-flex astro-kmkmnagf"> <a href="/" class="site-title sl-flex astro-m46x6ez3">  <img class="astro-m46x6ez3" alt="" src="/_astro/wow.Cken7KQM.png" width="512" height="509">  <span class="astro-m46x6ez3"> suchcodewow </span> </a>  </div> <div class="sl-flex astro-kmkmnagf"> <site-search data-translations="{&#34;placeholder&#34;:&#34;Search&#34;}" class="astro-v37mnknz"> <button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-v37mnknz"> <svg aria-hidden="true" class="astro-v37mnknz astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg>  <span class="sl-hidden md:sl-block astro-v37mnknz" aria-hidden="true">Search</span> <kbd class="sl-hidden md:sl-flex astro-v37mnknz" style="display: none;"> <kbd class="astro-v37mnknz">Ctrl</kbd><kbd class="astro-v37mnknz">K</kbd> </kbd> </button> <dialog style="padding:0" aria-label="Search" class="astro-v37mnknz"> <div class="dialog-frame sl-flex astro-v37mnknz">  <button data-close-modal class="sl-flex md:sl-hidden astro-v37mnknz"> Cancel </button> <div class="search-container astro-v37mnknz"> <div id="starlight__search" class="astro-v37mnknz"></div> </div> </div> </dialog> </site-search>  <script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script>    </div> <div class="sl-hidden md:sl-flex right-group astro-kmkmnagf"> <div class="sl-flex social-icons astro-kmkmnagf"> <a href="https://github.com/suchcodewow/scwastro" rel="me" class="sl-flex astro-wy4te6ga"><span class="sr-only astro-wy4te6ga">GitHub</span><svg aria-hidden="true" class="astro-wy4te6ga astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg> </a> </div> <starlight-theme-select>  <label style="--sl-select-width: 6.25em" class="astro-4yphtoen"> <span class="sr-only astro-4yphtoen">Select theme</span> <svg aria-hidden="true" class="icon label-icon astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg>  <select value="auto" class="astro-4yphtoen"> <option value="dark" class="astro-4yphtoen">Dark</option><option value="light" class="astro-4yphtoen">Light</option><option value="auto" selected="true" class="astro-4yphtoen">Auto</option> </select> <svg aria-hidden="true" class="icon caret astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg>  </label>  </starlight-theme-select>  <script>
+	StarlightThemeProvider.updatePickers();
+</script>   </div> </div> </header> <nav class="sidebar astro-vrdttmbt" aria-label="Main"> <starlight-menu-button class="astro-jif73yzw"> <button aria-expanded="false" aria-label="Menu" aria-controls="starlight__sidebar" class="sl-flex md:sl-hidden astro-jif73yzw"> <svg aria-hidden="true" class="astro-jif73yzw astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg>  </button> </starlight-menu-button>    <div id="starlight__sidebar" class="sidebar-pane astro-vrdttmbt"> <div class="sidebar-content sl-flex astro-vrdttmbt"> <ul class="top-level astro-3ii7xxms">  </ul>  <div class="md:sl-hidden"> <div class="mobile-preferences sl-flex astro-wu23bvmt"> <div class="sl-flex social-icons astro-wu23bvmt"> <a href="https://github.com/suchcodewow/scwastro" rel="me" class="sl-flex astro-wy4te6ga"><span class="sr-only astro-wy4te6ga">GitHub</span><svg aria-hidden="true" class="astro-wy4te6ga astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg> </a> </div> <starlight-theme-select>  <label style="--sl-select-width: 6.25em" class="astro-4yphtoen"> <span class="sr-only astro-4yphtoen">Select theme</span> <svg aria-hidden="true" class="icon label-icon astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg>  <select value="auto" class="astro-4yphtoen"> <option value="dark" class="astro-4yphtoen">Dark</option><option value="light" class="astro-4yphtoen">Light</option><option value="auto" selected="true" class="astro-4yphtoen">Auto</option> </select> <svg aria-hidden="true" class="icon caret astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg>  </label>  </starlight-theme-select>  <script>
+	StarlightThemeProvider.updatePickers();
+</script>   </div>  </div> </div> </div> </nav> <div class="main-frame astro-vrdttmbt">  <div class="lg:sl-flex astro-67yu43on"> <aside class="right-sidebar-container astro-67yu43on"> <div class="right-sidebar astro-67yu43on"> <div class="lg:sl-hidden astro-pb3aqygn"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-doynk5tl"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-doynk5tl"><details id="starlight__mobile-toc" class="astro-doynk5tl"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-doynk5tl"><div class="toggle sl-flex astro-doynk5tl">On this page<svg aria-hidden="true" class="caret astro-doynk5tl astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </div><span class="display-current astro-doynk5tl"></span></summary><div class="dropdown astro-doynk5tl"><ul class="isMobile astro-g2bywc46" style="--depth: 0;"> <li class="astro-g2bywc46" style="--depth: 0;"> <a href="#_top" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">Overview</span> </a> <ul class="isMobile astro-g2bywc46" style="--depth: 1;"> <li class="astro-g2bywc46" style="--depth: 1;"> <a href="#integrating-dynatrace-with-prometheus" class="astro-g2bywc46" style="--depth: 1;"> <span class="astro-g2bywc46" style="--depth: 1;">Integrating Dynatrace With Prometheus</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 1;"> <a href="#setup-prometheus-exporter-for-metric-ingest" class="astro-g2bywc46" style="--depth: 1;"> <span class="astro-g2bywc46" style="--depth: 1;">Setup Prometheus Exporter For Metric Ingest</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 1;"> <a href="#checkered_flag-checkpoint" class="astro-g2bywc46" style="--depth: 1;"> <span class="astro-g2bywc46" style="--depth: 1;">:checkered_flag: Checkpoint</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 1;"> <a href="#checkered_flag-checkpoint-1" class="astro-g2bywc46" style="--depth: 1;"> <span class="astro-g2bywc46" style="--depth: 1;">:checkered_flag: Checkpoint</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 1;"> <a href="#visualize-the-metrics-in-dynatrace" class="astro-g2bywc46" style="--depth: 1;"> <span class="astro-g2bywc46" style="--depth: 1;">Visualize the metrics in Dynatrace</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 1;"> <a href="#checkered_flag-checkpoint-2" class="astro-g2bywc46" style="--depth: 1;"> <span class="astro-g2bywc46" style="--depth: 1;">:checkered_flag: Checkpoint</span> </a>  </li> </ul>  </li> </ul> </div></details></nav></mobile-starlight-toc></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-pb3aqygn"><div class="sl-container astro-pb3aqygn"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-g2bywc46" style="--depth: 0;"> <li class="astro-g2bywc46" style="--depth: 0;"> <a href="#_top" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">Overview</span> </a> <ul class="astro-g2bywc46" style="--depth: 1;"> <li class="astro-g2bywc46" style="--depth: 1;"> <a href="#integrating-dynatrace-with-prometheus" class="astro-g2bywc46" style="--depth: 1;"> <span class="astro-g2bywc46" style="--depth: 1;">Integrating Dynatrace With Prometheus</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 1;"> <a href="#setup-prometheus-exporter-for-metric-ingest" class="astro-g2bywc46" style="--depth: 1;"> <span class="astro-g2bywc46" style="--depth: 1;">Setup Prometheus Exporter For Metric Ingest</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 1;"> <a href="#checkered_flag-checkpoint" class="astro-g2bywc46" style="--depth: 1;"> <span class="astro-g2bywc46" style="--depth: 1;">:checkered_flag: Checkpoint</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 1;"> <a href="#checkered_flag-checkpoint-1" class="astro-g2bywc46" style="--depth: 1;"> <span class="astro-g2bywc46" style="--depth: 1;">:checkered_flag: Checkpoint</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 1;"> <a href="#visualize-the-metrics-in-dynatrace" class="astro-g2bywc46" style="--depth: 1;"> <span class="astro-g2bywc46" style="--depth: 1;">Visualize the metrics in Dynatrace</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 1;"> <a href="#checkered_flag-checkpoint-2" class="astro-g2bywc46" style="--depth: 1;"> <span class="astro-g2bywc46" style="--depth: 1;">:checkered_flag: Checkpoint</span> </a>  </li> </ul>  </li> </ul> </nav></starlight-toc></div></div> </div> </aside> <div class="main-pane astro-67yu43on">  <main data-pagefind-body lang="en" dir="ltr" class="astro-bguv2lll">    <div class="content-panel astro-7nkwcw3z"> <div class="sl-container astro-7nkwcw3z"> <h1 id="_top" class="astro-j6tvhyss">Prometheus</h1>  </div> </div>  <div class="content-panel astro-7nkwcw3z"> <div class="sl-container astro-7nkwcw3z"> <div class="sl-markdown-content"> <h1 id="prometheus">Prometheus</h1>
+<h3 id="integrating-dynatrace-with-prometheus">Integrating Dynatrace With Prometheus</h3>
+<p>In this module we’ll learn how to integrate Dynatrace with Prometheus in Kubernetes.</p>
+<ul>
+<li>Setup Node Exporter for Metric Ingest</li>
+<li>Setup ActiveGate to scrape Prometheus Metrics</li>
+<li>Setup Kube-state Metric Exporter for Metric Ingest</li>
+<li>Setup Nginx Exporter for Metric Ingest</li>
+<li>Visualize Metric in Dynatrace</li>
+</ul>
+<h3 id="setup-prometheus-exporter-for-metric-ingest">Setup Prometheus Exporter For Metric Ingest</h3>
+<p>Let’s explore how the promethues-node-exporter is exposing metrics.
+There are some things we need to gather from the exporter:</p>
+<ul>
+<li>Port</li>
+<li>Metric Url Endpoint</li>
+</ul>
+<h4 id="step-1-identifying-port---node-exporter">Step 1: Identifying Port - Node Exporter</h4>
+<p>Let’s identify the port exposed by the Node Exporter.
+The node exporter is deployed as a Daemonset by the Prometheus Operator.</p>
+<p>Run the kubectl command to get all daemonsets:</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.d6kn2.css"><script type="module" src="/_astro/ec.3zb7u.js"></script><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">get</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">ds</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="kubectl get ds"><div></div></button></div></figure></div>
+<p><img src="/_astro/prom_1.CjIeXzEI_2fdswP.webp" alt="Prometheus_1" width="2117" height="179" loading="lazy" decoding="async"></p>
+<p>If the name matches prometheus-node-exporter run the command below as written. If not, update the name to match before executing.</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">get</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">ds</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">prometheus-node-exporter</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3C63B3">-o</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">jsonpath=</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#9B504E">{.spec.template.spec.containers[0].ports[].containerPort}{"\n"}</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="kubectl get ds prometheus-node-exporter -o jsonpath=&#x27;{.spec.template.spec.containers[0].ports[].containerPort}{&#x22;\n&#x22;}&#x27;"><div></div></button></div></figure></div>
+<p><img src="/_astro/prom_2.D52Hrz0K_Z2oIKcN.webp" alt="Prometheus_2" width="2457" height="169" loading="lazy" decoding="async"></p>
+<h4 id="step-2-validate-the-prometheus-metrics-by-exposing-exporter-port-to-localhost">Step 2: Validate the prometheus metrics by exposing exporter port to localhost.</h4>
+<p>Run the kubectl command:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">Kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">get</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">pod</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="Kubectl get pod"><div></div></button></div></figure></div>
+<p><img src="/_astro/prom_4.B2yub2Vj_LqMut.webp" alt="Prometheus_4" width="1757" height="362" loading="lazy" decoding="async"></p>
+<p>Copy the name of one of the prometheus-node-exporter pods, replace the POD NAME and PORT with the port identified above and run the command:</p>
+<ul>
+<li>This will expose the port to the host to be accessible on localhost.</li>
+</ul>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">port-forward</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">{POD</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">NAME}</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">{PORT}:{PORT}</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="kubectl port-forward {POD NAME} {PORT}:{PORT}"><div></div></button></div></figure></div>
+<p><img src="/_astro/prom_4.1.DCenB5L6_2prY45.webp" alt="Prometheus_4.1" width="1940" height="123" loading="lazy" decoding="async"></p>
+<h4 id="step-3-test-and-identifying-prometheus-metric-url-endpoint">Step 3: Test and identifying prometheus metric url endpoint</h4>
+<p>The Metric Url is typically /metrics. In our case it is /metrics.
+Duplicate the ‘<a href="https://university.dynatrace.com/">https://university.dynatrace.com/</a>’ tab, this should open another instance of the virtural classroom. Then terminal into the Bastion Host. Run the following curl command:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">http://localhost:PORT/metrics</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="curl http://localhost:PORT/metrics"><div></div></button></div></figure></div>
+<p><img src="/_astro/prom_3.C0pnQsGK_Z1yQz5h.webp" alt="Prometheus_3" width="1501" height="101" loading="lazy" decoding="async"></p>
+<p>The result should be a large output of available node exporter metrics:</p>
+<p><img src="/_astro/prom_3.3.D2oGObla_ZXaCyR.webp" alt="Prometheus_3.3" width="2439" height="807" loading="lazy" decoding="async"></p>
+<h3 id="checkered_flag-checkpoint">:checkered_flag: Checkpoint</h3>
+<p>Please take a moment to mark the spreadsheet <em>Prometheus - Test Metric Endpoint</em> column for your row with <code dir="auto">done</code>.</p>
+<h4 id="setup-activegate-to-scrape-prometheus-node-exporter-metrics">Setup ActiveGate to scrape Prometheus-node-exporter Metrics</h4>
+<p>To be able to let the Active Gate scrape the prometheus metric from the node exporter, we need to :</p>
+<ul>
+<li>define the Dynatrace Annotations</li>
+<li>create a Service attach to the node exporters</li>
+</ul>
+<p>Use <code dir="auto">vim</code> to edit the following file - <code dir="auto">hotday_script/prometheus/serice_nodexporter_template.yaml</code>:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">vim</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">~/hotday_script/prometheus/serice_nodexporter_template.yaml</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="vim ~/hotday_script/prometheus/serice_nodexporter_template.yaml"><div></div></button></div></figure></div>
+<p>Update the annotation section replacing the value of ‘metric.dynatrace.com/port’ annotation with the correct port, current value is TO_DEFINE.</p>
+<h5 id="before">Before</h5>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">metadata:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#82AAFF;--1:#3C63B3">annotations:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#82AAFF;--1:#3C63B3">metrics.dynatrace.com/path:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#9B504E">/metrics</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#82AAFF;--1:#3C63B3">metrics.dynatrace.com/port:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#9B504E">TO_DEFINE</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#82AAFF;--1:#3C63B3">metrics.dynatrace.com/scrape:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#9B504E">true</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="metadata:  annotations:    metrics.dynatrace.com/path: &#x22;/metrics&#x22;    metrics.dynatrace.com/port: &#x22;TO_DEFINE&#x22;    metrics.dynatrace.com/scrape: &#x22;true&#x22;"><div></div></button></div></figure></div>
+<h5 id="after-replace-to_define-with-port-identified">After (replace TO_DEFINE with port identified)</h5>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">metadata:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#82AAFF;--1:#3C63B3">annotations:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#82AAFF;--1:#3C63B3">metrics.dynatrace.com/path:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#9B504E">/metrics</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#82AAFF;--1:#3C63B3">metrics.dynatrace.com/port:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#9B504E">9100</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#82AAFF;--1:#3C63B3">metrics.dynatrace.com/scrape:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#9B504E">true</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="metadata:  annotations:    metrics.dynatrace.com/path: &#x22;/metrics&#x22;    metrics.dynatrace.com/port: &#x22;9100&#x22;    metrics.dynatrace.com/scrape: &#x22;true&#x22;"><div></div></button></div></figure></div>
+<p>Deploy the new Service :</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">apply</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3C63B3">-f</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">~/hotday_script/prometheus/serice_nodexporter_template.yaml</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="kubectl apply -f ~/hotday_script/prometheus/serice_nodexporter_template.yaml"><div></div></button></div></figure></div>
+<h4 id="setup-kube-state-metric-exporter-for-metric-ingest">Setup Kube-state Metric Exporter for Metric Ingest</h4>
+<p>Similar steps to ‘Setup Node Exporter for Metric Ingest’</p>
+<p>Run the describe kubectl command to identify port:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">get</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">deployment</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">prometheus-kube-state-metrics</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3C63B3">-o</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">jsonpath=</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#9B504E">{.spec.template.spec.containers[0].ports[].containerPort}{"\n"}</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="kubectl get deployment prometheus-kube-state-metrics -o jsonpath=&#x27;{.spec.template.spec.containers[0].ports[].containerPort}{&#x22;\n&#x22;}&#x27;"><div></div></button></div></figure></div>
+<p>Identify the pod name of the kube-state metric pod, replace the POD NAME and PORT with the port identified above and run the command:
+This will expose the port to the host to be accessible on localhost.</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">port-forward</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">{POD</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">NAME}</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">{PORT}:{PORT}</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="kubectl port-forward {POD NAME} {PORT}:{PORT}"><div></div></button></div></figure></div>
+<p>Verify the metrics are exposed by executing the curl command in the second terminal:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">http://localhost:PORT/metrics</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="curl http://localhost:PORT/metrics"><div></div></button></div></figure></div>
+<p>Use vim to update the <code dir="auto">hotday_script/prometheus/service_template.yaml</code> file with the correct port:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">vim</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">~/hotday_script/prometheus/service_template.yaml</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="vim ~/hotday_script/prometheus/service_template.yaml"><div></div></button></div></figure></div>
+<p>replace TO_DEFINE with port identified in 1.</p>
+<p>Deploy the new Service :</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">apply</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3C63B3">-f</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">~/hotday_script/prometheus/service_template.yaml</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="kubectl apply -f ~/hotday_script/prometheus/service_template.yaml"><div></div></button></div></figure></div>
+<h4 id="setup-nginx-exporter-for-metric-ingest">Setup Nginx Exporter for Metric Ingest</h4>
+<p>Similar to above, we want to ingest metrics from the nginx ingress controller.
+In the default namespace, nginx ingress controller has been deployed.</p>
+<p>Run the describe kubectl command to identify port:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">get</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">deployment</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">nginx-nginx-ingress</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3C63B3">-o</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">jsonpath=</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#9B504E">{.spec.template.spec.containers[0].ports[2].containerPort}{"\n"}</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="kubectl get deployment nginx-nginx-ingress -o jsonpath=&#x27;{.spec.template.spec.containers[0].ports[2].containerPort}{&#x22;\n&#x22;}&#x27;"><div></div></button></div></figure></div>
+<p>Identify the pod name of the nginx-nginx-ingress pod, replace the POD NAME and PORT with the port identified above and run the command:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span class="indent"> </span><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">port-forward</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">{POD</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">NAME}</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">{PORT}:{PORT}</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="kubectl port-forward {POD NAME} {PORT}:{PORT}"><div></div></button></div></figure></div>
+<p>This will expose the port to the host to be accessible on localhost.</p>
+<p>Verify the metrics are exposed by executing the curl command in the second terminal:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">http://localhost:PORT/metrics</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="curl http://localhost:PORT/metrics"><div></div></button></div></figure></div>
+<p>Use vim to update the <code dir="auto">hotday_script/prometheus/service__nginx_template.yaml</code> file with the correct port</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">vim</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">~/hotday_script/prometheus/service__nginx_template.yaml</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="vim ~/hotday_script/prometheus/service__nginx_template.yaml"><div></div></button></div></figure></div>
+<p>Replace TO_DEFINE with port identified in 1.</p>
+<p>Deploy the new Service :</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kubectl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">apply</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3C63B3">-f</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">~/hotday_script/prometheus/service__nginx_template.yaml</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="kubectl apply -f ~/hotday_script/prometheus/service__nginx_template.yaml"><div></div></button></div></figure></div>
+<h3 id="checkered_flag-checkpoint-1">:checkered_flag: Checkpoint</h3>
+<p>Please take a moment to mark the spreadsheet <em>Prometheus - Setup 3 Exporters</em> column for your row with <code dir="auto">done</code>.</p>
+<h3 id="visualize-the-metrics-in-dynatrace">Visualize the metrics in Dynatrace</h3>
+<h4 id="metrics">Metrics</h4>
+<p>All the ingested metrics can be found in “Metrics”.</p>
+<p>Open <code dir="auto">Metrics</code>, and search for:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kube_pod</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="kube_pod"><div></div></button></div></figure></div>
+<p><img src="/_astro/prom_metrics_screen.CLJ9Twh-_1XPOBY.webp" alt="prom_metrics_screen" width="2447" height="828" loading="lazy" decoding="async"></p>
+<h4 id="data-explorer">Data explorer</h4>
+<p>All available metrics can be dashboarded using the ‘Data Explorer’</p>
+<p>Open ‘Data Explorer’, and search for:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">kube_pod_status_phase</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="kube_pod_status_phase"><div></div></button></div></figure></div>
+<p><img src="/_astro/prom_5.7vwnoQGM_Z1i2wjX.webp" alt="Prometheus 5" width="1824" height="848" loading="lazy" decoding="async"></p>
+<p>Select the <code dir="auto">kube_pod_status_phase</code> metric, and add the following <code dir="auto">filter by</code> dimensions:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">pod:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">frontend-xyz...</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">phase:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3C63B3">Running</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="pod: frontend-xyz...phase: Running"><div></div></button></div></figure></div>
+<p><img src="/_astro/prom_6.CwFtfvNN_dWNM6.webp" alt="Prometheus 6" width="1779" height="841" loading="lazy" decoding="async"></p>
+<p>Select the visualization <code dir="auto">single value</code></p>
+<p><img src="/_astro/prom_7.tOHoTtLU_14xo5M.webp" alt="Prometheus 7" width="2481" height="1169" loading="lazy" decoding="async"></p>
+<h3 id="checkered_flag-checkpoint-2">:checkered_flag: Checkpoint</h3>
+<p>Please take a moment to mark the spreadsheet <em>Prometheus - Setup Data Explorer</em> column for your row with <code dir="auto">done</code>.</p>
+<h4 id="nginx-ingress-controller">Nginx ingress controller</h4>
+<p>The current environment use a Nginx Ingress controller to expose the following services out of the cluster:</p>
+<ul>
+<li>the active gate (to be able to utilize the api) though the service <code dir="auto">fluentd-activegate</code> located in the namespace <code dir="auto">nondynatrace</code></li>
+<li>the hipster-shop through the service <code dir="auto">frontend</code> located in the namespace <code dir="auto">hipster-shop</code></li>
+</ul>
+<p>To understand the health of our ingress, it would be useful to be able to split any of the statistics by :</p>
+<ul>
+<li>the service name</li>
+<li>the name of the ingress</li>
+<li>the namespace of the ingress</li>
+</ul>
+<p>Create a <code dir="auto">data explorer</code> chart for the following metric:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3C63B3">nginx_ingress_nginx_http_requests_total.count</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="nginx_ingress_nginx_http_requests_total.count"><div></div></button></div></figure></div>
+<p>In the Data explorer search for <code dir="auto">nginx_ingress_nginx_http_requests_total.count</code></p>
+<p><img src="/_astro/prom_8.D_IPSeuq_1Rf9Ib.webp" alt="Prometheus 8" width="815" height="556" loading="lazy" decoding="async"></p>
+<p>Do you have the right dimension to split the statistic by service name?</p> </div> <footer class="sl-flex astro-3yyafb3n"> <div class="meta sl-flex astro-3yyafb3n">   </div> <div class="pagination-links astro-u2l5gyhi" dir="ltr">   </div>   </footer>  </div> </div>   </main> </div> </div>  </div> </div>  </body></html>
