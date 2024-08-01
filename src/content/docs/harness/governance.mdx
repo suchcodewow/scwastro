@@ -31,30 +31,18 @@ The steps below are just to show how it can be done- you won't have access direc
 1. In Pipeline Runner: click **Re-run Pipeline**, then click **Re-run pipeline**
 1. A popup will show an upcoming security deadline requiring security
 
-   ### Development team - Meet the policy!
+   ### Development team - Update to meet standards, fast!
 
 1. In the top right of Pipeline Runner: click **Edit Pipeline**
    ![edit pipeline](../../../img/harness2edit.png)
-1. In the pipeline: **1** click **Build**, **2** click **Execution**, **3** hover and click before small add symbol, **4** add template
+1. In the pipeline: **1** click **Build**, **2** click **Execution**, **3** hover and click blue add symbol, **4** click **Use template**
    ![insert devx](../../../img/harness2adddevx.png)
-1. Instead of add step select use template\
-
-1. Select **DevX Fortify Scan**
-
-1. Name the step **Fortify**
-
-1. In the existing pipeline, within the Build stage **after** PushToDockerhub step click on the plus icon to add a new step
-
-1. Instead of add step select use template
-
-1. Select **OWASP**
-
-1. Name the step OWASP
-
-1. Click **Save** and then click **Run** to execute the pipeline with the following inputs
-
-| Input       | Value | Notes |
-| ----------- | ----- | ----- |
-| Branch Name | main  |       |
-
-After the **Build and Push** stage is complete, go to the **Security Tests** tab to see the deduplicated, normalized and prioritized list of vulnerabilities discovered across your scanners.
+1. In the templates pane: click **Devx Fortify Scan**, then click **Use Template** (bottom right corner!)
+1. In the template pane: name the template `Devx Fortify`, then **Apply Changes**
+1. Back in Pipeline Studio: **1** click the "big" add button at the end of pipeline, then **2** use template
+   ![insert owasp](../../../img/harnessowasp.png)
+1. In the template pane: click **Owasp**, then **Use Template** (bottom right corner!)
+1. In the template pane: name the template `Owasp`, then **Apply Changes**
+   ### Run updated pipeline
+1. Back in Pipeline Studio (top right): **1** Click **Save\*, **2** Click **Run\*\*
+   ![harness run](../../../img/saverun.png)

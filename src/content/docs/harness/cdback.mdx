@@ -4,56 +4,29 @@ sidebar:
 title: "Lab D - Deploy Backend"
 ---
 
-# Lab 4 - Continuous Deploy - Backend
+## Goals
 
-### Summary: Extend your existing pipeline to derisk production deployments
+Update our pipeline with a backend that leverages additional templates and new release strategy.
 
-**Learning Objective(s):**
+## Lab Guide
 
-- Utilise complex deployment strategies to reduce blast radius of a release
+     ### Create Stage
 
-**Steps**
+1. In the Pipeline Studio, click **Add Stage** at the top and select **Deploy**.
+1. In the Stage pane:
+   Name the stage `backend`
+   For Deployment Type, select **Kubernetes**
+   click **Set Up Stage**
+1. On the service pane:
+   In the Select Service field, choose `backend`
+   Click **Continue**
+1. On the environment pane: **1** Click **Propage Environment from**, **2** select stage frontend - environment prod, **3** click **Continue**
+   ![env](../../../img/harness4env.png)
+1. In the Execution Strategy pane:
+   Click **Canary**, then **Use Strategy** (bottom right!)
+1. In Pipeline Studio, click **Save**, then click **Run** (top right!)
 
-5. In the existing pipeline, add a Deployment stage by clicking **Add Stage** and select **Deploy** as the Stage Type
+   ### Check Canary Deployment
 
-6. Enter the following values and click on **Set Up Stage**
-
-| Input           | Value      | Notes |
-| --------------- | ---------- | ----- |
-| Stage Name      | backend    |       |
-| Deployment Type | Kubernetes |       |
-
-7. Configure the **backend** Stage with the following\
-   **Service**
-
-- Click **Select Service** and configure as follows\*\*\*\*
-
-| Input | Value   | Notes |
-| ----- | ------- | ----- |
-| Name  | backend |       |
-
-**Environment**
-
-The target infrastructure has been pre-created for us and we used it in the previous stage. To reuse the same environment
-
-- Click **- Propagate Environment From**
-
-- Select **Stage \[frontend]**
-
-**Execution**
-
-- Select **Canary**  and click on **Use Strategy**
-
-8. Click **Save** and then click **Run** to execute the pipeline with the following inputs. As a bonus, save your inputs as an Input Set before executing (see below)
-
-| Input       | Value | Notes       |
-| ----------- | ----- | ----------- |
-| Branch Name | main  | Leave as is |
-
-9. While the canary deployment is ongoing navigate to the web page and see if you can spot the canary (use the check release button)
-
-| project            | domain        | suffix |
-| ------------------ | ------------- | ------ |
-| http\://project_id | .cie-bootcamp | .co.uk |
-
-![](https://lh7-us.googleusercontent.com/docsz/AD_4nXfmb1N3lAe0EOnEun9neU9y3ilqy3HbxfnWfUMzF3FsykslwgQfU_W4pE0wlt5kYSp6_mTs7cVP0anhJ7uvtsytal2qX3ZEq3vvOT3DOBUzE9SZ3rpwkAHP6e_ExdRbo5VmN2kpxdFlp6u8iGaKwhW_uyAohEmJurkjmEB2Ww?key=cRG2cvp_PHVW0KG2Gq6Y_A)
+1. While the release is running, try switching to the application tab and click **Check Release** a few times. You might catch the canary!
+   ![canary](../../../img/canary.png)

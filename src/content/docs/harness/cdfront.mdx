@@ -4,83 +4,64 @@ sidebar:
 title: "Lab C - Deploy Frontend"
 ---
 
-# Lab 3 - Continuous Deploy - Frontend
+## Goals
 
-### Summary: Extend your existing pipeline to take the artifact built in the CI/Build stage and deploy it to an environment
+We'll add a new stage for deployment including easy-to-use deployment strategies, see how variables facilitate reusability, and effortlessly create and deploy kubernetes workloads.
 
-**Learning Objective(s):**
+## Lab Guide
 
-- Add a second stage to an existing pipeline
+### Add the new deployment stage
 
-- Create a k8s service
-
-- Incorporate an advanced deployment strategy such as Canary
-
-- Create custom Harness variables
-
-- Create an Input Set
-
-**Steps**
-
-2. In the existing pipeline, add a Deployment stage by clicking **Add Stage** and select **Deploy** as the Stage Type
-
-3. Enter the following values and click on **Set Up Stage**
-
-| Input           | Value      | Notes |
-| --------------- | ---------- | ----- |
-| Stage Name      | frontend   |       |
-| Deployment Type | Kubernetes |       |
-
-4. Configure the **frontend** Stage with the following\
-   **Service**
-
-- Click **+Add Service** and configure as follows\*\*\*\*
-
-| Input                      | Value                               | Notes |
-| -------------------------- | ----------------------------------- | ----- |
-| Name                       | frontend                            |       |
-| Deployment Type            | Kubernetes                          |       |
-| \* **Add Manifest**        |                                     |       |
-| Manifest Type              | K8s Manifest                        |       |
-| K8s Manifest Store         | Code                                |       |
-| Manifest Identifier        | templates                           |       |
-| Repository                 | harnessrepo                         |       |
-| Branch                     | main                                |       |
-| File/Folder Path           | harness-deploy/frontend/manifests   |       |
-| Values.yaml                | harness-deploy/frontend/values.yaml |       |
-| - **Add Artifact Source**  |                                     |       |
-| Artifact Repository Type   | Docker Registry                     |       |
-| Docker Registry Connector  | dockerhub                           |       |
-| Artifact Source Identifier | frontend                            |       |
-| Image Path                 | nikpap/harness-workshop             |       |
-| Tag                        |
-
-```
-<+variable.username>-<+pipeline.sequenceId>
-```
-
-| *Switch to expression and set to*  |
-
-**Environment**
-
-The target infrastructure has been pre-created for us. The application will be deployed to a k8s cluster on the given namespace
-
-- Click **- Select -** on the environment input box \*\*\*\*
-
-- Select **prod** environment\*\*\*\*
-
-| Input | Value | Notes                                                             |
-| ----- | ----- | ----------------------------------------------------------------- |
-| Name  | prod  | Make sure to select the environment and infrastructure definition |
-
-- Click **- Select -** on the environment input box \*\*\*\*
-
-- From the dropdown select k8s
-
-| Input | Value | Notes |
-| ----- | ----- | ----- |
-| Name  | k8s   |       |
-
-**Execution**
-
-- Select **Rolling** and click on **Use Strategy**, the frontend is a static application so no need to do canary, new features will be managed by Feature Flags at a later stage of this lab
+1. In pipeline studio: **1** click **Add Stage**, **2** **Deploy** as the Stage Type
+   ![add frontend](../../../img/harness2adddeploy.png)
+1. In the stage pane: **1** enter name `frontend`, **2** click **Kubernetes** for Deployment Type, **3** click **Set Up Stage**
+   ![setup frontend](../../../img/harness2frontend.png)
+1. In the service pane: **1** click **+Add Service**
+   ![config service](../../../img/harness2addservice.png)
+1. In the new service pane: **1** name the manifest `frontend`, **2** click **Add Manifest**
+   ![name service](../../../img/harness2addmanifest.png)
+1. Click **k8s manifest** then click **Continue**.
+1. Click **Code** then click **Continue**.
+   ### Add manifest
+1. In the details page:  
+   **1** give the manifests the name `templates`  
+   **2** pick `harnessrepo` from the repository dropdown  
+   **3** use `main` for the branch  
+   **4** In the **File/Folder Path** paste the value:
+   ```
+   harness-deploy/frontend/manifests
+   ```
+   **5** Click **+Add File**
+   **6** In the Values.yaml field, paste the value:
+   ```
+   harness-deploy/frontend/values.yaml
+   ```
+   **7** Click **Submit**
+   ![manifest config](../../../img/harness2manifestdetails.png)
+   ### Add the artifact
+1. Back in the service setup page: **1** Click **Add Artifact Source**
+   ![service artifact](../../../img/harness2serviceartifact.png)
+1. In the Artifact Repository Type: click **Docker Registry**, then **Continue**
+1. In Connector selection page: pick `DockerHub` from the list, then **Apply Selected**, then **Continue**
+1. In the artifact details pane:  
+   **1** name the artifact `frontend`  
+   **2** in the Image Path field, paste the value:
+   ```
+   nikpap/harness-workshop
+   ```
+   **3** Click the field type box and change it to **Expression**  
+   **4** In the tag field, paste the value:
+   ```
+   <+variable.username>-<+pipeline.sequenceId>
+   ```
+   ![Artifact Details](../../../img/harness2artifactdetails.png)
+   ### Leverage platform team provided Environment and Infrastructure
+1. back in Pipeline Studio: **1** click **Environment**, **2** select **prod** from environment list, **3** **k8s** from the Infrastructure list, **4** click **Continue**
+   ![environment](../../../img/harness2environment.png)
+   :::note
+   With Harness, a platform team can easily create and manage environments and infrastructure, then developers can use them to deploy their applications.  
+   :::
+1. In the Execution Strategies popup: Click **Rolling** in the top left, then **Use Strategy** in the bottom right.
+   ### Run updated pipeline
+1. Back in Pipeline Studio (top right): **1** Click **Save\*, **2** Click **Run\*\*
+   ![harness run](../../../img/saverun.png)
