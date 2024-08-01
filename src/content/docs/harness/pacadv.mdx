@@ -48,11 +48,11 @@ title: "Lab H - Advanced Policy as Code"
 
 4. Before the **Canary Deployment** Step Group, add a **Policy** type step and configure as follow
 
-| Input       | Value                                       | Notes                                                                                                                                                   |
-| ----------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Name        | Policy - No Critical CVEs                   |                                                                                                                                                         |
-| Entity Type | Custom                                      |                                                                                                                                                         |
-| Policy Set  | Criticals Now Allowed                       | Make sure to select the Project tab in order to see your Policy Set                                                                                     |
-| Payload     | {"NODE*OSS_CRITICAL_COUNT": *\<variable>\_} | Set the field type to Expression, then replace _\<variable>_ with OWASP output variable CRITICAL. Go to a previous execution to copy the variable path. |
+| Input       | Value                                         | Notes                                                                                                                                                   |
+| ----------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Name        | Policy - No Critical CVEs                     |                                                                                                                                                         |
+| Entity Type | Custom                                        |                                                                                                                                                         |
+| Policy Set  | Criticals Now Allowed                         | Make sure to select the Project tab in order to see your Policy Set                                                                                     |
+| Payload     | `{"NODE*OSS_CRITICAL_COUNT": *\<variable>\_}` | Set the field type to Expression, then replace _\<variable>_ with OWASP output variable CRITICAL. Go to a previous execution to copy the variable path. |
 
 5. Save the pipeline and execute. Note that the pipeline fails at the policy evaluation step due to critical vulnerabilities being found by OWASP.
