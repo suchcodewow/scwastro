@@ -31,7 +31,7 @@ This year, Bobbleneers leadership decided to improve their aging shipment servic
 
 They are guaranteeing delivery to your door in a flash... but **everything isn't working out as planned**....
 
-![bobblerick](/src/assets/img/bobblerick.jpg)
+![bobblerick](/src/img/bobblerick.jpg)
 
 ## Bobbleneers and Dynatrace
 
@@ -47,7 +47,7 @@ With the power of logs on Grail, Bobbleneers intends to gain visibility into the
 
 ### Services involved
 
-![svc](/src/assets/img/bobbleneers.png)
+![svc](/src/img/bobbleneers.png)
 
 ## Scenario 1
 
@@ -79,7 +79,7 @@ fetch logs, from: -60m
 
 Nearly all orders are taking less than 24 hours. Shipment managers are doing a great job.
 
-![shipments](/src/assets/img/transit.jpg)
+![shipments](/src/img/transit.jpg)
 
 ### Shipment times by warehouse
 
@@ -96,7 +96,7 @@ fetch logs, from: -60m
 | fields warehouse, DeliveryTime, shipments
 ```
 
-![weekly](/src/assets/img/weeklywarehouse.jpg)
+![weekly](/src/img/weeklywarehouse.jpg)
 
 ## Scenario 2
 
@@ -142,7 +142,7 @@ The results provided by Grail were instant:
 - Anything shipped from **Nevada had terrible processing times**! _red box_
 - The **ratings confirm** Nevada distribution is the problem source. _yellow box_
 
-![nevada](/src/assets/img/nevadaratings.jpg)
+![nevada](/src/img/nevadaratings.jpg)
 
 But why? LightningBobble triggers on every order & the team knows every order is sent. There must be a distribution issue specifically in the Nevada warehouse.
 
@@ -183,7 +183,7 @@ Root cause is immediately obvious!
 - The new **BobbleLightning service fails with a "ZipCode required" error**! (red box)
 - Not only that, but **no one turned off the old batch order distribution system**. It only runs on Monday night but eventually picked up the failed orders and sent them to shipping.
 
-![rootcause](/src/assets/img/bobblerootcause.jpg)
+![rootcause](/src/img/bobblerootcause.jpg)
 
 Once developers saw the issue, they quickly updated BobbleLightning to version 1.3 in Nevada. Then the support team retired the batch system.
 
@@ -212,7 +212,7 @@ fetch logs, from: -1d
 | sort BadReviews desc
 ```
 
-![reviews](/src/assets/img/reviewsbyday.jpg)
+![reviews](/src/img/reviewsbyday.jpg)
 
 ## Deployment
 

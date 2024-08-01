@@ -35,7 +35,7 @@ Run the kubectl command to get all daemonsets:
 kubectl get ds
 ```
 
-![Prometheus_1](/src/assets/img/prom_1.png)
+![Prometheus_1](/src/img/prom_1.png)
 
 If the name matches prometheus-node-exporter run the command below as written. If not, update the name to match before executing.
 
@@ -43,7 +43,7 @@ If the name matches prometheus-node-exporter run the command below as written. I
 kubectl get ds prometheus-node-exporter -o jsonpath='{.spec.template.spec.containers[0].ports[].containerPort}{"\n"}'
 ```
 
-![Prometheus_2](/src/assets/img/prom_2.png)
+![Prometheus_2](/src/img/prom_2.png)
 
 #### Step 2: Validate the prometheus metrics by exposing exporter port to localhost.
 
@@ -53,7 +53,7 @@ Run the kubectl command:
 Kubectl get pod
 ```
 
-![Prometheus_4](/src/assets/img/prom_4.png)
+![Prometheus_4](/src/img/prom_4.png)
 
 Copy the name of one of the prometheus-node-exporter pods, replace the POD NAME and PORT with the port identified above and run the command:
 
@@ -63,7 +63,7 @@ Copy the name of one of the prometheus-node-exporter pods, replace the POD NAME 
 kubectl port-forward {POD NAME} {PORT}:{PORT}
 ```
 
-![Prometheus_4.1](/src/assets/img/prom_4.1.png)
+![Prometheus_4.1](/src/img/prom_4.1.png)
 
 #### Step 3: Test and identifying prometheus metric url endpoint
 
@@ -74,11 +74,11 @@ Duplicate the 'https://university.dynatrace.com/' tab, this should open another 
 curl http://localhost:PORT/metrics
 ```
 
-![Prometheus_3](/src/assets/img/prom_3.png)
+![Prometheus_3](/src/img/prom_3.png)
 
 The result should be a large output of available node exporter metrics:
 
-![Prometheus_3.3](/src/assets/img/prom_3.3.png)
+![Prometheus_3.3](/src/img/prom_3.3.png)
 
 ### :checkered_flag: Checkpoint
 
@@ -217,7 +217,7 @@ Open `Metrics`, and search for:
 kube_pod
 ```
 
-![prom_metrics_screen](/src/assets/img/prom_metrics_screen.png)
+![prom_metrics_screen](/src/img/prom_metrics_screen.png)
 
 #### Data explorer
 
@@ -229,7 +229,7 @@ Open 'Data Explorer', and search for:
 kube_pod_status_phase
 ```
 
-![Prometheus 5](/src/assets/img/prom_5.png)
+![Prometheus 5](/src/img/prom_5.png)
 
 Select the `kube_pod_status_phase` metric, and add the following `filter by` dimensions:
 
@@ -239,11 +239,11 @@ pod: frontend-xyz...
 phase: Running
 ```
 
-![Prometheus 6](/src/assets/img/prom_6.png)
+![Prometheus 6](/src/img/prom_6.png)
 
 Select the visualization `single value`
 
-![Prometheus 7](/src/assets/img/prom_7.png)
+![Prometheus 7](/src/img/prom_7.png)
 
 ### :checkered_flag: Checkpoint
 
@@ -270,6 +270,6 @@ nginx_ingress_nginx_http_requests_total.count
 
 In the Data explorer search for `nginx_ingress_nginx_http_requests_total.count`
 
-![Prometheus 8](/src/assets/img/prom_8.png)
+![Prometheus 8](/src/img/prom_8.png)
 
 Do you have the right dimension to split the statistic by service name?
