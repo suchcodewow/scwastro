@@ -36,24 +36,30 @@ title: "Lab C - Deploy Frontend"
 
 - Click **+Add Service** and configure as follows\*\*\*\*
 
-| Input                      | Value                                         | Notes                              |
-| -------------------------- | --------------------------------------------- | ---------------------------------- |
-| Name                       | frontend                                      |                                    |
-| Deployment Type            | Kubernetes                                    |                                    |
-| \* **Add Manifest**        |                                               |                                    |
-| Manifest Type              | K8s Manifest                                  |                                    |
-| K8s Manifest Store         | Code                                          |                                    |
-| Manifest Identifier        | templates                                     |                                    |
-| Repository                 | harnessrepo                                   |                                    |
-| Branch                     | main                                          |                                    |
-| File/Folder Path           | harness-deploy/frontend/manifests             |                                    |
-| Values.yaml                | harness-deploy/frontend/values.yaml           |                                    |
-| - **Add Artifact Source**  |                                               |                                    |
-| Artifact Repository Type   | Docker Registry                               |                                    |
-| Docker Registry Connector  | dockerhub                                     |                                    |
-| Artifact Source Identifier | frontend                                      |                                    |
-| Image Path                 | nikpap/harness-workshop                       |                                    |
-| Tag                        | `<+variable.username>-<+pipeline.sequenceId>` | *Switch to expression and set to*  |
+| Input                      | Value                               | Notes |
+| -------------------------- | ----------------------------------- | ----- |
+| Name                       | frontend                            |       |
+| Deployment Type            | Kubernetes                          |       |
+| \* **Add Manifest**        |                                     |       |
+| Manifest Type              | K8s Manifest                        |       |
+| K8s Manifest Store         | Code                                |       |
+| Manifest Identifier        | templates                           |       |
+| Repository                 | harnessrepo                         |       |
+| Branch                     | main                                |       |
+| File/Folder Path           | harness-deploy/frontend/manifests   |       |
+| Values.yaml                | harness-deploy/frontend/values.yaml |       |
+| - **Add Artifact Source**  |                                     |       |
+| Artifact Repository Type   | Docker Registry                     |       |
+| Docker Registry Connector  | dockerhub                           |       |
+| Artifact Source Identifier | frontend                            |       |
+| Image Path                 | nikpap/harness-workshop             |       |
+| Tag                        |
+
+```
+<+variable.username>-<+pipeline.sequenceId>
+```
+
+| *Switch to expression and set to*  |
 
 **Environment**
 
