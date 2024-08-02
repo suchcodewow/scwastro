@@ -34,7 +34,7 @@ We'll add a new stage for deployment including easy-to-use deployment strategies
    ```
    harness-deploy/frontend/manifests
    ```
-   **5** Click **+Add File**
+   **5** Under Values.yaml, Click **+Add File**  
    **6** In the Values.yaml field, paste the value:
    ```
    harness-deploy/frontend/values.yaml
@@ -58,6 +58,7 @@ We'll add a new stage for deployment including easy-to-use deployment strategies
    <+variable.username>-<+pipeline.sequenceId>
    ```
    ![Artifact Details](../../../img/harness2artifactdetails.png)
+1. On the New Service page: Click **Save**
    ### Leverage platform team provided Environment and Infrastructure
 1. back in Pipeline Studio: **1** click **Environment**, **2** select **prod** from environment list, **3** **k8s** from the Infrastructure list, **4** click **Continue**
    ![environment](../../../img/harness2environment.png)
