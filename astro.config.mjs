@@ -26,7 +26,7 @@ export default defineConfig({
       },
       sidebar: [
         {
-          label: "Full Stack Front-to-Back",
+          label: "FrontoBack",
           autogenerate: {
             directory: "fullstack",
           },
@@ -47,6 +47,12 @@ export default defineConfig({
           label: "Harness",
           autogenerate: {
             directory: "harness",
+          },
+        },
+        {
+          label: "WTF",
+          autogenerate: {
+            directory: "wtf",
           },
         },
       ],
