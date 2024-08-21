@@ -1,0 +1,107 @@
+---
+sidebar:
+  order: 4
+title: "4) Deploy"
+---
+
+## Dynatrace
+
+Dynatrace provides a managed token system to make deployments secure and easy. In this section, we'll give Pepper access to the tenant.
+
+### A) Create a Token
+
+:::tip
+If you have used Dynatrace before it might automatically login to other tenants. Open an "incognito" style browser if that might be the case and login there.
+:::
+
+1. Navigate to your Dynatrace tenant. You should have a welcome email with link.
+2. Once you login, copy the main part of the URL and paste somewhere handy.
+   ![url](../../../img/deploy0.jpg)
+3. Click "Access Tokens" on the left side very near the bottom. (You might have to expand "Manage")
+   ![menu](../../../img/deploy1.jpg)
+4. In the tokens screen, click "Generate New Token" on the right side. Give it a name. It could be "fullstack workshop" or "rick".
+5. In the "search scopes" box, type "write api tokens", then select the option when it appears below.
+6. Click "Generate Token" at the bottom of the screen. Click Copy on the following screen. Make sure to **copy/paste** your token somewhere safe before clicking done.
+7. Click Done.
+
+### B) Save token in Pepper
+
+1. In your cloud shell, select the menu option to `create dynakube.yaml`.
+2. Paste your tenant into the tenant ID prompt, then paste the token into the follow prompt.
+3. Pepper will confirm a valid connection and save the token.
+4. Press _enter_ to stop Pepper for now.
+
+### C) Deploy Dynatrace
+
+1. In your Dynatrace tenant, click "Deploy Dynatrace" in the top right, then "Start installation."
+
+:::info
+Alternatively, open the Manage subheading at the bottom of left menu, then "Deploy Dynatrace"
+:::
+
+2. Pick Kubernetes from the most common deployment options.
+   ![kubernetes](../../../img/deploy2.jpg)
+3. Give it a friendly name like "cloudkubernetes" or "morty".
+4. Click "Create token" for Dynatrace Operator & then click "copy" near the bottom.
+   ![copybutton](../../../img/deploy3.jpg)
+
+5. In your cloud shell prompt (not Pepper), paste the contents
+
+6. Press _enter_ a couple of times to ensure your cloud provider runs all 4 steps.
+
+### D) Confirm Deployment
+
+1. Restart Pepper.
+
+```bash
+pwsh ./pepper.ps1 -c
+```
+
+2. If you don't see the new section below showing Dynatrace running 5/5 pods, select the option to "Show Pods". It might take a few minutes until ready.
+
+```bash
+NAME                                  READY   STATUS    RESTARTS   AGE
+dynatrace-operator-6dfbfd5768-tqk88   1/1     Running   0          3m2s
+dynatrace-webhook-8954d9c5b-gwrmh     1/1     Running   0          3m2s
+dynatrace-webhook-8954d9c5b-wgnxp     1/1     Running   0          3m2s
+k8sagreeableapple-activegate-0        1/1     Running   0          2m15s
+k8sagreeableapple-oneagent-bw5pm      1/1     Running   0          2m15s
+```
+
+3. In Dynatrace, you can check on deployment status from the menu. Select "active gates" from the inner menu to confirm Dynatrace is connected.
+
+## DynaBank
+
+### E) Deploy DynaBankInsuraCart
+
+Pepper is able to deploy any number of applications via a yaml file. This session has one yaml file for Dynabank.
+
+1. In Pepper, select the option to `download dempo apps yaml files`.
+2. You'll see a new application deployment option (similar to Dynatrace) for DynabankInsuracart (dbic).
+3. Select the `dbic: Deploy App` option. Deployment will take a few minutes.
+4. Check the status of deployment with the `dbic: Refresh/Show Pods` option.
+5. When all pods are ready, you can copy the application URL into a new browser.
+   ![browserurl](../../../img/appurl.jpg)
+
+### F) Dynabank (Quick) Overview
+
+Dynabank is your one stop shop for non-stop shopping! You can:
+
+- find the perfect item you need
+- get insurance quotes for auto & home
+- pay your bills
+
+To facilitate quick demos when you shop or bank, Dynabank will create an account for you including:
+
+- home address/shipping details
+- checking and savings accounts (here's hoping for a 5+ digit balance!)
+- a Dynacard credit card
+
+You are also added to the administrators group. Access administration from your account button to see transactions as they process.
+![admin](../../../img/admin.jpg)
+
+## Section Complete!
+
+Congratulations, you've deployed Dynatrace for end to end observability and a real-world application.
+
+1. Update the Workshop Tracker.
