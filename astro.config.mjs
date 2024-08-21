@@ -26,12 +26,6 @@ export default defineConfig({
       },
       sidebar: [
         {
-          label: "FrontoBack",
-          autogenerate: {
-            directory: "fullstack",
-          },
-        },
-        {
           label: "Pepper",
           autogenerate: {
             directory: "pepper",
