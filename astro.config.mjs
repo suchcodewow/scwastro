@@ -50,9 +50,9 @@ export default defineConfig({
           },
         },
         {
-          label: "WTF",
+          label: "Full Stack Front-to-Back",
           autogenerate: {
-            directory: "wtf",
+            directory: "fronttoback",
           },
         },
       ],
