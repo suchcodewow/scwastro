@@ -1,6 +1,5 @@
 # VSCODE: ctrl/cmd+k+1 folds all functions, ctrl/cmd+k+j unfold all functions. Check '.vscode/launch.json' for any current parameters
 
-
 # Core Functions
 function Send-Update {
     # Handle output to screen & log, execute commands to cloud systems and return results
@@ -375,7 +374,6 @@ function Set-Provider() {
     }
 }
 
-
 # GCP Functions
 function Add-GCPSteps() {
     # Add GCP specific steps
@@ -399,30 +397,16 @@ function Add-GCPSteps() {
         Add-Choice -k "GPROJ" -d "Required: Select GCP Project" -f "Set-GCPProject"
         return
     }
-    # -> jump to multi-user mode if selected
-    if ($multiUserMode) {
-        add-GCPMultiUserSteps
+    if (!$config.GCPRegion) {
+        Add-Choice -k "GREGION" -d "Required: Select Region" -f "Set-GCPRegion"
         return
     }
+    else {
+        Add-Choice -k "GREGION" -d "Change Region" -c $($config.RCPRegion) -f "Set-GCPRegion"
+    }
+    $currentRegion = Send-Update -content "GCP: Get Current Region" -t 0 -r "gcloud config get-value region"
+    
     Add-Choice -k "G-DELE-GCR" -d "Deploy Harness Delegate to Cloud Run" -f "Add-GCRDelegate"
-    # Moving kubernetes options to after common steps
-    #
-    # # We have a valid project, is there a GCP cluster running?
-    # $gkeClusterName = "scw-gke-$($userProperties.userid)"
-    # $existingCluster = Send-Update -t 1 -c "Check for existing cluster" -r "gcloud container clusters list --filter=name=$gkeClusterName --format='json' | Convertfrom-Json"
-    # if ($existingCluster.count -eq 1) {
-    #     #Cluster already exists
-    #     Add-Choice -k "GKE" -d "Delete GKE cluster & all content" -f "Remove-GCPCluster" -c $gkeClusterName
-    #     Add-Choice -k "GKECRED" -d "Get GKE cluster credentials" -f "Get-GCPCluster" -c $gkeClusterName
-    #     Set-Prefs -k gcpzone -v $existingCluster[0].zone
-    #     Set-Prefs -k gcpclustername -v $gkeClusterName
-    # }
-    # else {
-    #     Add-Choice -k "GKE" -d "Required: Create GKE k8s cluster" -f "Add-GCPCluster -c $gkeClusterName"
-    #     return
-    # }
-    # Send-Update -t 1 -c "Get Kubernetes Credentials" -r "Get-GCPCluster -c $gkeClusterName"
-    # # Also run common steps
     Add-CommonSteps
 }
 function Set-GCPProject {
@@ -443,13 +427,30 @@ function Set-GCPProject {
     Add-GCPSteps
 
 }
+function Set-GCPRegion {
+    # set the default project
+    $projectList = gcloud projects list --format='json' --sort-by name | ConvertFrom-Json
+    $counter = 0; $projectChoices = Foreach ($i in $projectList) {
+        $counter++
+        New-object PSCustomObject -Property @{Option = $counter; name = $i.name; projectId = $i.projectId }
+    }
+    $projectChoices | sort-object -property Option | format-table -Property Option, name, projectId | Out-Host
+    while (-not $projectId) {
+        $projectSelected = read-host -prompt "Which project? <enter> to cancel"
+        if (-not $projectSelected) { return }
+        $projectId = $projectChoices | Where-Object -FilterScript { $_.Option -eq $projectSelected } | Select-Object -ExpandProperty projectId -first 1
+        if (-not $projectId) { write-host -ForegroundColor red "`r`nHey, just what you see pal." }
+    }
+    Send-Update -t 1 -content "GCP: Select Project" -run "gcloud config set project $projectId" -e
+    Add-GCPSteps
+}
 function Get-GCPCluster {
     # Load the kubectl credentials
     # $env:USE_GKE_GCLOUD_AUTH_PLUGIN = True
     Send-Update -c "Get cluster creds" -t 1 -r "gcloud container clusters get-credentials  --zone $($config.gcpzone) $($config.gcpclustername)"
 }
-function Add-GCRDelegate(){
-    Send-Update -t 1 -content "Deploy to Google Cloud Run" -run "gcloud run deploy --image=harness/delegate:24.09.83909 --project $($)" -e
+function Add-GCRDelegate() {
+    Send-Update -t 1 -content "gcloud run deploy harness-delegate --image=harness/delegate:24.09.83909 --region=us-east1 --no-allow-unauthenticated --min-instances=1 --max-instances=1"
 }
 
 # Application Functions
@@ -458,12 +459,20 @@ function Add-CommonSteps() {
 }
 
 # Startup
-Get-Prefs($Myinvocation.MyCommand.Source)
-Get-Providers
-while ($choices.count -gt 0) {
-    $cmd = Get-Choice($choices)
-    if ($cmd) {
-        Invoke-Expression $cmd.callFunction
-    }
-    else { write-host -ForegroundColor red "`r`nY U no pick existing option?" }
+# Get-Prefs($Myinvocation.MyCommand.Source)
+# Get-Providers
+# while ($choices.count -gt 0) {
+#     $cmd = Get-Choice($choices)
+#     if ($cmd) {
+#         Invoke-Expression $cmd.callFunction
+#     }
+#     else { write-host -ForegroundColor red "`r`nY U no pick existing option?" }
+# }
+
+function New-Branch() {
+
 }
+
+$yamlFile = Get-Content -Path harness-delegate.yml
+
+$yamlObject = [PSCustomObject]@{name = 'youmom' }
