@@ -38,6 +38,12 @@ export default defineConfig({
           },
         },
         {
+          label: "Accelerators",
+          autogenerate: {
+            directory: "accelerators",
+          },
+        },
+        {
           label: "Harness",
           autogenerate: {
             directory: "harness",
