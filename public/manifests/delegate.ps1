@@ -220,7 +220,7 @@ Function Get-RandomAlphanumericString {
     }
 
     Process {
-        Write-Output (( -join ((0x30..0x39) + ( 0x41..0x5A) + ( 0x61..0x7A) | Get-Random -Count $length | ForEach-Object { [char]$_ }) )).toUpper()
+        Write-Output (( -join ((0x30..0x39) + ( 0x41..0x5A) + ( 0x61..0x7A) | Get-Random -Count $length | ForEach-Object { [char]$_ }) )).toLower()
     }	
 }
 
@@ -464,16 +464,13 @@ function Get-GCPCluster {
     Send-Update -c "Get cluster creds" -t 1 -r "gcloud container clusters get-credentials  --zone $($config.gcpzone) $($config.gcpclustername)"
 }
 function Add-GCRDelegate {
-    # Get name
+    # Get unique name
     $nameExists = $true
     do {
-        $delegateName = "Harness-Delegate-$(Get-RandomAlphanumericString)"
+        $delegateName = "harness-delegate-$(Get-RandomAlphanumericString)"
         $nameExists = Send-Update -t 1 -c "Checking name $delegateName" -r "gcloud run services list --filter=SERVICE=$delegateName --format=json | Convertfrom-Json"
     } while ($nameExists)
-    $delegateName = "Harness-Delegate-$(Get-RandomAlphanumericString)"
-    $delegateName
-    # write-host "account id: $($config.Harness_DELEGATE_TOKEN)"
-    Send-Update -w -t 1 -c "Deploying Delegate" -r "gcloud run deploy $delegateName --memory=2Gi --image=harness/delegate:24.09.83909 --no-allow-unauthenticated --min-instances=1 --max-instances=1 --no-cpu-throttling --set-env-vars=JAVA_OPTS=$($config.Harness_JAVA_OPTS),ACCOUNT_ID=$($config.Harness_ACCOUNT_ID),DELEGATE_NAME=$delegateName,NEXT_GEN=true,DEPLOY_MODE=KUBERNETES,DELEGATE_TYPE=KUBERNETES,CLIENT_TOOLS_DOWNLOAD_DISABLED=true,DYNAMIC_REQUEST_HANDLING=false,DELEGATE_TOKEN=$($config.Harness_DELEGATE_TOKEN),LOG_STREAMING_SERVICE_URL=$($config.Harness_LOG_STREAMING_SERVICE_URL),MANAGER_HOST_AND_PORT=$($config.Harness_MANAGER_HOST_AND_PORT)"
+    Send-Update -t 1 -c "Deploying Delegate" -r "gcloud run deploy $delegateName --memory=2Gi --image=harness/delegate:24.09.83909 --no-allow-unauthenticated --min-instances=1 --max-instances=1 --no-cpu-throttling --set-env-vars=JAVA_OPTS=$($config.Harness_JAVA_OPTS),ACCOUNT_ID=$($config.Harness_ACCOUNT_ID),DELEGATE_NAME=$delegateName,NEXT_GEN=true,DEPLOY_MODE=KUBERNETES,DELEGATE_TYPE=KUBERNETES,CLIENT_TOOLS_DOWNLOAD_DISABLED=true,DYNAMIC_REQUEST_HANDLING=false,DELEGATE_TOKEN=$($config.Harness_DELEGATE_TOKEN),LOG_STREAMING_SERVICE_URL=$($config.Harness_LOG_STREAMING_SERVICE_URL),MANAGER_HOST_AND_PORT=$($config.Harness_MANAGER_HOST_AND_PORT)"
 }
 
 # Application Functions
