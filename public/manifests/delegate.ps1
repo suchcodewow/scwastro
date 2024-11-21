@@ -480,6 +480,7 @@ function Get-YamlValues() {
         Send-Update -t 2 -c "Harness-delegate.yaml not found in this folder. Deployment options will be limited."
         return
     }
+    Send-Update -t 1 -c "Getting Harness values from harness-delegate.yml"
     $yamlFile = Get-Content -Path harness-delegate.yml -Raw
     Set-PSRepository PSGallery -InstallationPolicy Trusted
     Install-Module powershell-yaml -Repository PSGallery
@@ -501,7 +502,6 @@ function Get-YamlValues() {
 function Add-CommonSteps() {
     $yamlValues = Get-YamlValues
     #Add functions valid when we have Harness ID and tokens
-    Send-Update -t 1 -c "Getting Harness values from harness-delegate.yml"
     if ($yamlValues) {
         # GCP specific options
         if ($config.provider = "GCP")

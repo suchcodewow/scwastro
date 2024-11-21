@@ -14,6 +14,12 @@ Quickly deploy the Harness delegate using best practice standards in any cloud.
 - A cloud shell or terminal with the cloud commands (cli) preloaded
 - Pre-downloaded _harness-delegate.yml_ in the current directory
 
+:::note
+In cloud shells, use the 'upload' button in the toolbar to copy the harness-delegate.yml file into your cloud terminal.
+
+![upload button](/public/images/uploadbutton.png)
+:::
+
 ## Download and Run
 
 ```bash
@@ -22,5 +28,6 @@ curl -k -L https://www.suchcodewow.io/manifests/delegate.ps1 > ~/delegate.ps1 &&
 
 ## About the utility
 
+- If using GCP cloud shell, authorize the terminal when requested
 - You'll be able to select region and project from your available options
 - The format will be `harness-delegate-[6 characters]`
