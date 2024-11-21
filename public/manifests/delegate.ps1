@@ -41,7 +41,7 @@ function Send-Update {
     if ($type -ge $outputLevel) {
         write-host @Params $screenOutput
     }
-    if ($whatIf) { return }
+    if ($whatIf) { $run;return }
     if ($run -and $errorSuppression -and $outputSuppression) { return invoke-expression $run 1>$null }
     if ($run -and $errorSuppression) { return invoke-expression $run 2>$null }
     if ($run -and $outputSuppression) { return invoke-expression $run 1>$null }
@@ -209,6 +209,20 @@ function Get-Choice() {
     if ($cmd_selected -eq 0) { Get-Quote }
     return $choices | Where-Object { $_.Option -eq $cmd_selected } | Select-Object -first 1 
 }
+Function Get-RandomAlphanumericString {
+	
+    [CmdletBinding()]
+    Param (
+        [int] $length = 6
+    )
+
+    Begin {
+    }
+
+    Process {
+        Write-Output (( -join ((0x30..0x39) + ( 0x41..0x5A) + ( 0x61..0x7A) | Get-Random -Count $length | ForEach-Object { [char]$_ }) )).toUpper()
+    }	
+}
 
 # Provider Functions
 function Add-Provider() {
@@ -375,7 +389,7 @@ function Set-Provider() {
 }
 
 # GCP Functions
-function Add-GCPSteps() {
+function Add-GCPSteps {
     # Add GCP specific steps
     $userProperties = $choices | where-object { $_.key -eq "TARGET" } | select-object -expandproperty callProperties
     # get current project
@@ -397,16 +411,17 @@ function Add-GCPSteps() {
         Add-Choice -k "GPROJ" -d "Required: Select GCP Project" -f "Set-GCPProject"
         return
     }
-    if (!$config.GCPRegion) {
-        Add-Choice -k "GREGION" -d "Required: Select Region" -f "Set-GCPRegion"
-        return
-    }
-    else {
-        Add-Choice -k "GREGION" -d "Change Region" -c $($config.RCPRegion) -f "Set-GCPRegion"
-    }
-    $currentRegion = Send-Update -content "GCP: Get Current Region" -t 0 -r "gcloud config get-value region"
+    # Add region if/when needed
+    # if (!$config.GCPRegion) {
+    #     Add-Choice -k "GREGION" -d "Required: Select Region" -f "Set-GCPRegion"
+    #     return
+    # }
+    # else {
+    #     Add-Choice -k "GREGION" -d "Change Region" -c $($config.RCPRegion) -f "Set-GCPRegion"
+    # }
+    # $currentRegion = Send-Update -content "GCP: Get Current Region" -t 0 -r "gcloud config get-value region"
     
-    Add-Choice -k "G-DELE-GCR" -d "Deploy Harness Delegate to Cloud Run" -f "Add-GCRDelegate"
+ 
     Add-CommonSteps
 }
 function Set-GCPProject {
@@ -425,7 +440,6 @@ function Set-GCPProject {
     }
     Send-Update -t 1 -content "GCP: Select Project" -run "gcloud config set project $projectId" -e
     Add-GCPSteps
-
 }
 function Set-GCPRegion {
     # set the default project
@@ -449,30 +463,57 @@ function Get-GCPCluster {
     # $env:USE_GKE_GCLOUD_AUTH_PLUGIN = True
     Send-Update -c "Get cluster creds" -t 1 -r "gcloud container clusters get-credentials  --zone $($config.gcpzone) $($config.gcpclustername)"
 }
-function Add-GCRDelegate() {
-    Send-Update -t 1 -content "gcloud run deploy harness-delegate --image=harness/delegate:24.09.83909 --region=us-east1 --no-allow-unauthenticated --min-instances=1 --max-instances=1"
+function Add-GCRDelegate {
+    # Get name
+    $nameExists = $true
+    do {
+        $delegateName = "Harness-Delegate-$(Get-RandomAlphanumericString)"
+        $nameExists = Send-Update -t 1 -c "Checking name $delegateName" -r "gcloud run services list --filter=SERVICE=$delegateName --format=json | Convertfrom-Json"
+    } while ($nameExists)
+    $delegateName = "Harness-Delegate-$(Get-RandomAlphanumericString)"
+    $delegateName
+    # write-host "account id: $($config.Harness_DELEGATE_TOKEN)"
+    Send-Update -w -t 1 -c "Deploying Delegate" -r "gcloud run deploy $delegateName --memory=2Gi --image=harness/delegate:24.09.83909 --no-allow-unauthenticated --min-instances=1 --max-instances=1 --no-cpu-throttling --set-env-vars=JAVA_OPTS=$($config.Harness_JAVA_OPTS),ACCOUNT_ID=$($config.Harness_ACCOUNT_ID),DELEGATE_NAME=$delegateName,NEXT_GEN=true,DEPLOY_MODE=KUBERNETES,DELEGATE_TYPE=KUBERNETES,CLIENT_TOOLS_DOWNLOAD_DISABLED=true,DYNAMIC_REQUEST_HANDLING=false,DELEGATE_TOKEN=$($config.Harness_DELEGATE_TOKEN),LOG_STREAMING_SERVICE_URL=$($config.Harness_LOG_STREAMING_SERVICE_URL),MANAGER_HOST_AND_PORT=$($config.Harness_MANAGER_HOST_AND_PORT)"
 }
 
 # Application Functions
+function Get-YamlValues() {
+    $yamlFile = Get-Content -Path harness-delegate.yml -Raw
+    Set-PSRepository PSGallery -InstallationPolicy Trusted
+    Install-Module powershell-yaml -Repository PSGallery
+    Import-Module powershell-yaml
+    $yaml = ConvertFrom-Yaml $yamlFile -AllDocuments
+    $yamlEnv = $yaml.spec.template.spec.containers.env
+    if (!$yamlEnv) { 
+        Send-Update -t 2 -c "No environment variables found in delegate yaml."
+        return $false 
+    }
+    # Environment values
+    foreach ($item in $yamlEnv) {
+        Set-Prefs -k "Harness_$($item.name)" -v $item.value
+    }
+    # Secret values
+    Set-Prefs -k "Harness_DELEGATE_TOKEN" -v $yaml.data.DELEGATE_TOKEN
+    return $true
+}
 function Add-CommonSteps() {
-    
+    $yamlValues = Get-YamlValues
+    $yamlValues
+    #Add functions valid when we have Harness ID and tokens
+    if ($yamlValues) {
+        # GCP specific options
+        if ($config.provider = "GCP")
+        { Add-Choice -k "G-DELE-GCR" -d "Deploy Harness Delegate to Cloud Run" -f "Add-GCRDelegate" }
+    }
 }
 
 # Startup
-# Get-Prefs($Myinvocation.MyCommand.Source)
-# Get-Providers
-# while ($choices.count -gt 0) {
-#     $cmd = Get-Choice($choices)
-#     if ($cmd) {
-#         Invoke-Expression $cmd.callFunction
-#     }
-#     else { write-host -ForegroundColor red "`r`nY U no pick existing option?" }
-# }
-
-function New-Branch() {
-
+Get-Prefs($Myinvocation.MyCommand.Source)
+Get-Providers
+while ($choices.count -gt 0) {
+    $cmd = Get-Choice($choices)
+    if ($cmd) {
+        Invoke-Expression $cmd.callFunction
+    }
+    else { write-host -ForegroundColor red "`r`nY U no pick existing option?" }
 }
-
-$yamlFile = Get-Content -Path harness-delegate.yml
-
-$yamlObject = [PSCustomObject]@{name = 'youmom' }
