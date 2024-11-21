@@ -1,9 +1,7 @@
 ---
-sidebar:
-  order: 2
 pagination_prev:
 pagination_next:
-title: 1- Setup Azure VM
+title: AzureVM
 ---
 
 :::info Prerequisites
@@ -86,9 +84,8 @@ scp myip azureuser@$(cat myip):/home/azureuser/myip
 ```
 
 <details>
-  <summary>Waiter, there seems to be a cat in my scp?</summary>SCP is the secure copy command. We're using it to copy
-  the myip file to your host to use later. The cat command outputs the file contents (just the ip address in this case)
-  and the $() part means "run whatever command is in here". In the end, scp gets the azure user name and the IP of the
+  <summary>Waiter, there seems to be a cat in my scp?</summary>SCP is the secure copy command. We're using it to copy the myip file to your host to use later. The cat command
+  outputs the file contents (just the ip address in this case) and the $() part means "run whatever command is in here". In the end, scp gets the azure user name and the IP of the
   host. The part after ':' is the folder and filename on your host where scp saves the file.
 </details>
 

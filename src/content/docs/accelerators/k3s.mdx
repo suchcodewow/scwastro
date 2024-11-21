@@ -1,9 +1,7 @@
 ---
-sidebar:
-  order: 3
 pagination_prev:
 pagination_next:
-title: 2- Install k3s
+title: K3s
 ---
 
 These steps build a kubernetes cluster using k3s.  
@@ -41,10 +39,7 @@ Create a folder and move the kubernetes config file to a default location to hel
   <summary>What is the kubernetes config file?</summary>
   <ul>
     <li>Kubernetes distributions create a config file that describe the cluster and how to access it.</li>
-    <li>
-      These next few steps move the k3s config file to the default spot where kubectl will look & secure the file to
-      avoid errors later.
-    </li>
+    <li>These next few steps move the k3s config file to the default spot where kubectl will look & secure the file to avoid errors later.</li>
   </ul>
 </details>
 
@@ -83,10 +78,7 @@ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stabl
   <summary>What is kubectl?</summary>
   <ul>
     <li>Kubernetes's interface is an [API](https://en.wikipedia.org/wiki/API). We need a way to interact with it.</li>
-    <li>
-      kubectl is a well organized/documented command line tool to achieve this. Running `kubectl` will show you the
-      myriad of options available.
-    </li>
+    <li>kubectl is a well organized/documented command line tool to achieve this. Running `kubectl` will show you the myriad of options available.</li>
   </ul>
 </details>
 
