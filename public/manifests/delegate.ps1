@@ -471,9 +471,18 @@ function Add-GCRDelegate {
         $nameExists = Send-Update -t 1 -c "Checking name $delegateName" -r "gcloud run services list --filter=SERVICE=$delegateName --format=json | Convertfrom-Json"
     } while ($nameExists)
     Send-Update -t 1 -c "Deploying Delegate" -r "gcloud run deploy $delegateName --memory=2Gi --port=3460 --image=harness/delegate:24.09.83909 --no-allow-unauthenticated --min-instances=1 --max-instances=1 --no-cpu-throttling --set-env-vars=JAVA_OPTS=$($config.Harness_JAVA_OPTS),ACCOUNT_ID=$($config.Harness_ACCOUNT_ID),DELEGATE_NAME=$delegateName,NEXT_GEN=true,DEPLOY_MODE=KUBERNETES,DELEGATE_TYPE=KUBERNETES,CLIENT_TOOLS_DOWNLOAD_DISABLED=true,DYNAMIC_REQUEST_HANDLING=false,DELEGATE_TOKEN=$($config.Harness_DELEGATE_TOKEN),LOG_STREAMING_SERVICE_URL=$($config.Harness_LOG_STREAMING_SERVICE_URL),MANAGER_HOST_AND_PORT=$($config.Harness_MANAGER_HOST_AND_PORT),INIT_SCRIPT= "
-    Set-Prefs -k GCRDelegate -v $nameExists
+    Set-Prefs -k gcrDelegate -v $nameExists
 }
-
+function Add-GCRMySql {
+    # Get unique name
+    $nameExists = $true
+    do {
+        $delegateName = "globalcorp-catalogdb-$(Get-RandomAlphanumericString)"
+        $nameExists = Send-Update -t 1 -c "Checking name $delegateName" -r "gcloud run services list --filter=SERVICE=$delegateName --format=json | Convertfrom-Json"
+    } while ($nameExists)
+    Send-Update -t 1 -c "Deploying CatalogDB" -r "gcloud run deploy $delegateName --memory=2Gi --port=3306 --image=mysql --allow-unauthenticated --min-instances=1 --max-instances=1 --no-cpu-throttling --set-env-vars=MYSQL_USER=api,MYSQL_PASSWORD=password,MYSQL_ROOT_PASSWORD=password,MYSQL_DATABASE=catalogDb"
+    Set-Prefs -k gcrMySql -v $nameExists
+}
 # Application Functions
 function Get-YamlValues() {
     if (!(Test-Path harness-delegate.yml)) {
@@ -504,8 +513,10 @@ function Add-CommonSteps() {
     #Add functions valid when we have Harness ID and tokens
     if ($yamlValues) {
         # GCP specific options
-        if ($config.provider = "GCP")
-        { Add-Choice -k "G-DELE-GCR" -d "Deploy Harness Delegate to Cloud Run" -f "Add-GCRDelegate" -c $config.nameExists }
+        if ($config.provider = "GCP") {
+            Add-Choice -k "G-GCR-DELE" -d "Deploy Harness Delegate to Cloud Run" -f "Add-GCRDelegate" -c $config.gcrDelegate
+            Add-Choice -k "G-GCR-MYSQL" -d "Deploy CatalogDB to Cloud Run" -f Add-GCRMySql -c $config.gcrMySql
+        }
     }
 }
 
