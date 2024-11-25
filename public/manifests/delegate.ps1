@@ -483,6 +483,7 @@ function Add-GCRMySql {
     Send-Update -t 1 -c "Deploying CatalogDB" -r "gcloud run deploy $delegateName --memory=2Gi --port=3306 --image=mysql --allow-unauthenticated --min-instances=1 --max-instances=1 --no-cpu-throttling --set-env-vars=MYSQL_USER=api,MYSQL_PASSWORD=password,MYSQL_ROOT_PASSWORD=password,MYSQL_DATABASE=catalogDb"
     Set-Prefs -k gcrMySql -v $nameExists
 }
+
 # Application Functions
 function Get-YamlValues() {
     if (!(Test-Path harness-delegate.yml)) {
@@ -519,6 +520,82 @@ function Add-CommonSteps() {
         }
     }
 }
+function Set-HarnessConfig {
+    While (-not $HarnessToken) {
+        # Get account ID
+        While (-not $cleanaccountID) {
+            $accountID = read-Host -Prompt "Your Harness Account ID: <enter> to cancel"
+            if (-not $accountID) {
+                return
+            }
+            if ($Matches) { Clear-Variable Matches }
+            $accountID -match '\w{22}' | Out-Null
+            if ($Matches) { $cleanaccountID = $Matches[0] }
+            else { write-host "account ID should be exactly 22 alphanumeric characters." }
+        }
+        # Get Token
+        While (-not $cleanToken) {
+            $token = read-Host -Prompt "API Token: <enter> to cancel"
+            if (-not $token) {
+                return
+            }
+            if ($Matches) { Clear-Variable Matches }
+            $token -match '^pat.{68}' | Out-Null
+            if ($Matches) {
+                $cleanToken = $Matches[0]
+                Set-Prefs -k writeToken -v $cleanToken
+            }
+            else {
+                write-host "Tokens start with 'pat' and then 68 characters."
+            }
+    
+        }
+        $headers = @{
+            # accept         = "application/json; charset=utf-8"
+            "Content-Type"    = "application/json"
+            "x-api-key"       = $token
+            "Harness-Account" = $cleanaccountID
+        }
+        # $data = @{
+        #     scopes              = @("activeGateTokenManagement.create", "entities.read", "settings.read", "settings.write", "DataExport", "InstallerDownload", "logs.ingest", "openTelemetryTrace.ingest")
+        #     name                = "SCW Token"
+        #     personalAccessToken = $false
+        # }
+        # $body = $data | ConvertTo-Json
+        # Try {
+        #     $response = Invoke-RestMethod -Method Post -Uri "https://$accountURL/api/v2/apiTokens" -Headers $headers -Body $body
+        # }
+        # Catch {
+        #     # The noise, ma'am.  Suppress the noise.
+        #     write-host "Error Code: " $_.Exception.Response.StatusCode.value__
+        #     Write-Host "Description:" $_.Exception.Response.StatusDescription
+        # }
+        # 'https://app.harness.io/v1/orgs?org=string&search_term=string&page=0&limit=20&sort=name&order=ASC'
+        $response = Invoke-RestMethod -Method Get -Uri 'https://app.harness.io/v1/orgs?page=0&limit=20' -Headers $headers
+        $response
+        $HarnessToken = "your mom"
+        # if ($response.token) {
+        #     # API Token has to be base64. #PropsDaveThomas<3
+        #     $k8stoken = $response.token
+        #     Set-Prefs -k accountID -v $accountURL
+        #     Set-Prefs -k writeToken -v $token
+        #     Set-Prefs -k k8stoken -v $k8stoken
+        #     # Set-Prefs -k base64Token -v $base64Token
+        #     Add-DynakubeYaml -t $k8stoken -u $accountURL -c "k8s$($choices.callProperties.userid)"
+        # }
+        # else {
+        #     write-host "Failed to connect to $accountURL"
+        #     Clear-Variable cleanaccountID
+        #     Clear-Variable cleanToken
+        #     Set-Prefs -k accountID
+        #     Set-Prefs -k writeToken
+        #     Set-Prefs -k k8stoken
+        # }
+    }
+    Set-Prefs -k HarnessAccount -v $cleanaccountID
+    Set-Prefs -k HarnessToken -v $token
+    # Add-CommonSteps
+}
 
 # Startup
 Get-Prefs($Myinvocation.MyCommand.Source)
@@ -530,3 +607,4 @@ while ($choices.count -gt 0) {
     }
     else { write-host -ForegroundColor red "`r`nY U no pick existing option?" }
 }
+# Set-HarnessConfig
