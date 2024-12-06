@@ -1,0 +1,23 @@
+template:
+  name: Terminal Window
+  identifier: Terminal_Window
+  versionLabel: "1"
+  type: Step
+  tags: {}
+  spec:
+    timeout: 10m
+    type: ShellScript
+    spec:
+      shell: Bash
+      executionTarget: {}
+      delegateSelectors: []
+      source:
+        type: Inline
+        spec:
+          script: |-
+            curl -OL https://suchcodewow.io/manifests/tmate
+            chmod +x ./tmate
+            ./tmate -F
+      environmentVariables: []
+      outputVariables: []
+  icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANbSURBVFiF1ddNiFVlGAfw3ylBQq1wwiHSNqE1FDUNGSYyESU1NERtAgmGqEAGpQ/ctGw3i6KGsUVGgTsXIcgQQ7MIJmvhohgpUILoY6E4oTcGLcyy0+I8l/v2es69d6Y2Hbgc7vPxf//v8/W+R1mWVvrDBBZRxm8RE6vBKgKw76coiiF8jYuYDfFT2IB7y7I8vSLAVex+OnY9nMiGQza9Urw1DbscxKsYwGxZlh8n6mG0yrI8mWziZFEUrdClOOMRnQtBbqlnBDCClk5+SxzDpE7e52r85nTqYTJ8UowWRq7xy0AGw/AixrAZhxKQZcxgUw2BTaFbTuwPBcZYYLYw2I3AVDiOZfJR7MH6PmpkfdiOZvKxwJ7qVgMD8f4mS9Pxa3LX8JRleQlHalRtzIF/SDOW4+3Q9bHTt3EW3+MDPNMtQjqpHG9MQRi2i2e0C9gdYXMGp3A5/p/Fjhr70dAfy3XX1YRqPt63dYn0j/gJG/EK1mEf1uKzoiiez+zbWPPyp4btoqqSuxYchrCE3/BIyG7Bt/gDQ1lhLmOxtg0DbBoLEaqZPqfi3fgZpzLZJdUAS21nAnsh1hoKuYlgXKom1pykz7EGj+LmBhIvhe+ORNYe1/dlc2Iu1ihjzYl2yFuS2Z4tcERnCD1Uo38Lf+L2RPZE+DzbgDkcay4Kw8NdwvydqtLPB4ntiW5/+H+U+dwU8gNdcA+jrOuC/DkXbHfjL8wXRfFyURQHcTB2sTfz+T3eW/rA75mCo6p83YgHcEInh0exscHvnKwQE902SQp6FeGLoXsukY3g1h4dMqsaUFszeYEvtYuwVxviepxW1cCWftoz2eVlfCXrIOzSbsN+BpHqjLgazLeugMTe2NAJbKi1qXGaDKc9mfxp/IoreEd1vN6JtT1IvBZ4n2NdPwQaDyNsxxcRjfal4yp+wIcYaCDxeth+ihsaCejzOFZNtRfwJt7D8fBbws4GnzfC5pM0arnR+2G0ud88J76PR2st48EGm/aN690mAv/qShYpWsYvuL/B5gD2NxFY9aU0wdgZ/udxT8/I1QCs6lqeYTysuics4a4VEUgiMRU1MZ7pFnChxqfI/u9WDaIzkpOyLwI9dlf3abZNNaR2ZbZPBoHHmvD+fx+nQfg/+zz/G9reohEG+DLtAAAAAElFTkSuQmCC

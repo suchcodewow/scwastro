@@ -14,13 +14,18 @@ template:
         spec:
           script: |
             set -ex
+            echo "unique id: <+pipeline.variables.apiUniqueIdentifier>"
+            commandString=""
+            uniqueIdentifier=""
             if ! <+spec.environmentVariables.traffic>; then commandString+="--no-traffic "
             fi
             if <+spec.environmentVariables.allowUnauthenticated>; then commandString+="--allow-unauthenticated "
             fi
+            if <+pipeline.variables.apiUniqueIdentifier>; then uniqueIdentifier="-<+pipeline.variables.apiUniqueIdentifier>"
+            fi
 
-
-            /opt/harness-delegate/google-cloud-sdk/bin/gcloud run deploy <+service.name> \
+            echo $uniqueIdentifier
+            /opt/harness-delegate/google-cloud-sdk/bin/gcloud run deploy <+service.name>$uniqueIdentifier \
             <+spec.environmentVariables.flags> \
             --image=<+artifact.image> \
             --min-instances=<+spec.environmentVariables.minimumInstances> \
@@ -32,13 +37,13 @@ template:
       environmentVariables:
         - name: flags
           type: String
-          value: <+input>
+          value: <+input>.default(--ingress=all )
         - name: allowUnauthenticated
           type: String
           value: <+input>.default(false).allowedValues(true,false)
         - name: environmentVariables
           type: String
-          value: <+input>
+          value: <+input>.default(<+pipeline.variables.environmentVariables>)
         - name: minimumInstances
           type: String
           value: <+input>.default(1)
