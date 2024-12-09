@@ -1,10 +1,10 @@
 ---
-pagination_prev:
-pagination_next:
+prev: false
+next: false
 title: AzureVM
 ---
 
-:::info Prerequisites
+:::info[Prerequisites]
 You'll need to have rights to create and modify virtual machines.
 :::
 
@@ -33,13 +33,13 @@ Download the helper script:
 curl https://www.suchcodewow.io/manifests/helper.ps1 > ~/clouddrive/helper.ps1
 ```
 
-:::tip 'show commands' vs 'Y U spam me'
+:::tip['show commands' vs 'Y U spam me']
 By default, the helper script shows each command as it runs- helpful if you are new to Azure. It can be turned off by and changing `$show_commands = $true` to `$show_commands = $false` near the top.
 :::
 
 ## Create the virtual machine
 
-:::warning Check your subscription!
+:::caution[Check your subscription!]
 Your shell is connected to a [subscription](https://docs.microsoft.com/en-us/microsoft-365/enterprise/subscriptions-licenses-accounts-and-tenants-for-microsoft-cloud-offerings?view=o365-worldwide). When you create something in Azure it is added to that subscription.
 Ensure you choose the subscription where you want to build your host.
 
@@ -51,7 +51,7 @@ Run the helper script to create a resource group and a host.
 ~/clouddrive/helper.ps1
 ```
 
-:::info What's happening here?
+:::info[What's happening here?]
 The script:
 
 1. uses your email up to '@' as a unique identifier.

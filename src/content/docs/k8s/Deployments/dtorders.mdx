@@ -7,9 +7,8 @@ title: DTOrders
 This deployment will create an application in the **dtorders** namespace and automatically generate synthetic traffic for you.
 
 <details>
-  <summary>What's a deployment?</summary>A deployment is a set of instructions, usually in a YAML file like below, that
-  provide a blueprint for what components we want to add to our cluster. If one of the components of that deployment is
-  removed, kubernetes will automatically recreate them.
+  <summary>What's a deployment?</summary>A deployment is a set of instructions, usually in a YAML file like below, that provide a blueprint for what components we want to add to
+  our cluster. If one of the components of that deployment is removed, kubernetes will automatically recreate them.
 </details>
 
 The deployment creates the DTORDERS namespace.
@@ -26,7 +25,7 @@ There are also two other pods:
 - a browser traffic generator creating "real" user sessions
 - a load traffic generator creating hits to API's in the application
 
-:::info Prerequisites
+:::info[Prerequisites]
 
 1. Login to your host.
 2. Confirm you've recorded your public IP address with:
@@ -87,7 +86,7 @@ The various components:
 - **catalog** is the API for the various items for sale. Add `/catalog` to the end of the URL to see the current items.
 - **order** lists the orders that have been submitted from the front end. You can manually add orders here as well.
 
-:::info What is nip.io?
+:::note[What is nip.io?]
 Real applications have names like 'booksforyou.com' and configure several networking components to route users to many different hosts to serve requests. It adds cost and complexity well beyond the scope of these tutorials.
 
 For this tutorial series, we're using nip.io to elegantly provides the same functionality without cost. Anything before **.nip.io** is sent to the IP address. This means we can access any number of services on our single kubernetes cluster. Without nip.io, we'd be limited to hosting a single web service on our cluster's IP address.

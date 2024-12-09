@@ -26,7 +26,7 @@ https://github.com/suchcodewow/instamationsvc
 ```
 
 1. Type `main` for the branch (blue highlight) then Save (green highlight).
-   :::tip
+   :::note
    The "example/grey" branch example is also named main. You do need to type `main` into this field to be able to save.
    :::
    ![awa2](../../../img/awa2.png)
@@ -104,7 +104,7 @@ https://scw-useast2-apim.azure-api.net/scw-webapp-colossalcactus
 1. Uncheck the _Subscription required_ option box (blue highlight). Click Save (green highlight). This will allow all connections to reach your Instamation service.
    ![apim4](../../../img/apim4.png)
 
-:::tip Lab vs Real World
+:::tip[Lab vs Real World]
 In a real-world scenario we wouldn't go without a subscription/authorization mechanism. We're doing it here to keep the focus on Observability vs application configuration. Dynatrace will detect all traffic just fine with any configuration.
 :::
 
@@ -148,7 +148,7 @@ az ad sp create-for-rbac --name $DEPLOYMENT_NAME --role reader --scopes /subscri
 1. Click Connect. That's it!
 1. Open the Azure App in Dynatrace to see all resources.
 
-:::tip
+:::note
 Since we're running many copies of Dynabank in a 'multiverse' kind of scenario, you'll obviously see them all in our Azure Classroom.  
 But it does show how easily Dynatrace provides full visibility into an Azure environment with all services instantly tracked, organized, and tagged for easy business organization.
 :::

@@ -2,7 +2,7 @@
 title: Setup Azure vm
 ---
 
-:::info Prerequisites
+:::note[Prerequisites]
 You'll need to have rights to create and modify virtual machines.
 :::
 
@@ -31,13 +31,13 @@ Download the helper script:
 curl https://www.suchcodewow.io/manifests/helper.ps1 > ~/clouddrive/helper.ps1
 ```
 
-:::tip 'show commands' vs 'Y U spam me'
+:::note['show commands' vs 'Y U spam me']
 By default, the helper script shows each command as it runs- helpful if you are new to Azure. It can be turned off by and changing `$show_commands = $true` to `$show_commands = $false` near the top.
 :::
 
 ## Create the virtual machine
 
-:::warning Check your subscription!
+:::caution Check your subscription!
 Your shell is connected to a [subscription](https://docs.microsoft.com/en-us/microsoft-365/enterprise/subscriptions-licenses-accounts-and-tenants-for-microsoft-cloud-offerings?view=o365-worldwide). When you create something in Azure it is added to that subscription.
 Ensure you choose the subscription where you want to build your host.
 
@@ -49,7 +49,7 @@ Run the helper script to create a resource group and a host.
 ~/clouddrive/helper.ps1
 ```
 
-:::info What's happening here?
+:::note What's happening here?
 The script:
 
 1. uses your email up to '@' as a unique identifier.
@@ -82,9 +82,8 @@ scp myip azureuser@$(cat myip):/home/azureuser/myip
 ```
 
 <details>
-  <summary>Waiter, there seems to be a cat in my scp?</summary>SCP is the secure copy command. We're using it to copy
-  the myip file to your host to use later. The cat command outputs the file contents (just the ip address in this case)
-  and the $() part means "run whatever command is in here". In the end, scp gets the azure user name and the IP of the
+  <summary>Waiter, there seems to be a cat in my scp?</summary>SCP is the secure copy command. We're using it to copy the myip file to your host to use later. The cat command
+  outputs the file contents (just the ip address in this case) and the $() part means "run whatever command is in here". In the end, scp gets the azure user name and the IP of the
   host. The part after ':' is the folder and filename on your host where scp saves the file.
 </details>
 

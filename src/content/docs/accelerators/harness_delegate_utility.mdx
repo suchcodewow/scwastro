@@ -1,0 +1,81 @@
+---
+prev: false
+next: false
+title: Harness Cloud Run Delegate
+---
+
+# Goal
+
+Easily deploy the Harness Delegate in Google Cloud Run using Harness IaCM.
+
+:::note
+Alternatively, use the [Harness Delegate Utility](/harness_delegate_utility) to deploy directly.
+:::
+
+## Prerequisites
+
+- Harness Infrastructure as Code Management and Code Repository (on by default) enabled in your Harness Account
+- Access to public GitHub.com repositories
+- Sufficient permissions to create a project, provision a service account, and deploy new Google Cloud Run services
+
+## Guided Setup
+
+### A) Import the terraform delegate repository
+
+:::note
+The public repository refers to GlobalCorp. GlobalCorp is a universal collection of Harness guided tutorials useful both for Harness workshops and real-world scenarios.
+:::
+
+1. In Harness Code Repository, click _Repositories_, the dropdown next to +New Repository, then _Import Repository_.
+   ![newrepo](/images/delegate0.png)
+2. in the new repository window, enter the settings below, then click _Import Repository_.
+   | Setting | Value |
+   | ----------- | ----------- |
+   | GitHub Provider | GitHub |
+   | Organization | `suchcodewow` |
+   | Repository | `globalcorp-iacm` |
+   | Name (leave default) | `globalcorp-iacm` |
+
+   ![reposettings](/images/delegate00.png)
+
+3. Hang tight for a second while Harness imports the repository for you.
+
+### B) Create a Harness Google Connector
+
+#### In Google Cloud:
+
+1. (optional) create a new project in Google Cloud for the delegate.
+1. (optional, but recommended) create a service account in the project with project administrator.
+1. Create (or retrieve existing) service account key json file.
+
+#### In Harness:
+
+1. Click _Projects_ on the left blue menu, then _Connectors_.
+   ![connectorcreate](/images/delegate000.png)
+
+   :::note
+   For purposes of this guide we're using project level resources for simplicity. But everything shown can be configured at the organization or account level by an enterprise team once and be available for everyone else to use on-demand!
+   :::
+
+1. Click _+New Connector_ in the top left, then under Cloud Providers click _GCP_.
+1. Name the connector something like GCP-[yourprojectID]-admin and click _next_.
+1. Click _Specify Credentials Here_ and then _Create or select a Secret_.
+1. Click on (1) New Secret File then steps below to create the secret.
+   | Setting | Value |
+   | ----------- | ----------- |
+   | Secrets Manager | Harness Secret Manager |
+   | (2) Secret Name| `GCP-projectid-secret` (swap in your project identifer!)|
+   | (3) Select File | (click browse and select the json file from above)|
+   | (4) Click Save | |
+
+   ![createsecret](/images/delegate1.png)
+
+1. Ensure your new secret is selected then click _Apply Selected_.
+1. Click _Connect through Harness Platform_ then _Save and Continue_.
+1. Confirm that you receive a successful validation, then click _Finish_.
+
+### C) Create and configure a Delegate Namespace
+
+1. In Harness IaCM, select _workspaces_ and then* +New Workspace*.  
+   ![workspace](/images/delegate1.png)
+2.

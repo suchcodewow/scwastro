@@ -158,7 +158,7 @@ In Dynatrace:
 
 ### Create dynakube.yaml
 
-:::tip About the dynakube.yaml
+:::tip[About the dynakube.yaml]
 It's recommended to let Pepper generate the dynakube.yaml as it is tuned for this event:
 
 - The resource limits are balanced for the kubernetes cluster size used
@@ -171,7 +171,7 @@ It's recommended to let Pepper generate the dynakube.yaml as it is tuned for thi
 
 1. Then, paste in the token you created.
 
-:::tip Pasting into cloud shell is hard
+:::tip[Pasting into cloud shell is hard]
 Each cloud vendor picked different methods to copy and paste. FUN!
 
 Azure: right-click in the shell window and select 'paste'.
@@ -185,7 +185,7 @@ Pepper will confirm that your URL and token combination is valid and then create
 
 ### Deploy Dynatrace
 
-:::tip Dynatrace deployment options
+:::tip[Dynatrace deployment options]
 This guide shows how to use Pepper to deploy Dynatrace.
 
 However, it's perfectly viable to drop out of Pepper at this point & use the 'Deploy Dynatrace' app and select Kubernetes install. You'd just need to download dynakube.yaml and upload it to your cloud shell.
@@ -218,7 +218,7 @@ At this point, Pepper should provide the URL to your environment. Where availabl
 
 #### Deploy
 
-:::tip Prequisite!
+:::tip[Prequisite!]
 Make sure to deploy the Azure web app framework with Pepper prior to completing these steps.
 :::
 
@@ -260,7 +260,7 @@ When this appears, it means your service is working! You are ready to move to th
 1. Click _Install OneAgent_ and hang tight until you see _Enjoy monitoring from Dynatrace._ at the top of the screen.
 1. In the _Overview_ page of your web app, click the _Restart_ button.
 
-:::tip Lab vs Real World
+:::tip[Lab vs Real World]
 For most Dynatrace deployments, only the Environment ID is needed. Since we're using Dynatrace tenants that contain the word 'sprint' instead of the normal 'live', we need to specify the Server URL.
 :::
 
@@ -300,7 +300,7 @@ https://scw-useast2-apim.azure-api.net/scw-webapp-colossalcactus
 1. Uncheck the _Subscription required_ option box (blue highlight). Click Save (green highlight). This will allow all connections to reach your Instamation service.
    ![apim4](../../../img/apim4.png)
 
-:::tip Lab vs Real World
+:::tip[Lab vs Real World]
 In a real-world scenario we wouldn't go without a subscription/authorization mechanism. We're doing it here to keep the focus on Observability vs application configuration. Dynatrace will detect all traffic just fine with security in place.
 :::
 

@@ -62,7 +62,7 @@ The script supports `-parameters` or you can save settings in the **settings** b
 | -webapp                      | $webapp=         |           | (Optional) Specify a single webapp in your resource group to install the Dynatrace extension |
 | -mode [install/recycle/stop] | _Parameter only_ |           | Switches from 'what-if' to implementation mode. See below for more detail                    |
 
-:::info "What-if" mode is the default
+:::note["What-if" mode is the default]
 By default, the script is read-only. It will evaluate your webapps and display a table of _todo's_ based on its findings. It's highly recommendeded to run the script read-only until you confirm what the script will do.
 :::
 
@@ -74,7 +74,7 @@ Using the `-mode` parameter enables the script to make changes. Use in conjuncti
 - `-mode recycle` same as install but will recycle the webapp when configuration complete.
 - `-mode stop` stops the webapp prior to install/configure. Starts the webapp when configuration complete.
 
-:::tip Stop mode
+:::tip[Stop mode]
 The most reliable way for the extension to install correctly is using the `stop` flag. In complex/scaled environments the webapp will sometimes lock files preventing extension installation and removal. In most cases install & config takes only a few minutes minimizing the amount of the time the webapp is down.
 :::
 
