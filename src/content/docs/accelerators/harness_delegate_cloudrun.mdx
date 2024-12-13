@@ -48,6 +48,12 @@ The public repository refers to GlobalCorp. GlobalCorp is a universal collection
 1. (optional, but recommended) create a service account in the project with project administrator.
 1. Create (or retrieve existing) service account key json file.
 
+Before continuing, make sure to have the following handy:
+
+- the project ID
+- service account email address
+- credential key json file for service account
+
 #### In Harness:
 
 1. Click _Projects_ on the left blue menu, then _Connectors_.
@@ -74,8 +80,38 @@ The public repository refers to GlobalCorp. GlobalCorp is a universal collection
 1. Click _Connect through Harness Platform_ then _Save and Continue_.
 1. Confirm that you receive a successful validation, then click _Finish_.
 
-### C) Create and configure a Delegate Namespace
+### C) Import your token as a variable
+
+1. CLick on _Project Settings_ in the left blue bar, then _delegates_ under **Project-level resources**.
+1. Click
+
+### D) Create and configure a Delegate Workspace
 
 1. In Harness IaCM, select _workspaces_ and then* +New Workspace*.  
    ![workspace](/images/delegate1.png)
-2.
+1. On the configuration page, enter the settings as shown below.
+
+   | Setting                                  | Value                     |
+   | ---------------------------------------- | ------------------------- |
+   | (1) Name the workspace                   | `cloudrun-delegate`       |
+   | (2) Click and select the connector in B) | GCP-[yourprojectID]-admin |
+   | (3) use OpenTofu and select version      | 1.8.1                     |
+   | (4) Choose Repository type               | Harness Code Repository   |
+   | (5) Enter repository                     | `globalcorp-iacm'         |
+   | (6) Specify Folder                       | 'delegate/gcp-cloudrun'   |
+   | (7) Click Save                           |                           |
+
+![workspace](/images/delegate2.png)
+
+1. Click on your new workspace, then _Variables_, and _OpenTofu Variables_. For each variable below, click _+New OpenTofu Variable_ and enter key/value.
+
+   | Key                  | Value                                    |
+   | -------------------- | ---------------------------------------- |
+   | accountId            | `<+account.identifier>`                  |
+   | delegateManagerUrl   | `https://app.harness.io`                 |
+   | googleProject        | (your google project ID)                 |
+   | googleRegion         | i.e. us-central1                         |
+   | googleServiceAccount | (email of service account created above) |
+   | uniqueIdentifier     | `primary`                                |
+
+![workspace](/images/delegate3.png)
