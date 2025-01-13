@@ -1,0 +1,32 @@
+---
+sidebar:
+  order: 7
+title: "Lab F - Chaos Engineering"
+---
+
+## Goals
+
+We'll run automatic application discovery to identify our layout and then introduce chaos experiments to test resiliency.
+
+## Lab Guide
+
+### Chaos Engineering
+
+1. Using the mega-hamburer button, switch to the Chaos Engineering pane.
+   ![Chaos](../../../img/chaos1.png)
+
+### Application Discovery
+
+1. On the left-side blue menu, choose _project settings_, scroll to Project-level resources, then the _Discovery_ tile.
+   ![Chaos Discovery](../../../img/chaos2.png)
+1. On the DA-k8s line, on the far right, click the hamburger button, then _Discover Now_.
+   ![Chaos Discovery](../../../img/chaos3.png)
+1. Click on _DA-k8s_, then _Application Maps_, then _+create new application map_.
+   ![Chaos Discovery](../../../img/chaos4.png)
+1. Name it similar to `landingpage` and then select all services, then _save_ in the top right.
+
+### Setup automatic chaos experiments
+
+1. In the blue left menu, click _Application Maps_, then click on your new application.
+1. Select _Chaos Experiments_ at the top, then the _Only a few_ tile.
+1. Review the experiement selected and then click _run_ in the top right corner.
