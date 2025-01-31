@@ -8,13 +8,13 @@ title: Harness FME Application
 
 This is an application showing screens for many users at once. The goal was to provide a real-world example making it easy to understand Harness Feature Management and Experimentation (FME) progressive feature release and dynamic configuration.
 
-The scenario is that we work for GlobalCorp. Our job is to implement the new **OmniView** feature. It allows our users to see all of their content in a single screen. But we're worried a bout the performance imnpact (even though the development team ensures us it will work fine). Using Harness FME, we'll use a progressive rollout for this feature and monitor it.
+The scenario: We work for GlobalCorp. Our job is to implement the new **OmniView** feature. It allows our users to see all of their content in a single screen. There are performance concerns- although in isolated test environments everything was OK. With Harness FME, we'll be able to progressively rollout the feature, monitor it, and rollback immediately if any issues arise.
 
 Also, the content management team at GlobalCorp isn't technical, but keeps requesting code changes to modify the Contact Us page. Using dynamic configuration, we'll allow that team to handle the wording and images without code changes.
 
 # Setup
 
-First, we'll configure Harness FME to use our application, and the run the application with SDK key connecting to Harness.
+First, we'll configure Harness FME to use our application, and then launch the application with streaming updates from Harness.
 
 ## Harness FME
 
