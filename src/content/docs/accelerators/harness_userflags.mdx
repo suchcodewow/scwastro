@@ -47,10 +47,10 @@ These steps configure FME for a new project with 2 attributes. The attributes ar
 1. Name it `Preview`, give it a description (optional) and choose Type: Boolean. Click _Save_
 
    :::caution
-   Make sure use the exact name and case of the attributes- the application is looking for flags that match!
+   Make sure the name and case of the attributes match what is shown here!
    :::
 
-1. Click _Actions_, _Create_ again. Name the second attribute Region, choose Type: String, and add these suggested values:
+1. Click _Actions_, _Create_ again. Name the second attribute _Region_, choose Type: _String_, and add these suggested values:
    ```bash
    GB, US, CA, DK, FR
    ```
@@ -58,17 +58,17 @@ These steps configure FME for a new project with 2 attributes. The attributes ar
 
    ### Add feature flags
 
-1. On the left blue bar, click _project_, then your project (i.e. _GlobalCorp_), then _feature flags_.
+1. On the left blue bar, click _project_, then click your project (i.e. _GlobalCorp_), then _feature flags_.
 1. On the inset menu, click _Create feature flag_. Name it `OmniView`. Open the _treatments_ accordian on the right and confirm the options are simply 'on' and 'off'.
-1. Click _create feature flag_ again on the inset menu and name it `Contact_Us`. (again, name and case is important!)
-1. Ensure _Production Environment_ is selected, open the Treatments accordian, and update the Treatments section as follows:
+1. Click _Create feature flag_ again on the inset menu and name it `Contact_Us`. (again, name and case is important!)
+1. Ensure _Production Environment_ is selected, open the Treatments accordian, and update the Treatments section as shown. Click _+ Add new treatment_ for the third option.
 
-   | Name                      | Description       |
-   | ------------------------- | ----------------- |
-   | direct                    | direct callout    |
-   | indirect                  | indirect callout  |
-   | friendly                  | friendly approach |
-   | default treatment (below) | direct            |
+   | Color | Name                      | Description       |
+   | ----- | ------------------------- | ----------------- |
+   | blue  | direct                    | direct callout    |
+   | red   | indirect                  | indirect callout  |
+   | green | friendly                  | friendly approach |
+   | n/a   | default treatment (below) | direct            |
 
    ![treatments](../../../img/userflags5.png)
 
@@ -96,8 +96,11 @@ These steps configure FME for a new project with 2 attributes. The attributes ar
    ```
 
    ![configuration](../../../img/userflags6.png)
+   :::tip
+   You can also enter the key/value pairs directly. Copying the json in this case ensures spelling and case are accurate for the keys.
+   :::
 
-1. Finally, in the Targeting section, switch the targeting rules to _Distribute treatments as follows_ and split the methods evenly (33,33,34).
+1. Finally, in the Targeting section, switch the targeting rules to _Distribute treatments as follows_ and split the methods evenly (33 33 34).
 
    ## Application
 
@@ -128,7 +131,7 @@ These steps configure FME for a new project with 2 attributes. The attributes ar
    docker compose up -d
    ```
 
-1. Open a browser and point it to `http://localhost`. (Or http://localhost:YourCustomPort)
+1. Open a browser and point it to http://localhost. (Or http://localhost: yourport)
 
    ### Option 2: Build locally
 
@@ -159,9 +162,11 @@ These steps configure FME for a new project with 2 attributes. The attributes ar
 
    You can use multiple target types for the new OmniView feature- and the content management team can dynamically adjust wording/images.
 
-1. At the start, your application should like this:
+   At the start, your application should like this:
    ![app](../../../img/userflags_app.png)
+
    ## User target
+
 1. In Harness FME, ensure your project is selected, click _Feature flags_, _production environment_ on the inset tab, and then open the _Targeting_ accordian.
 1. Click _+ Add new individual target_, type in `RHart` (spelling and case matter), click _+ Add_, and then _Review Changes_ blue button at the top.
 1. Click _Save_ on the pop-up. The application will immediately reflect that RHart has access to OmniView!
