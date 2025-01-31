@@ -7,6 +7,7 @@ title: Harness FME Application
 # Overview
 
 The application shows the navigation bar of many users at once. Each title bar is an independent user with name, settings, and geographic location.
+![rhart](../../../img/userflags_rhart.png)
 
 ## The goal
 
@@ -170,7 +171,7 @@ These steps configure FME for a new project with 2 attributes. The attributes ar
 1. In Harness FME, ensure your project is selected, click _Feature flags_, _production environment_ on the inset tab, and then open the _Targeting_ accordian.
 1. Click _+ Add new individual target_, type in `RHart` (spelling and case matter), click _+ Add_, and then _Review Changes_ blue button at the top.
 1. Click _Save_ on the pop-up. The application will immediately reflect that RHart has access to OmniView!
-   ![rhart](../../../img/userflags_rhart.png)
+   ![rhart](../../../img/userflags_rhart1.png)
 
    :::caution
    There is a hard-coded 60 second delay between application startup and feature flag streaming turning "on". This is to reduce noise from extremely ephemeral applications and services starting during builds/testing. It's best to start the application at least a minute before demoing instant changes in feature flags.
@@ -191,7 +192,7 @@ These steps configure FME for a new project with 2 attributes. The attributes ar
    Fortunately, the team has prepared additional images and with Dynamic configuration, the content management team can immediately address this.
    ![drowning](../../../img/userflags_drowning.png)
 
-1. Click "Contact Us" on any user's title bar to zoom into the Contact Page for all users. You still have the context of whether they have OmniView or not- but the text and image of the Contact Us page can be modified.
+1. Click "Contact Us" on any user's title bar to zoom into the Contact Page for all users. You still have the context of whether they have OmniView or not- and while it doesn't show as many users, the content of the Contact Us page is visible.
 1. Click _feature flags_ in the left blue menu, select the _Contact_Us_ flag, and ensure _production environment_ on the inset menu is selected.
 1. Open the treatments accordian and scroll down to dynamic configuration. Change the Format to _Key-value pairs_.
    ![dynamic](../../../img/userflags_dynamic.png)
