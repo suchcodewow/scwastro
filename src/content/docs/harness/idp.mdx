@@ -1,0 +1,104 @@
+---
+sidebar:
+  order: 11
+title: "LAB J - Internal Dev Portal"
+prev: false
+---
+
+# Goal
+
+Implement Harness Internal Developer Portal with services and scorecards.
+
+# Scenario
+
+We work for Globalcorp in a variety of teams responsible for the services that compromise our main customer facing application. We're using Harness IDP:
+
+- organize our services
+- make it easy for existing team members to understand the architecture and enable quick spin-up for new team members
+- quickly showcase teams that are doing well, and for teams that are not- how they can quickly get into a good state
+
+# Lab Guide
+
+1.  Log into workshop.harness.io with the provided credential.
+
+        ## Import Repository and configure service definition
+
+1.  In the top left corner of Harness, click the mega hamburger button.
+1.  Select Code Repository from the list.
+1.  Ensure _repositories_ is selected in the left blue bar.
+1.  Next to _+ New Respository_ click the dropdown arrow and select _Import Repository_.
+1.  Based on the # in your attendee username, enter details as shown below:
+    | ID| Organization|Repository|Name|
+    |----|----|----|----|
+    |1|suchcodewow|globalcorp-ui|globalcorp-ui|
+    |2|suchcodewow|globalcorp-catalogapi|globalcorp-catalogapi|
+    |3|suchcodewow|globalcorp-quotesapi|globalcorp-quotesapi|
+    |4|suchcodewow|globalcorp-ordersapi|globalcorp-ordersapi|
+    |5|suchcodewow|globalcorp-mainapi|globalcorp-mainapi|
+    |6|suchcodewow|globalcorp-specialtyapi|globalcorp-specialtyapi|
+
+1.  Select your repo (once imported), and then the _idp_ folder, then _catalog-info.yaml_.
+1.  Click the _Edit_ button on the right side just above the file contents.
+1.  Update the top section of the yaml where `displayName:` is shown. Change it to your name and team (exact name doesn't matter).
+
+    :::note
+    Note your team name (not display name)- this will identify your group later in scorecards. Generally, the groups and names come from your existing organizational structure. We're just creating one today for purposes of the session.
+    :::
+
+1.  Click _Commit changes_ in the top right, then _commit_.
+1.  Copy the URL at the top to clipboard.
+
+        ## Add your service to Harness IDP
+
+1.  (Optional) Duplicate your tab in case you want to review this file later.
+1.  In the top left corner of Harness, click the mega hamburger button and select _Internal Developer Portal_.
+1.  In the left blue bar, select _Register_.
+1.  Paste the URL copied before, click _Analyze_, and import. That's it!
+1.  You can click the new component to jump right to the catalog.
+1.  In the left blue bar, click _Catalog_, ensure _All_ is selected under My Company, and then use the Tags filter to pick _globalcorp_.
+1.  You can select your service or see other services of your peer teams to quickly orient yourself on your larger group.
+
+    ## Build Scorecard
+
+1.  In the left blue bar, click _configure_, _Scorecards_, then _Create New Scorecard_ in the top right corner.
+1.  Based on the # in your attendee username, enter details as shown below:
+    | ID| Name |Kind|Type|Owners|Tags|
+    |----|----|----|----|----|----|
+    |1|ui|Component|service|uiowner|globalcorp|
+    |2|catalogapi|Component|service|catalogapiowner|globalcorp|
+    |3|quotesapi|Component|service|quotesapiowner|globalcorp|
+    |4|ordersapi|Component|service|ordersapiowner|globalcorp|
+    |5|mainapi|Component|service|mainapiowner|globalcorp|
+    |6|specialtyapi|Component|service|specialtyapiowner|globalcorp|
+1.  Click _+ Add Checks_ on the right side.
+1.  Select the following checks:
+
+- Features delivered in last 90 days is more than 5
+- Replicas count greater than 1
+- Spec owner exists
+
+1. select the _Custom Checks_ tab at the top and select:
+
+- No critical vulnerabilities detected
+
+1.  Click _Publish Scorecard_ at the bottom (you might need to scroll down a bit).
+
+        ## Review Scorecard
+
+1.  In the left blue bar, click _Back to Main Menu_, then click on your service. (You can Filter in the top right to quickly find it).
+    :::note
+    In a real world environment, based on the groups you are assigned you'd just use the "Owned" area to always zoom to your services. Being a workshop, we're leaving things open so you see things as the system administrator would.
+    :::
+1.  Your scorecard will automatically populate in the catalog. Click on it for details.
+1.  Hopefully everybody sees one scorecard. If not, it's likely there was a tiny whoopsy in configuration to fix.
+1.  Hopefully everybody also sees a perfect score. Congratulations everyone that is doing well.
+1.  If you aren't doing so well, it's OK. You'll see that you are failing policy evaluations. Click on CI/CD and then the most recent pipeline execution for details.
+
+        ## Change weights
+
+1.  In the left blue var, click _configure_, _Scorecards_, then _Edit_ for your scorecard.
+1.  In the Checks section, switch _on_ Adjust Weights.
+1.  Change the value of `no critical vulnerabilities detected` to ~5~ instead of 1, then click _Update Scorecard_.
+1.  In the left blue bar, click _Back to Main Menu_, then click on your service. (You can Filter in the top right to quickly find it).
+
+        ##
