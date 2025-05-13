@@ -1,7 +1,7 @@
 ---
 sidebar:
   order: 2
-title: CI Stage
+title: Java CI Stage
 ---
 
 ### Platform Concept: Application Integrations
@@ -15,18 +15,26 @@ title: CI Stage
 1. In the left nav, click _Project Settings_, then _Connectors_.
 1. Click _+New Connector_, (optional) search at the top for _servicenow_, and click the _ServiceNow_ icon.
 1. Follow the table to configure:
-   | Field | Value |
-   | ----- | ----------------------- |
-   | Name | `Globalcorp Servicenow` |
-   |![Project Select](/images/continue.png)||
-   |ServiceNow URL| `https://ven03172.service-now.com`|
-   | username| `demo-admin`|
-   |Password/API Key|click _Create or Select a Secret_|
-   ||At top, click _Organization_|
-   ||click _servicenowtoken_|
-   ||![Project Select](/images/apply_selected.png)|
-   |![Project Select](/images/continue.png)||
-   |![Project Select](/images/save_and_continue.png)|
+   ##### Name
+   ```
+   Globalcorp Servicenow
+   ```
+   ![Project Select](/images/continue.png)
+   ##### ServiceNow URL
+   ```
+   https://ven03172.service-now.com
+   ```
+   ##### username
+   ```
+   demo-admin
+   ```
+   ##### Password/API Key
+   click _Create or Select a Secret_
+   At top, click _Organization_
+   click _servicenowtoken_|
+   ![Project Select](/images/apply_selected.png)|
+   ![Project Select](/images/continue.png)||
+   ![Project Select](/images/save_and_continue.png)|
 
 #### C) Create Template
 
@@ -114,7 +122,7 @@ Click _Select_, then _GlobalCorpGCP_.
 ###### Host
 
 ```
-<+variable.org.gcpregion>-docker-pkg.dev
+<+variable.org.gcpregion>-docker.pkg.dev
 ```
 
 ###### Project ID

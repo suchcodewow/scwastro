@@ -1,7 +1,7 @@
 ---
 sidebar:
   order: 3
-title: CD Stage
+title: Kubernetes CD Stage
 ---
 
 ### Platform Concept: Platform Integrations
@@ -120,4 +120,70 @@ title: CD Stage
 1. For _Select Service_,, then _catalogapi_
    ![Project Select](/images/apply_selected.png)
    ![Project Select](/images/continue.png)
-1. For _Specify Environment_
+1. For _Specify Environment_, click box then _nonprod_.
+   ![Project Select](/images/apply_selected.png)
+1. For _Infrastructure_, click box, then your kubernetes infrastructure.
+   ![Project Select](/images/continue.png)
+1. For Execution straegies, click _Canary_
+   ![Project Select](/images/use_strategy.png)
+   ![Project Select](/images/save.png)
+1. (Optional) Click _+Add Step+, then \_Add Template_, then pick _utility-getservices_. Name it `get services` and _save_.
+1. Click _Run_, then _Run Pipeline_.
+1. When complete, switch to google cloud, find service kubernetes engine, and review your deployed services.
+   1 (Optional) On the pipeline execution, click the get services step. Put the public IP address into your browser and add `:8080`. You'll see a valid 200 response from your new service.
+
+#### C) Revenge of the Servicenow Template! OOOoOO!
+
+1. (Optional) In Harness, click the _Ticketing_ stage, then _Create Ticket_.
+1. (Optional) Find the _ticketNumber_ line, and hover to get a copy button- then click.
+   ![Project Select](/images/ticketnumber.png)
+1. Click on `Edit Pipeline` in the top right corner.
+1. Select the 'nonprod kubernetes' stage.
+1. Hover your cursor right between the canary stages and click the _+_ sign that appears.
+1. Click _Add Step_, then select _ServiceNow Approval_.
+1. Follow the table to configure:
+
+   ##### Name
+
+   ```
+   ServiceNow Approval
+   ```
+
+   ##### ServiceNow Connector
+
+   ```
+   Global Servicenow Connector (in your project)
+   ```
+
+   ![Project Select](/images/apply_selected.png)
+
+   ##### Ticket Type
+
+   ```
+   Change Request
+   ```
+
+   ##### Ticket Number
+
+   ```
+   <+pipeline.stages.Ticketing.spec.execution.steps.Create_Ticket.ticket.ticketNumber>
+   ```
+
+   ##### Retry interval
+
+   ```
+   10s
+   ```
+
+   ##### Approval Criteria
+
+   Field `State`, Operator `=`, Value `Implement`
+   ![Project Select](/images/apply_changes.png)
+
+   ![Project Select](/images/save.png)
+
+1. Click on the `Servicenow Approval` step, then click `Save as Template` top right.
+1. Name the template `Servicenow Approval`, give it a version of `1`
+   ![Project Select](/images/save.png)
+1. Click `Yes` when asked to use the template. Click `Apply Changes` top right.
+   ![Project Select](/images/save.png)
