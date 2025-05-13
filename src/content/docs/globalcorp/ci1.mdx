@@ -1,0 +1,150 @@
+---
+sidebar:
+  order: 2
+title: CI Stage
+---
+
+### Platform Concept: Application Integrations
+
+- As the platform team, we'll build an enterprise-grade, scalable template for Servicenow.
+- Our template will have steps for creation, approval, and stage update.
+
+#### B) Create Connector
+
+1. In the left nav scope selector, click _projects_ then your _project_.
+1. In the left nav, click _Project Settings_, then _Connectors_.
+1. Click _+New Connector_, (optional) search at the top for _servicenow_, and click the _ServiceNow_ icon.
+1. Follow the table to configure:
+   | Field | Value |
+   | ----- | ----------------------- |
+   | Name | `Globalcorp Servicenow` |
+   |![Project Select](/images/continue.png)||
+   |ServiceNow URL| `https://ven03172.service-now.com`|
+   | username| `demo-admin`|
+   |Password/API Key|click _Create or Select a Secret_|
+   ||At top, click _Organization_|
+   ||click _servicenowtoken_|
+   ||![Project Select](/images/apply_selected.png)|
+   |![Project Select](/images/continue.png)||
+   |![Project Select](/images/save_and_continue.png)|
+
+#### C) Create Template
+
+1. In the left nav, click _Pipelines_, then _+Create a Pipeline_.
+1. Name it `Fastlane-Java`, then click _Start_.
+1. Click _+_ sign above _Add Stage_, click _Custom Stage_, Name it `Ticketing`, then click `Set Up Stage`.
+1. In the bottom half, click _+_ above _Add Step_, then click _Add Step_.
+1. Scroll to _ServiceNow_, and click _ServiceNow Create_.
+1. Follow the table to configure:
+
+   ###### Name
+
+   ```
+   Create Ticket
+   ```
+
+   ###### ServiceNow Connector
+
+   `Your new Servicenow Connector`
+
+   ###### Ticket Type
+
+   `Change Request`
+
+   ###### Description
+
+   ```
+   New ticket tracking pipeline: <+pipeline.sequenceId>
+   ```
+
+   ###### Short Description
+
+   ```
+   Initiated by: <+pipeline.triggeredBy.email>
+   ```
+
+1. (optional) Click _+Fields+_ to review. Harness loads all fields from your instance.
+1. Click _Apply Changes_, then _save_ in the top right.
+1. In the middle-right of screen, click _Save as Template_.
+1. Follow the table to configure:
+
+   ###### Name
+
+   ```
+   Ticketing
+   ```
+
+   ###### Version Label
+
+   `1`
+
+1. Click _Yes_ when asked to Use Template Ticketing.
+
+### Platform Concept: Golden Templates
+
+- We just built a stage template with infinite reusability and central upkeep.
+- Next, we'll setup a single pipeline to deliver any number of java applications.
+
+#### D) CI Fastlane for Java
+
+1. In the top-half, click _+_ above _Add Stage_, then click _Build_.
+1. Name the stage `Java Build`, then click _Third-party Git provider_, _Connector_, _GlobalcorpGithub_.
+1. For _Repository Name_, use the following:
+
+   ```
+   catalogapi-norefs
+   ```
+
+1. In the middle Infrastructure tab, click _Cloud_, review the Platform options, then click _Continue >_.
+1. In the bottom half, click _Add Step_, click _GitLeaks_, then _Apply Changes_.
+1. Click _Add Step_, click _Owasp_, then _Apply Changes_.
+1. Click _Add Step_, click _Build and Push to GAR_.
+1. Follow the table to configure:
+
+###### Name
+
+```
+Build and Push to GAR
+```
+
+###### GCP Connector
+
+Click _Select_, then _GlobalCorpGCP_.
+
+###### Host
+
+```
+<+variable.org.gcpregion>-docker-pkg.dev
+```
+
+###### Project ID
+
+```
+<+variable.org.gcpproject>
+```
+
+###### Image Name
+
+```
+globalcorp/catalogapi
+```
+
+###### Tags
+
+(Click _+Add_)
+
+```
+<+<+pipeline.triggeredBy.email>.split("@")[0]>
+```
+
+##### Enable Docker layer caching
+
+(Enable)
+
+1. Click _Apply Changes_, then _Save_.
+1. Click _Run_ in the top right corner, then _Run Pipeline_.
+
+### Confirm Success
+
+1. When complete, switch to google cloud tab and navigate to Artifact Registry.
+1. In the globalcorp respository, confirm a catalogapi artifact exists with your name.

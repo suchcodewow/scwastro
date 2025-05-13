@@ -1,6 +1,6 @@
-import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import vercelStatic from "@astrojs/vercel/static";
+import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
@@ -53,6 +53,12 @@ export default defineConfig({
           label: "Full Stack Front-to-Back",
           autogenerate: {
             directory: "fronttoback",
+          },
+        },
+        {
+          label: "Harness: Globalcorp",
+          autogenerate: {
+            directory: "globalcorp",
           },
         },
       ],

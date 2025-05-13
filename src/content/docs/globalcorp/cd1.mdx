@@ -1,0 +1,123 @@
+---
+sidebar:
+  order: 3
+title: CD Stage
+---
+
+### Platform Concept: Platform Integrations
+
+- With an artifact ready to go, we'll build a deployment pipeline leveraging Harness First-Class cloud platform integrations.
+
+#### A) Create a service definition
+
+1.  In the left nav, click _Project Settings_, then _services_, then \_+new service+.
+1.  Follow the table to configure:
+
+    ##### Name
+
+    ```
+    catalogapi
+    ```
+
+    ##### Service definition
+
+    _Kubernetes_
+
+    ##### Manifests
+
+    1. Click _+Add Manifest_
+    1. Click _K8s Manifest_
+       ![Project Select](/images/continue.png)
+    1. Click _Harness_
+       ![Project Select](/images/continue.png)
+
+    ##### Manifest Identifier
+
+    ```
+    catalogapi_kubernetes
+    ```
+
+    ##### File/Folder Path
+
+    1. Click _Select_
+    1. Click _Organization_ (at top)
+    1. Click _manifest.yaml_
+       ![Project Select](/images/apply_selected.png)
+
+    ##### Values.yaml
+
+    1. Click _Select_
+    1. Click _Organization_ (at top)
+    1. Click _values.yaml_
+       ![Project Select](/images/submit.png)
+
+    ##### Artifacts
+
+    1. Click _Add Artifact Source_
+    1. Click \_Google Artifact Registry
+       ![Project Select](/images/continue.png)
+
+    ##### GCP Connector
+
+    1. Click _Select GCP Connector_
+    1. Click _GlobalCorpGCP_
+       ![Project Select](/images/apply_selected.png)
+
+    ![Project Select](/images/continue.png)
+
+    ##### Artifact Source Identifier
+
+    ```
+    catalogapi
+    ```
+
+    ##### Project ID
+
+    ```
+    <+variable.org.gcpproject>
+    ```
+
+    ##### Region
+
+    ```
+    <+variable.org.gcpregion>
+    ```
+
+    ##### Repository Name
+
+    ```
+    globalcorp
+    ```
+
+    ##### Package
+
+    ```
+    catalogapi
+    ```
+
+    ##### Version Details
+
+    (Change type with tiny box at end of field to _Expression_)
+
+    ```
+    <+project.name>
+    ```
+
+1.  Click Save! (top right) Pheeeeewwww!
+
+#### B) Build CD Stage
+
+1. In the left nav, click Pipelines, then _+Create a Pipeline_.
+1. Name the pipeline `Fastlane-Kubernetes`
+   ![Project Select](/images/start.png)
+1. Click _+_ above _Add Stage_, then _Use template_.
+1. Select the Ticketing template
+   ![Project Select](/images/use_template.png)
+1. Name the stage `Ticketing`
+   ![Project Select](/images/set_up_stage.png)
+1. Click _+_ above _Add Stage_, then click _Deploy_.
+1. For Stage Name, enter `nonprod Kubernetes`, then click _Kubernetes_ deployment type below.
+1. For _Select Service_,, then _catalogapi_
+   ![Project Select](/images/apply_selected.png)
+   ![Project Select](/images/continue.png)
+1. For _Specify Environment_
