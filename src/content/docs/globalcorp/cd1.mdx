@@ -6,7 +6,7 @@ title: Kubernetes CD Stage
 
 ### Platform Concept: Platform Integrations
 
-- With an artifact ready to go, we'll build a deployment pipeline leveraging Harness First-Class cloud platform integrations.
+- With an artifact ready to go, we'll build a deployment pipeline leveraging Harness scriptless cloud platform integrations.
 
 #### A) Create a service definition
 
@@ -18,6 +18,8 @@ title: Kubernetes CD Stage
     ```
     catalogapi
     ```
+
+    ![Project Select](/images/save.png)
 
     ##### Service definition
 
@@ -54,7 +56,7 @@ title: Kubernetes CD Stage
     ##### Artifacts
 
     1. Click _Add Artifact Source_
-    1. Click \_Google Artifact Registry
+    1. Click _Google Artifact Registry_
        ![Project Select](/images/continue.png)
 
     ##### GCP Connector
@@ -107,7 +109,7 @@ title: Kubernetes CD Stage
 
 #### B) Build CD Stage
 
-1. In the left nav, click Pipelines, then _+Create a Pipeline_.
+1. In the left nav, click Pipelines, then _+Create a Pipeline_. (Remember to mouse wheel/scroll up if needed)
 1. Name the pipeline `Fastlane-Kubernetes Deploy`
    ![Project Select](/images/start.png)
 1. Click _+_ above _Add Stage_, then _Use template_.
@@ -117,10 +119,10 @@ title: Kubernetes CD Stage
    ![Project Select](/images/set_up_stage.png)
 1. Click _+_ above _Add Stage_, then click _Deploy_.
 1. For Stage Name, enter `nonprod Kubernetes`, then click _Kubernetes_ deployment type below.
-1. For _Select Service_,, then _catalogapi_
+1. Click _Select Service_, then _catalogapi_
    ![Project Select](/images/apply_selected.png)
    ![Project Select](/images/continue.png)
-1. For _Specify Environment_, click box then _nonprod_.
+1. For _Specify Environment_, click box, then _organization_ then _nonprod_.
    ![Project Select](/images/apply_selected.png)
 1. For _Infrastructure_, click box, then your kubernetes infrastructure.
    ![Project Select](/images/continue.png)
@@ -130,7 +132,7 @@ title: Kubernetes CD Stage
 1. (Optional) Click _+Add Step+, then \_Add Template_, then pick _utility-getservices_. Name it `get services` and _save_.
 1. Click _Run_, then _Run Pipeline_.
 1. When complete, switch to google cloud, find service kubernetes engine, and review your deployed services.
-   1 (Optional) On the pipeline execution, click the get services step. Put the public IP address into your browser and add `:8080`. You'll see a valid 200 response from your new service.
+1. (Optional) On the pipeline execution, click the get services step. Put the public IP address into your browser and add `:8080`. You'll see a valid 200 response from your new service!
 
 #### C) Revenge of the Servicenow Template! OOOoOO!
 
@@ -140,6 +142,7 @@ title: Kubernetes CD Stage
 1. Click on `Edit Pipeline` in the top right corner.
 1. Select the 'nonprod kubernetes' stage.
 1. Hover your cursor right between the canary stages and click the _+_ sign that appears.
+   ![Project Select](/images/hover.png)
 1. Click _Add Step_, then select _ServiceNow Approval_.
 1. Follow the table to configure:
 
@@ -187,3 +190,5 @@ title: Kubernetes CD Stage
    ![Project Select](/images/save.png)
 1. Click `Yes` when asked to use the template. Click `Apply Changes` top right.
    ![Project Select](/images/save.png)
+1. Click _Run_ and _Run Pipeline_. When it pauses for Servicenow Approval, switch to your google cloud tab to see your canary release.
+1. Back in Harness, click on the change to follow the Servicenow link. Move the change to _review_ and confirm Harness finishes the deployment only when approved.
