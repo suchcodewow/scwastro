@@ -1,0 +1,23 @@
+---
+sidebar:
+  order: 5
+title: Python CD Stage
+---
+
+### Platform Concepts: Platform Integrations as part of a full template
+
+- We've implented several pipelines/types very quickly!
+- But with a full deployment-stage-as-template, it's easy to connect any build (Java, Python, etc) and deliver it into your cloud and service of choice.
+
+#### A) Cloud Run stage from template
+
+1. In your _Fastlane-Python_ pipeline, at the top, click _+_ above _Add Stage_.
+1. Click _Use template_, select the _Deploy to Google Cloud Run_ template.
+   ![Project Select](/images/use_template.png)
+1. Name it _Deploy Prod Cloud Run_
+   ![Project Select](/images/set_up_stage.png)
+1. Click Save.
+1. (Optional) Click the 3 dots in the blue bar of template and click _Open template in new tab_.
+   ![Project Select](/images/template.png)
+1. Click _Run_.
+1. (Optional) Take a moment to review the template to see what's happening in this process.

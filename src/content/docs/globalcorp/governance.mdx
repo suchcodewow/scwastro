@@ -1,0 +1,28 @@
+---
+sidebar:
+  order: 6
+title: Governance
+---
+
+### Platform Concepts: Governance and security
+
+- With Harness, governance is built into the platform from the ground up and centrally managed.
+- Policies define what the guardrails should be and the Harness open policy agent enforces all of the rules, all of the time.
+- When teams adhere to policies, governance is still tracked- but invisible.
+
+#### A) Enable policy
+
+1. On the left nav, click \_Organization settings.
+1. Click _Policies_, then _Policy Sets_ in the top right corner.
+1. **One person, acting as the security team**, enables the security policy.
+
+#### B) Policy is enforced, Duh...duh.... DUUUUH!
+
+1. In the left nav, click on the scope selector top left.
+1. Select your project, and click _Pipelines_ if necessary in the left nav.
+1. Click on the "Fastlane-Java" pipeline.
+1. Click on _Java Build_, then on the _Execution_ tab in the middle.
+1. As nefariously as possible (this is important)- hover over the Owasp security step until you see the blue X and click to delete.
+   ![Project Select](/images/nefarious.png)
+1. Click _save_ in the top right corner. Review the policy enforcement notice.
+1. Click _Discard_ in the top right corner to restore your pipeline to all necessary steps.
