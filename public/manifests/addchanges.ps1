@@ -62,7 +62,6 @@ function Add-Checks {
         if (Test-Path($changePath)) {
             $change.ValidPath = $true
             $change.ChangeSize = [Math]::Round((get-childitem -path $changePath | Measure-Object -Property Length -Sum | Select-Object -expandproperty Sum))
-
         }
         $rollbackPath = $scriptsPath + "/" + $change.AuthorID + "/" + $rollbackFolder + "/" + $rollbackPreface + $change.ChangeID + $change.FileType
         if (Test-Path($rollbackPath)) { 
