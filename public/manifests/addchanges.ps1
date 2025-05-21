@@ -103,7 +103,6 @@ function Invoke-Changes {
             write-host "[-] skipping $($proposedChange.AuthorID) $($proposedChange.ChangeID): Maximum changeset of $changeLimit reached."
             continue
         }
-        # Check if there is room for rollback
         Add-Content -Path $changesetPath -Value "  - changeSet:"
         Add-Content -Path $changesetPath -Value "      id: $($proposedChange.changeID)"
         Add-Content -Path $changesetPath -Value "      author: $($proposedChange.AuthorID)"
