@@ -76,6 +76,7 @@ function Add-Checks {
 function Invoke-Changes {
     $checkedChangeList = Add-Checks
     $changeSetSize = 0
+    $rollbackSetSize = 0
     $changeCounter = 1
     foreach ($proposedChange in $checkedChangeList) {
         # Check if rollback path is valid
@@ -90,10 +91,19 @@ function Invoke-Changes {
             write-host "[-] skipping $($proposedChange.AuthorID) $($proposedChange.ChangeID): $([math]::Round($changeinKB,2))KB is larger than remaining limit of $($remainingLimit)KB"
             continue
         }
+        # Check if there is room for rollback
+        $rollbackinKB = $proposedChange.RollbackSize / 1024
+        $remainingRollbackLimit = [math]::Round($kblimit - $rollbackSetSize)
+        if ($rollbackinKB -gt $remainingRollbackLimit) {
+            write-host "[-] skipping $($proposedChange.AuthorID) $($proposedChange.ChangeID): $([math]::Round($rollbackinKB,2))KB is larger than remaining rollback limit of $($remainingRollbackLimit)KB"
+            continue
+        }
+        # Check change count size
         if ($changeCounter -gt $changeLimit) {
             write-host "[-] skipping $($proposedChange.AuthorID) $($proposedChange.ChangeID): Maximum changeset of $changeLimit reached."
             continue
         }
+        # Check if there is room for rollback
         Add-Content -Path $changesetPath -Value "  - changeSet:"
         Add-Content -Path $changesetPath -Value "      id: $($proposedChange.changeID)"
         Add-Content -Path $changesetPath -Value "      author: $($proposedChange.AuthorID)"
@@ -107,10 +117,12 @@ function Invoke-Changes {
             Add-Content -Path $changesetPath -Value "            path: $scriptsPath/$($proposedChange.AuthorID)/$rollbackFolder/$rollbackPreface$($proposedChange.ChangeID)$($proposedChange.FileType)"
             Add-Content -Path $changesetPath -Value "            endDelimiter: \nGO"
         }                                     
-        write-host "[.] Change #$changeCounter $($proposedChange.AuthorID) $($proposedChange.ChangeID) added. Total changeset size: $([math]::Round($changeSetSize))KB"
+        write-host "[.] Change #$changeCounter $($proposedChange.AuthorID) $($proposedChange.ChangeID) added. Total changeset size: $([math]::Round($changeSetSize))KB & rollback changeset size: $([math]::Round($rollbackSetSize))KB"
         $changeSetSize += $changeinKB
+        $rollbackSetSize += $rollbackinKB
         $changeCounter++
     }
 }
 New-ChangeYaml
 Invoke-Changes
+#Add-Checks
