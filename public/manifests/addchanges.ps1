@@ -1,5 +1,5 @@
 # Locations
-$changesetPath = "changeset.yaml"
+$changesetPath = "changelog.yml"
 $scriptsPath = "48-HourDeploys/scripts" # relative path to changeset i.e. "Deploy/Scripts"
 
 # Repository Preferences
@@ -16,6 +16,8 @@ $validRollbackRequired = $true
 # !!! Do not modify below !!!
 # !!!
 function New-ChangeYaml {
+    $script:basePath = Get-Location
+    write-host "[.] Script is running from: $basePath"
     if (!(Test-Path $changesetPath)) {
         Add-Content $changesetPath -Value "databaseChangeLog:"
         write-host [.] Created new file: $changesetPath
@@ -37,7 +39,8 @@ function Get-RepoChanges {
     $AllItems = Get-ChildItem -Path $scriptsPath -Depth 1 -include $allowedFileTypes | Sort-Object -property CreationTime | select-object -Property @{Label = "AuthorID";Expression = { $_.FullName } }, @{Label = "ChangeID";Expression = { $_.Basename } }, @{Label = "FileType";Expression = { $_.Extension } }, @{Label = "ValidPath"; Expression = { $false } }, @{Label = "ChangeSize"; Expression = { [int]0 } },@{Label = "ValidRollbackPath"; Expression = { $false } },  @{Label = "RollbackSize"; Expression = { [int]0 } }
     # Possibly saucier way to get 1 subfolder up but for now...
     $Allitems | ForEach-Object {
-        $_.AuthorID = $_.AuthorID.split("/")[-2]
+        $slashFix = $_.AuthorID.replace("\","/")
+        $_.AuthorID = $slashFix.split("/")[-2]
     }
     write-host "[.] Found $($Allitems.count) changes in the $scriptsPath repository."
     return $Allitems
@@ -55,13 +58,13 @@ function Add-Checks {
     # Checks new changes for: valid file path, corresponding rollback
     $changeList = New-Changes
     foreach ($change in $changeList) {
-        $changePath = $scriptsPath + "\" + $change.AuthorID + "\" + $change.ChangeID + $change.FileType
+        $changePath = $scriptsPath + "/" + $change.AuthorID + "/" + $change.ChangeID + $change.FileType
         if (Test-Path($changePath)) {
             $change.ValidPath = $true
             $change.ChangeSize = [Math]::Round((get-childitem -path $changePath | Measure-Object -Property Length -Sum | Select-Object -expandproperty Sum))
 
         }
-        $rollbackPath = $scriptsPath + "\" + $change.AuthorID + "\" + $rollbackFolder + "\" + $rollbackPreface + $change.ChangeID + $change.FileType
+        $rollbackPath = $scriptsPath + "/" + $change.AuthorID + "/" + $rollbackFolder + "/" + $rollbackPreface + $change.ChangeID + $change.FileType
         if (Test-Path($rollbackPath)) { 
             $change.ValidRollbackPath = $true 
             $change.RollbackSize = [Math]::Round((get-childitem -path $rollbackPath | Measure-Object -Property Length -Sum | Select-Object -expandproperty Sum))
@@ -77,7 +80,7 @@ function Invoke-Changes {
     foreach ($proposedChange in $checkedChangeList) {
         # Check if rollback path is valid
         if (!$proposedChange.ValidRollbackPath -and $validRollbackRequired) {
-            write-host "[X] $($proposedChange.AuthorID) $($proposedChange.ChangeID) has an invalid rollback."
+            write-host "[X] $($proposedChange.AuthorID) $($proposedChange.ChangeID) rollback script missing: $scriptsPath/$($proposedChange.AuthorID)/$rollbackFolder/$rollbackPreface$($proposedChange.ChangeID)$($proposedChange.FileType)"
             continue
         }
         # Check if there is room in this changeset
