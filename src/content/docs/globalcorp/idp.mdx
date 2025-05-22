@@ -6,18 +6,93 @@ title: IDP
 
 ### A) Create new workflow
 
-1.  In the left nav scope selector, click _projects_ then your _project_.
-    ![Project Select](/images/scope.png)
-1.  In the left nav, click the mega-hamburger button and select Infrastructure as Code Management.
-    ![Project Select](/images/megaiacm.png)
+1. In the left-nav, click the _mega-hamburger_ button, then select _Internal Developer Portal_.
+   ![](/images/megaidp.png)
+1. On the left-nav, click _create_, then _workflow_ on the right side.
+1. Follow the table to configure:
 
-    #### Define template for new workspaces
+   ##### Name
 
-1.  At the top, click _ + Create a Pipeline_, name it `IaCM-VM`
-    ![Project Select](/images/start.png)
-1.  Click the _+_ above _Add Stage_, then _Custom Stage_, name it `Provision Workspace`
-    ![Project Select](/images/setupstage.png)
-1.  Click _+_ above _Add Step_, then _Add Step_, pick _Terraform Plan_.
-1.  Follow the table to configure:
+   ```
+   <your attendee name> Create VM
+   ```
 
-    ##### Name
+   ##### Type
+
+   Select (or type if first time) `workflow`
+
+   ##### Owner
+
+   Select _your id_.
+
+   ##### Description
+
+   ```
+    Automatic workflow to create a virtual machine.
+   ```
+
+1. Scroll down slightly and confirm this workflow will be available to anyone in the account.
+1. Switch to the Yaml view with the button at the top.
+1. Find, select, and delete the content after `spec:` on ~line 8.
+1. Add the follow content right under `spec:`
+
+   ```
+   output:
+    links:
+      - title: Pipeline Details
+        url: ${{ steps.trigger.output.PipelineUrl }}
+   lifecycle: ""
+   parameters:
+    - title: About your VM
+      required:
+        - projectId
+        - vm_type
+        - vm_name
+      properties:
+        projectId:
+          title: Project Identifier
+          description: Harness Project Identifier
+          type: string
+          ui:field: HarnessProjectPicker
+        vm_type:
+          title: Select Machine Type
+          type: string
+          enum:
+            - opensuse-leap-15-6-v20250408-x86-64
+            - ubuntu-minimal-2210-kinetic-amd64-v20230126
+          ui:widget: radio
+        vm_name:
+          title: Virtual Machine Name
+          type: string
+          description: Machine Name (max:12 characters)
+          maxLength: 12
+          pattern: ^([a-zA-Z][a-zA-Z0-9]*)(-[a-zA-Z0-9]+)*$
+        token:
+          title: Harness Token
+          type: string
+          ui:widget: password
+          ui:field: HarnessAuthToken
+   steps:
+    - id: trigger
+      name: Requesting Your New Environment
+      action: trigger:harness-custom-pipeline
+      input:
+        url: <to update>
+        inputset:
+          vm_name: ${{parameters.vm_name}}
+          harness_project: ${{ parameters.projectId }}
+          vm_type: ${{ parameters.vm_type }}
+          requestor_name: ${{ user.entity.metadata.name }}
+        apikey: ${{ parameters.token }}
+   ownedBy:
+    - user:account/admin@harnessevents.io
+
+   ```
+
+1. Switch back to your pipeline, ensure you are in the pipeline editor, and copy the full URL.
+1. Replace the `<to update>` section above the the URL to your pipeline.
+1. Save the template.
+1. In the left nav, click _Workflows_, then click _Execute_ on your workflow.
+1. Click _Project Identifier_ and select your main project (you might have another example or two).
+1. For the machine type, click ubuntu....
+1.
