@@ -1,0 +1,23 @@
+---
+sidebar:
+  order: 8
+title: IDP
+---
+
+### A) Create new workflow
+
+1.  In the left nav scope selector, click _projects_ then your _project_.
+    ![Project Select](/images/scope.png)
+1.  In the left nav, click the mega-hamburger button and select Infrastructure as Code Management.
+    ![Project Select](/images/megaiacm.png)
+
+    #### Define template for new workspaces
+
+1.  At the top, click _ + Create a Pipeline_, name it `IaCM-VM`
+    ![Project Select](/images/start.png)
+1.  Click the _+_ above _Add Stage_, then _Custom Stage_, name it `Provision Workspace`
+    ![Project Select](/images/setupstage.png)
+1.  Click _+_ above _Add Step_, then _Add Step_, pick _Terraform Plan_.
+1.  Follow the table to configure:
+
+    ##### Name

@@ -1,0 +1,304 @@
+---
+sidebar:
+  order: 7
+title: IaCM
+---
+
+### Platform Concept: "... As Code" Anywhere
+
+- The UI is a great option, but throughout Harness, everything is backed with an "as code approach".
+- Teams can easily switch between visual and yaml views.
+
+### Platform Concept: "Standardized Terraform/OpenTofu Harness providers"
+
+- Harness has fully registered terraform providers available that use granular tokens for access.
+- Use terraform/opentofu to build a pipeline. Have that pipeline deploy terraform... that uses terraform/opentofu to build another pipeline. That, uh, could deploy more terraform! Honestly, the fun never ends. But please, recurse responsibly. Think of the children. #PleaseDoNotCreateInfiniteLoopsThatDestroyTheWorldThanks
+
+### A) Create new workspace "as code"
+
+1.  In the left nav scope selector, click _projects_ then your _project_.
+    ![Project Select](/images/scope.png)
+1.  In the left nav, click the mega-hamburger button and select Infrastructure as Code Management.
+    ![Project Select](/images/megaiacm.png)
+
+    #### Create a workspace template
+
+1.  At the top, click _ + Create a Pipeline_, name it `IaCM-VM`
+    ![Project Select](/images/start.png)
+1.  Click the _+_ above _Add Stage_, then _Custom Stage_, name it `Provision Workspace`
+    ![Project Select](/images/setupstage.png)
+1.  Click _+_ above _Add Step_, then _Add Step_, pick _Terraform Plan_.
+1.  Follow the table to configure:
+
+    ##### Name
+
+    ```
+    Workspace-Plan
+    ```
+
+    ##### Command
+
+    Select _Apply_
+
+    ##### Provision Identifier
+
+    ```
+    vmcreate<+pipeline.sequenceId>
+    ```
+
+    ##### Secret Manager
+
+    _Select_ -> _Project_ -> _Harness Built-in Secret Manager_
+
+    ##### Configuration File Repository
+
+    Select _Github_
+
+    ##### GitHub Connector
+
+    _Select_ -> _Account_ -> _GlobalcorpGithub_
+    ![Project Select](/images/applyselected.png)
+    ![Project Select](/images/continue.png)
+
+    ##### Repo Name
+
+    ```
+    globalcorp-iacm
+    ```
+
+    ##### Git Fetch Type
+
+    _Latest from Branch_
+
+    ##### Branch
+
+    ```
+    main
+    ```
+
+    ##### Folder Path
+
+    ```
+    harness/workspace
+    ```
+
+    ![Project Select](/images/submit.png)
+
+    ##### Optional Configuration
+
+    _Click_ to open
+
+    ##### Terraform Var Files (optional)
+
+    select _+Add_ -> _Add Inline_
+
+    ##### Identifier
+
+    ```
+    terraform.tfvars
+    ```
+
+    ##### Content
+
+    ```
+    // Platform
+    account_id = "<+account.identifier>"
+    org_id     = "<+org.identifier>"
+    project_id = "<+project.identifier>"
+    api_key    = "<+secrets.getValue("account.Harness_API_Key")>"
+
+    // Workspace
+    workspace_name                 = "<+pipeline.variables.vm_name>"
+    workspace_provider_connector   = "account.globalcorpgcp"
+    workspace_repository_name      = "globalcorp-iacm"
+    workspace_repository_path      = "harness/gcpvm"
+    workspace_repository_connector = "account.GlobalcorpGithub"
+
+    tf_vars = [
+        {
+            key        = "vm_name"
+            value      = "<+pipeline.variables.vm_name>"
+            value_type = "string"
+        },
+        {
+            key        = "vm_owner"
+            value      = "<+pipeline.variables.requestor_name.replace(".", "_")>"
+            value_type = "string"
+        }
+    ]
+    ```
+
+    ![Project Select](/images/submit.png)
+
+    ##### Export Huna Readable representation of Terraform Plan
+
+    _Click_ to enable
+
+    ##### Store terraform plan on delegate
+
+    _Click_ to enable
+
+    (top right corner)
+    ![Project Select](/images/apply_changes.png)
+
+1.  (top right corner)
+    ![Project Select](/images/save.png)
+
+    #### Configure Variables
+
+1.  On the right sidebar, click _Variables_.
+    ![Project Select](/images/selectvariables.png)
+1.  In the top section, click _+Add Variable_ in the _Custom Variables_ line.
+    ![Project Select](/images/addvariable.png)
+1.  Follow the table to configure:
+
+    ##### Name
+
+    ```
+    vm_name
+    ```
+
+    ##### Value
+
+    Select the _pin_ and change to _Runtime input_
+    ![Project Select](/images/runtime.png)
+
+    ##### Set variable as required during runtime
+
+    _Click_ to enable
+    ![Project Select](/images/savesmall.png)
+
+1.  Click _+Add Variable_ again.
+1.  Follow the table to configure:
+
+    ##### Name
+
+    ```
+    requestor_name
+    ```
+
+    ##### Value
+
+    Select the _pin_ and change to _Runtime input_
+    ![Project Select](/images/runtime.png)
+
+    ##### Set variable as required during runtime
+
+    _Click_ to enable
+    ![Project Select](/images/savesmall.png)
+
+1.  Follow the table to configure:
+
+    ##### Name
+
+    ```
+    vm_type
+    ```
+
+    ##### Value
+
+    Select the _pin_ and change to _Runtime input_
+    ![Project Select](/images/runtime.png)
+
+    ![Project Select](/images/savesmall.png)
+
+1.  (top right corner)
+    ![Project Select](/images/apply_changes.png)
+1.  (top right corner)
+    ![Project Select](/images/save.png)
+
+    #### Add Workspace Apply Step
+
+1.  CLick _Provision Workspace_ stage at the top of screen if not selected.
+1.  Click the _+_ above _Add Step_, then _Add Step_, then select _Terraform Apply_.
+1.  Follow the table to configure:
+
+    ##### Name
+
+    ```
+    Workspace-Apply
+    ```
+
+    ##### Configuration Type
+
+    _Configuration Type_ -> _Inherit From Plan_
+
+    ##### Provisioner Identifier
+
+    ```
+    vmcreate<+pipeline.sequenceId>
+    ```
+
+1.  (top right corner)
+    ![Project Select](/images/apply_changes.png)
+1.  (top right corner)
+    ![Project Select](/images/save.png)
+1.  ![Project Select](/images/run.png)
+1.  In the run Pipeline screen, for _vm_name_ enter your first name or your favorite pet name. (Let's scoot passed using favoriate children names for purposes of keeping this light and fluffy.)
+1.  Confirm that _requstor_name_ has a default value and that _vm_type_ is optional.
+1.  ![Project Select](/images/runpipeline.png)
+1.  Hang tight until the pipeline completes.
+
+    #### Review new workspace
+
+1.  In the left-nav click _Workspaces_.
+1.  Click your new workspace, then _Variables_, then _OpenTofu Variables_. Review what was configured.
+1.  Click _Configuration_. Review the connector, workspace type, and version.
+1.  Scroll to the bottom and click _Delete Workspace_, then enter name of workspace, then _Delete_.
+
+### B) Build VM with IaCM
+
+1. Return to your pipeline, then at the top of screen click _+_ above _Add Stage_.
+
+   #### Leverage built-in Harness Steps
+
+1. Select the _infrastructure_ stage type, and name it `Provision VM`.
+   ![](/images/setupstage.png)
+1. Confirm _Cloud_ is selected as infrastructure.
+   ![](/images/next.png)
+1. Next to the _Workspace_ field, update the little pin to expression.
+   ![](/images/expression.png)
+1. In the _Workspace_ field enter:
+
+   ```
+   <+pipeline.variables.vm_name>
+   ```
+
+   ![](/images/next.png)
+
+1. In the Operations page, click _Provision Terraform_, then click _Use Operation_.
+1. (top right corner)
+   ![](/images/save.png)
+1. Hover your cursor between the _plan_ and _apply_ steps, then click the _+_ that appears, then _Add Step_.
+   ![](/images/planapply.png)
+
+   #### Add automated approval
+
+1. From the IaCM library, click _IACM Approval_, then follow the table to configure:
+
+   ##### Name
+
+   ```
+   VM Approval
+   ```
+
+   ##### Auto approve when the plan does not change
+
+   _Click_ to enable
+
+1. (top right corner)
+   ![](/images/apply_changes.png)
+1. ![](/images/save.png)
+1. ![](/images/run.png)
+1. In the Run Pipeline box, enter a vm_name and your first name as requestor.
+   ![](/images/runpipeline.png)
+1. Watch the pipeline execute, when _Vm Approval_ appears, click, then click _Review_.
+   ![](/images/iacmapproval.png)
+1. Review the proposed changes from the plan, then click _Approve Now_. Or _Reject_. (You MONSTER!)
+
+### C) Check out your new VM
+
+1. In your Google Cloud Platform tab, search for _vm_ at the top and select.
+1. Confirm your new VM is present, then click it.
+1. Scroll down to the disk type and confirm the ubuntu disk is selected (it is the default in the terraform repository if no choice is made).
+1. Scroll to the Network tags section and confirm the VM was tagged with your name.
