@@ -1,13 +1,16 @@
 import starlight from "@astrojs/starlight";
-import vercelStatic from "@astrojs/vercel/static";
 import { defineConfig } from "astro/config";
+
+import vercel from "@astrojs/vercel";
+
+import mdx from "@astrojs/mdx";
 
 // https://astro.build/config
 export default defineConfig({
-  output: "static",
-  adapter: vercelStatic(),
+  output: "server",
   integrations: [
     starlight({
+      prerender: false,
       favicon: "favicon.ico",
       title: "suchcodewow",
       customCss: ["./src/styles.css"],
@@ -61,7 +64,15 @@ export default defineConfig({
             directory: "globalcorp",
           },
         },
+        {
+          label: "Test",
+          autogenerate: {
+            directory: "reference",
+          },
+        },
       ],
     }),
+    mdx(),
   ],
+  adapter: vercel(),
 });

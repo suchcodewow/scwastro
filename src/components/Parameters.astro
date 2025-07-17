@@ -1,0 +1,13 @@
+---
+var org = Astro.cookies.get("org")?.value ?? ""
+const orgurl = Astro.url.searchParams.get("org")
+if (orgurl){
+  org = orgurl
+  Astro.cookies.set("org", orgurl)
+}
+// if (!org) {
+//   var org = ""
+// }
+---
+
+{org}
