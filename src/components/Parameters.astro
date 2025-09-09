@@ -1,13 +1,22 @@
 ---
+var account = Astro.cookies.get("account")?.value ?? ""
+const accounturl = Astro.url.searchParams.get("account")
+if (accounturl){
+  account = accounturl
+  Astro.cookies.set("account", accounturl)
+}
 var org = Astro.cookies.get("org")?.value ?? ""
 const orgurl = Astro.url.searchParams.get("org")
 if (orgurl){
   org = orgurl
   Astro.cookies.set("org", orgurl)
 }
-// if (!org) {
-//   var org = ""
-// }
+var project = Astro.cookies.get("project")?.value ?? ""
+const projecturl = Astro.url.searchParams.get("project")
+if (projecturl){
+  org = projecturl
+  Astro.cookies.set("project", projecturl)
+}
 ---
-
+https://app.harness.io/ng/account/8mh-FIIHQUapLuB6K0Cd-w/module/cd/orgs/event_refarch/projects/chillydonkey/pipelines
 {org}
