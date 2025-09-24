@@ -14,9 +14,9 @@ if (orgurl){
 var project = Astro.cookies.get("project")?.value ?? ""
 const projecturl = Astro.url.searchParams.get("project")
 if (projecturl){
-  org = projecturl
+  project = projecturl
   Astro.cookies.set("project", projecturl)
 }
 ---
-https://app.harness.io/ng/account/8mh-FIIHQUapLuB6K0Cd-w/module/cd/orgs/event_refarch/projects/chillydonkey/pipelines
+export const project
 {org}
