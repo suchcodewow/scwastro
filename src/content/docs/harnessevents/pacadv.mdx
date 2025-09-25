@@ -1,0 +1,58 @@
+---
+sidebar:
+  order: 10
+title: "Lab I - Advanced Policy as Code"
+---
+
+# Lab 8 - Governance/Policy as Code (Advanced)
+
+**Create a Policy to block critical CVEs**
+
+1. From the secondary menu, expand **Project Setup** and select **Policies**
+
+2. Select the **Policies** tab
+
+3. click **+ New Policy**, set the name to **Runtime OWASP CVEs** and click **Apply**
+
+4. Set the rego to the following and click **Save**
+
+```
+    package pipeline_environment
+    deny[sprintf("Node OSS Can't contain any critical vulnerability '%d'", [input.NODE_OSS_CRITICAL_COUNT])] {  
+       input.NODE_OSS_CRITICAL_COUNT != 0
+    }
+```
+
+5. Select the **Policy Sets** tab
+
+6. Click **+ New Policy Set** and configure as follows
+
+| Input                      | Value                 | Notes |
+| -------------------------- | --------------------- | ----- |
+| Name                       | Criticals Not Allowed |       |
+| Entity Type                | Custom                |       |
+| Event Evaluation           | On Step               |       |
+| Policy Evaluation Criteria |                       |       |
+| Policy to Evaluate         | Runtime OWASP CVEs    |       |
+
+7. For the new policy set, toggle the **Enforced** button
+
+**Add Policy to Pipeline**
+
+1. Open your pipeline
+
+2. Go to an execution that already ran, and copy the CRITICAL output variable from the OWASP step like so
+   [](https://lh7-us.googleusercontent.com/docsz/AD_4nXfYQ7ba5Q_cQ9xy2AFVZ5Mt0iZPYbyQDmBonp0pBQA13Z_IUeYdK8gRSbddtf_V3bSRfbhKWDbRSUVJTx3BTCc_VmwLIWyWLkdh89nLh0sEBA6fqQxTy0NADZ0YPZwCirNycRVGUQACdItaBotovPs5Hg6CmRpQHk5ysgV6RUlhSbIbkNxmHAo?key=cRG2cvp_PHVW0KG2Gq6Y_A)
+
+3. Select the **frontend** stage
+
+4. Before the **Canary Deployment** Step Group, add a **Policy** type step and configure as follow
+
+| Input       | Value                                         | Notes                                                                                                                                                   |
+| ----------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Name        | Policy - No Critical CVEs                     |                                                                                                                                                         |
+| Entity Type | Custom                                        |                                                                                                                                                         |
+| Policy Set  | Criticals Now Allowed                         | Make sure to select the Project tab in order to see your Policy Set                                                                                     |
+| Payload     | `{"NODE*OSS_CRITICAL_COUNT": *\<variable>\_}` | Set the field type to Expression, then replace _\<variable>_ with OWASP output variable CRITICAL. Go to a previous execution to copy the variable path. |
+
+5. Save the pipeline and execute. Note that the pipeline fails at the policy evaluation step due to critical vulnerabilities being found by OWASP.

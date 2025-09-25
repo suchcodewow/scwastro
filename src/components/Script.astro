@@ -1,0 +1,57 @@
+
+<script>
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+let account = getCookie("account")
+let org = getCookie("org")
+let project = getCookie("project")
+const params = new Proxy(new URLSearchParams(window.location.search), {
+  get: (searchParams, prop) => searchParams.get(prop),
+});
+let accountUrl = params.account;
+let orgUrl = params.org;
+let projectUrl = params.project;
+if (accountUrl){
+  console.log("account found:", account)
+  account = accountUrl
+  document.cookie = "account=" + accountUrl
+}
+if (orgUrl){
+  console.log("org found:", orgUrl)
+  org = orgUrl
+  document.cookie = "org=" + orgUrl
+}
+if (projectUrl){
+  console.log("project found:", projectUrl)
+  project= projectUrl
+  document.cookie = "project=" + projectUrl
+}
+var html = document.querySelector('html');
+// var walker = document.createTreeWalker(html);
+var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_ALL);
+var node;
+while (node = walker.nextNode()) {
+console.log(typeof node)
+  if (node.innerHTML){
+      // htmlString = htmlString.replace("?account", account)
+      node.innerHTML = node.innerHTML.replaceAll("?account", account)
+      node.innerHTML = node.innerHTML.replaceAll("?org", org)
+      node.innerHTML = node.innerHTML.replaceAll("?project", project)
+  }
+}
+</script>

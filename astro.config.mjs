@@ -10,7 +10,7 @@ export default defineConfig({
   output: "server",
   integrations: [
     starlight({
-      prerender: false,
+      prerender: true,
       favicon: "favicon.ico",
       title: "suchcodewow",
       customCss: ["./src/styles.css"],
@@ -32,6 +32,12 @@ export default defineConfig({
           label: "Pepper",
           autogenerate: {
             directory: "pepper",
+          },
+        },
+        {
+          label: "HarnessEvents",
+          autogenerate: {
+            directory: "harnessevents",
           },
         },
         {

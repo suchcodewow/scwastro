@@ -1,0 +1,116 @@
+---
+sidebar:
+  order: 2
+title: "Lab A - Build Software"
+---
+
+## Goals
+
+We'll setup a CI Pipeline with source code tests, build, and then push the artifact to a remote repository!
+
+## Lab Guide
+
+### Login and app link
+
+1. Login to Harness at [https://workshop.harness.io](https://workshop.harness.io) using the credentials provided.
+1. Ensure your project is selected: **1** click on project, **2** click/ensure project level, **3** click on project shown.
+   ![Project Select](../../../img/harnessproject.png)
+1. Get your personal application link: **1** click the [hamburger button](https://en.wikipedia.org/wiki/Hamburger_button), **2** click on **Unified View**.
+   ![Unified View](../../../img/harness_unified.png)
+1. then **1** click-hold and drag over your URL (it will look different). Right-click and copy the URL.
+   ![Unified View2](../../../img/harnessunified2.png)
+   :::note[stop and smell the code!]
+   This is an overview page for your project offering a quick high level view of the landscape: **2** highlights all services, pipelines, builds and deployments, **3** has great links to more information, help, and community content!
+   :::
+1. Open a new tab in your browser and then paste the URL into the address bar and press enter.
+   :::note[AHHH! It's BROKEN!]
+   Don't worry, this is expected. We haven't deployed anything yet! We'll get to that in the next lab. :)
+   :::
+
+   ### Our first pipeline
+
+1. Return to the Harness Platform tab then: **1** click **Pipelines**, **2** Click **Create a Pipeline**
+   ![Create a pipeline](../../../img/harness1createpipeline.png)
+1. In the box that pops up: **1** give your pipeline a name, **2** click **Inline**, **3** click **Start**
+   ![Create a pipeline2](../../../img/harness1create.png)
+   :::note[Inline vs. Remote]
+   We're using inline for this lab, but you can also use a remote repository like GitHub. This is useful for teams that want to keep their _pipelines as code_ bundled up snuggly with _application code_. Cozy!
+   :::
+1. then: **1** click **Add Stage**, **2** **Build** as the Stage Type
+   ![Add build stage](../../../img/harness1addbuild.png)
+1. then: **1** enter any name (ex: `build`), **2** ensure **Clone Codebase** is selected, **3** click for repo selector and pick **harnessrepo**, **4** click **Set Up Stage**
+   ![configure build step](../../../img/harness1buildsetup.png)
+
+   ### Configure the infrastructure and tests
+
+1. On the infrastructure page: **1** click **Cloud**, **2** click **Continue**
+   ![build infrastructure](../../../img/harness1infra.png)
+   :::note[Harness Cloud is the BESTEST cloud]
+   Something awesome happened right there. With zero configuration (well ok... ooooooone click!) you instantly configured an autoscaling build environment in the cloud that requires no management on your part and is dramatically less expensive than on-premise.
+   Plus Harness is using the [fastest bare-metal hardware](https://www.harness.io/products/continuous-integration/ci-cloud) in the Solar System. Seriously. Astronauts checked.
+   :::
+1. On the execution page: **1** click **Add Step**, **2** click **Add Step**
+   ![add tests](../../../img/harness1execadd.png)
+1. In the Step Library: **1** (optional) type `tests` in search box, **2** click **Run Tests**
+   ![add test step](../../../img/harness1addtests.png)
+1. In the Run Tests pane: **1** name the test `Run Tests with Intelligence`, **2** choose python, **3** Pytest, **4** Click **Additional Configuration** to expand...
+
+   ...**5** copy and paste the install command below into the **Pre-Command** field...
+
+   ```bash frame="none"
+   pip install pytest & cd ./python-tests
+   ```
+
+   ... then: **6** click **Apply Changes**
+   ![configure tests](../../../img/harness1configrun.png)
+
+   ### Leverage a template for software build!
+
+1. Back in the Execution pane: **1** click **Add Step**, **2** click **Use Template**
+   ![add compile step](../../../img/harness1addcompile.png)
+1. In the Template Library: **1** click **Compile Application**, **2** click **Use Template** (far bottom right of screen)
+   ![choose template](../../../img/harness1compiletemplate.png)
+1. In the template box: **1** name the template `Compile`, **2** click **Apply Changes**
+   ![save template](../../../img/harness1savecompile.png)
+
+   ### Save the completed build artifact
+
+1. Back in the Execution pane: **1** click **Add Step**, **2** click **Add Step**
+   ![add save step](../../../img/harness1addpush.png)
+1. In the Step Library: **1** type `docker` in search box, **2** click **Build and Push an image to Dockerhub**
+   ![add save step2](../../../img/harness1librarydocker.png)
+1. In the Build and Push pane:  
+   **1** name the step `Push to DockerHub`  
+   **2** select `dockerhub` for Docker Connector  
+   **3** for Docker Respository paste:
+
+   ```bash
+   nikpap/harness-workshop
+   ```
+
+   **4** click **+Add** in Tags, then paste:
+
+   ```bash
+   <+variable.username>-<+pipeline.sequenceId>
+   ```
+
+   **5** Click **Optional Configuration** to expand  
+   **6** For DockerFile paste:
+
+   ```bash
+   /harness/frontend-app/harness-webapp/Dockerfile
+   ```
+
+   **7** For Context paste:
+
+   ```bash
+   /harness/frontend-app/harness-webapp
+   ```
+
+   **8** Click **Apply Changes**. That was the biggest step in the workshop, you did it! ⭐️
+   ![docker config](../../../img/harness1configdocker.png)
+
+1. In the top right of Pipeline Studio: **1** click **Save**, **2** click **Run**
+   ![run pipeline](../../../img/harness1run.png)
+   :::note
+   You might have noticed an option to pick the branch before running the pipeline. We're using `main` for simplicity, but it's a great example of how this complete build pipeline could easily be reused for other branches (or repositories or services).

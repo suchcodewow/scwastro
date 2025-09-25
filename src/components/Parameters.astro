@@ -1,3 +1,5 @@
+
+
 ---
 var account = Astro.cookies.get("account")?.value ?? ""
 const accounturl = Astro.url.searchParams.get("account")
@@ -17,6 +19,4 @@ if (projecturl){
   project = projecturl
   Astro.cookies.set("project", projecturl)
 }
----
-export const project
-{org}
+
