@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": "src/",
     "paths": {
-      "@/src/img/*": ["img/events/*"]
+      "events/*": ["img/events/*"]
     }
   }
 }
