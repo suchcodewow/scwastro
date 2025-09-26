@@ -1,0 +1,120 @@
+---
+sidebar:
+  order: 2
+title: "Base Camp"
+---
+
+import Update from "/src/components/Script.astro";
+
+<Update />
+
+# Goals
+
+Setup our lab environment, make sure we have all the neded tools, and take a quick tour of what's provided before we head out.
+
+## Lab Guide Check
+
+Below you should see the details for your event. If anything is blank or starts with a question mark (?), please let your instructor(s) know.
+
+|                          |          |
+| ------------------------ | -------- |
+| Harness Account          | ?account |
+| Event Organization (org) | ?org     |
+| My personal project      | ?project |
+
+## Environment Setup
+
+1. Right-Click and open in new window: [Login to Harness](https://app.harness.io/ng/account/?account/module/cd/orgs/?org/projects/?project/pipelines) using the credentials provided.
+1. (Recommended) Smoosh this lab guide to the smallest window possible to the right side of screen and fill in the Harness window for the rest:
+   ![Project Select](events/setup1.png)
+
+## Quick Tour
+
+We're building everything from scratch- but there are some bits worth setting up ahead of time- and some values that change from event to event. In the interest of showing there's no magical "whoosh" skimming over anything, the items below were pre-built.
+
+### Starting Point
+
+1. In Harness, at the top of screen, confirm that your account -> org -> project matches the details above (orange box) & you see overview, Get Started, etc on the left (teal box). ![Project confirm](events/projectconfirm.png)
+1. Starting in the blue bar:
+   | click: |#|
+   | -------- | -------|
+   | Organization Settings |1|
+   | Organization-level resources |2|
+   | Variables |3|
+
+   ![org variables](events/orgvariables.png)
+
+1. Based on the cloud platform chosen for the workshop, you should see 1 or more preset variables. We're building everything from scratch- but these are here to ensure we're targetting valid cloud resources that change from event to event.
+
+   :::tip[Accounts, Orgs, and Projects - Oh my!]
+   Harness is built with enterprise thinking front and center! The Account covers your entire company. Under the account there can be any number of organizations(orgs) that group by team / industry / regulated v nonregulated / etc. Projects are any number of smaller units that fall under an org.
+
+   For today, you can think of everything built ahead of time at the org level as resources provided by the platform team to make our jobs easier.
+   :::
+
+### Connectors
+
+1. Returning to the blue bar:
+   | click: |#|
+   | --------------- | -------- |
+   | Organization Settings |1|
+   | Organization-level resources |2|
+   | Connectors |3|
+
+   ![org variables](events/orgconnectors.png)
+
+   :::tip[Why is this important?]
+   Connectors are an elegant way to enable security and scalability. The platform team can set a token once. With built-in permission control, they can allow teams to use that credential without ever needing to see it. And, if the credential changes- the platform team can update once with zero configuration in the instances where it is used.
+   :::
+
+### Templates
+
+1. Returning to the blue bar:
+   | click: |#|
+   | --------------- | -------- |
+   | Organization Settings |1|
+   | Organization-level resources |2|
+   | Templates |3|
+
+   ![org variables](events/orgtemplates.png)
+
+1. Templates are a critical part of how Harness enables easy scaling across the company. Tabs at the bottom of each template shows the applicable area it is used. Tags shown in the middle allow filtering.
+
+   <details>
+     <summary>for example...</summary>
+     In our environment, 'cheatcode' designates a stage someone could use to catch up quickly if they arrive late and miss key early
+     labs. That's not YOU though. You were on time and that's AWESOME.
+   </details>
+
+### Governance and Policies
+
+1. Returning to the blue bar:
+   | click: |#|
+   | --------------- | -------- |
+   | Organization Settings |1|
+   | Security and Governance |2|
+   | Policies |3|
+
+   ![org policies](events/orgpolicies.png)
+
+   :::tip[Why is this important?]
+   While templates make enterprise scaling easy, policies ensure your governance strategies are enforced everywhere... every time... and auditable. The overview is boring for a new project, but it's like a robotic hawk with perfect memory tracking every policy execution. And it always flies in slow motion which is super cool. And Thunderstruck plays majestically from an unseen source. This analogy has possibly gone too far.
+   :::
+
+1.From the overview page:
+|click:|#|description|
+|-----|----|----|
+|Policies|1|Indivdual Policies|
+|Policy Sets|2|Policy groups managed together|
+|Evaluations|3| Evaluations with filters|
+
+    ![policy](events/policyoptions.png)
+
+## Next Steps
+
+Depending on the path selected for your event, you might not directly into Lab A. Please hang tight for next steps from your instructor.
+
+If your lab guide window is larger, the labs will appear on the left.
+
+If you smooshed to smaller size, you'll find this button top right to select other sections.
+![lab select](events/labselect.png)

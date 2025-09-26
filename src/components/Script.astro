@@ -27,17 +27,14 @@ let accountUrl = params.account;
 let orgUrl = params.org;
 let projectUrl = params.project;
 if (accountUrl){
-  console.log("account found:", account)
   account = accountUrl
   document.cookie = "account=" + accountUrl
 }
 if (orgUrl){
-  console.log("org found:", orgUrl)
   org = orgUrl
   document.cookie = "org=" + orgUrl
 }
 if (projectUrl){
-  console.log("project found:", projectUrl)
   project= projectUrl
   document.cookie = "project=" + projectUrl
 }
@@ -46,12 +43,11 @@ var html = document.querySelector('html');
 var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_ALL);
 var node;
 while (node = walker.nextNode()) {
-console.log(typeof node)
   if (node.innerHTML){
       // htmlString = htmlString.replace("?account", account)
-      node.innerHTML = node.innerHTML.replaceAll("?account", account)
-      node.innerHTML = node.innerHTML.replaceAll("?org", org)
-      node.innerHTML = node.innerHTML.replaceAll("?project", project)
+      if (node.innerHTML.includes("?account")) {node.innerHTML = node.innerHTML.replaceAll("?account", account)}
+      if (node.innerHTML.includes("?org")) {node.innerHTML = node.innerHTML.replaceAll("?org", org)}
+      if (node.innerHTML.includes("?project")) {node.innerHTML = node.innerHTML.replaceAll("?project", project)}
   }
 }
 </script>

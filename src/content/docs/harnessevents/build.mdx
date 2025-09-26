@@ -1,6 +1,6 @@
 ---
 sidebar:
-  order: 2
+  order: 3
 title: "Lab A - Build Software"
 ---
 
@@ -12,26 +12,19 @@ import Update from "/src/components/Script.astro";
 
 We'll setup a CI Pipeline with source code tests, build, and then push the artifact to a remote repository!
 
-## Lab Guide
+## Steps
 
-### Login and app link
+1. In Harness:
+   | click: |#|
+   | -------- | -------|
+   | Projects (blue bar) |1|
+   | Your Project: ?project |2|
 
-1. Right-Click and open in new window: [Login to Harness](https://app.harness.io/ng/account/?account/module/cd/orgs/?org/projects/?project/pipelines) using the credentials provided.
-1. Ensure your project is selected: **1** click on project, **2** click/ensure project level, **3** click on project shown.
-   ![Project Select](events/harnessproject.png)
-1. Get your personal application link: **1** click the [hamburger button](https://en.wikipedia.org/wiki/Hamburger_button), **2** click on **Unified View**.
-   ![Unified View](../../../img/harness_unified.png)
-1. then **1** click-hold and drag over your URL (it will look different). Right-click and copy the URL.
-   ![Unified View2](../../../img/harnessunified2.png)
-   :::note[stop and smell the code!]
-   This is an overview page for your project offering a quick high level view of the landscape: **2** highlights all services, pipelines, builds and deployments, **3** has great links to more information, help, and community content!
-   :::
-1. Open a new tab in your browser and then paste the URL into the address bar and press enter.
-   :::note[AHHH! It's BROKEN!]
-   Don't worry, this is expected. We haven't deployed anything yet! We'll get to that in the next lab. :)
-   :::
+   ![project select](events/selectproject.png)
 
-   ### Our first pipeline
+2. If you see the Welcome screen with **Get Started** pane, kick it to the curb with the "X" top right. ![close splash](events/splashclose.png)
+
+### Our first pipeline
 
 1. Return to the Harness Platform tab then: **1** click **Pipelines**, **2** Click **Create a Pipeline**
    ![Create a pipeline](../../../img/harness1createpipeline.png)
