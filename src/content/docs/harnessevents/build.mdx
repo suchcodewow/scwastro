@@ -22,19 +22,36 @@ We'll setup a CI Pipeline with source code tests, build, and then push the artif
 
    ![project select](events/selectproject.png)
 
-2. If you see the Welcome screen with **Get Started** pane, kick it to the curb with the "X" top right. ![close splash](events/splashclose.png)
+1. If you see the Welcome screen with **Get Started** pane, kick it to the curb with the "X" top right. ![close splash](events/splashclose.png)
 
-### Our first pipeline
+   ### Create the pipeline
 
-1. Return to the Harness Platform tab then: **1** click **Pipelines**, **2** Click **Create a Pipeline**
+1. In your project:
+   | click: |#|
+   | -------- | -------|
+   | Projects (blue bar) |1|
+   | Your Project: ?project |2|
    ![Create a pipeline](../../../img/harness1createpipeline.png)
-1. In the box that pops up: **1** give your pipeline a name, **2** click **Inline**, **3** click **Start**
+1. In the box that pops up:
+   | click: |#| value|
+   | -------- | -------|------|
+   | Name |1| `Python Build`|
+   | Inline |2||
+   | Start|3||
+
    ![Create a pipeline2](../../../img/harness1create.png)
-   :::note[Inline vs. Remote]
+   :::tip[Inline vs. Remote]
    We're using inline for this lab, but you can also use a remote repository like GitHub. This is useful for teams that want to keep their _pipelines as code_ bundled up snuggly with _application code_. Cozy!
    :::
-1. then: **1** click **Add Stage**, **2** **Build** as the Stage Type
+
+1. then:
+   | click: |#|
+   | -------- | -------|
+   | Add Stage |1|
+   | build |2|
+
    ![Add build stage](../../../img/harness1addbuild.png)
+
 1. then: **1** enter any name (ex: `build`), **2** ensure **Clone Codebase** is selected, **3** click for repo selector and pick **harnessrepo**, **4** click **Set Up Stage**
    ![configure build step](../../../img/harness1buildsetup.png)
 
