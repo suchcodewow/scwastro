@@ -13,99 +13,70 @@ title: Kubernetes CD Stage
 1.  In the left nav, click _Project Settings_, then _services_, then \_+new service+.
 1.  Follow the table to configure:
 
-    ##### Name
+        ##### Name
 
-    ```
-    catalogapi
-    ```
+        ```
+        catalogapi
+        ```
 
-    ![Project Select](/images/save.png)
+        ![Project Select](/images/save.png)
 
-    ##### Service definition
+        ##### Service definition
 
-    _Kubernetes_
+        _Kubernetes_
 
-    ##### Manifests
+        ##### Manifests
 
-    1. Click _+Add Manifest_
-    1. Click _K8s Manifest_
-       ![Project Select](/images/continue.png)
-    1. Click _Harness_
-       ![Project Select](/images/continue.png)
+        1. Click _+Add Manifest_
+        1. Click _K8s Manifest_
+           ![Project Select](/images/continue.png)
+        1. Click _Code_
+           ![Project Select](/images/continue.png)
 
-    ##### Manifest Identifier
+        ##### Manifest Identifier
 
-    ```
-    catalogapi_kubernetes
-    ```
+        ```
+        catalogapi_kubernetes
+        ```
 
-    ##### File/Folder Path
+        ##### File/Folder Path
 
-    1. Click _Select_
-    1. Click _Organization_ (at top)
-    1. Click _manifest.yaml_
-       ![Project Select](/images/apply_selected.png)
+        1.  Click _Repository Name_, then _catalogapi-norefs_.
+        1.  Use `main` for the branch, then the following for _File/Folder Path_
 
-    ##### Values.yaml
+        ```
+        service/manifest.yaml
+        ```
 
-    1. Click _Select_
-    1. Click _Organization_ (at top)
-    1. Click _values.yaml_
-       ![Project Select](/images/submit.png)
+        ##### Values.yaml
 
-    ##### Artifacts
+        1. Click _+Add File_.
+        1. Use the following Path
 
-    1. Click _Add Artifact Source_
-    1. Click _Google Artifact Registry_
-       ![Project Select](/images/continue.png)
+        ```
+         service/values.yaml
+         ```
 
-    ##### GCP Connector
+    ![Project Select](/images/submit.png)
 
-    1. Click _Select GCP Connector_
-    1. Click _GlobalCorpGCP_
-       ![Project Select](/images/apply_selected.png)
+        ##### Artifacts
 
-    ![Project Select](/images/continue.png)
+        1. Click _Add Artifact Source_
+        1. Click _Artifact Registry_
+           ![Project Select](/images/continue.png)
 
-    ##### Artifact Source Identifier
+         1. Use `catalogapi` for artifact identifier.
+         1. Select your project's repository, then _Apply Selected_.
+         1. For the tag, use:
+         ```
+         <+project.name>
+         ```
 
-    ```
-    catalogapi
-    ```
+         ![Project Select](/images/apply_selected.png)
 
-    ##### Project ID
+        ![Project Select](/images/continue.png)
 
-    ```
-    <+variable.org.gcpproject>
-    ```
-
-    ##### Region
-
-    ```
-    <+variable.org.gcpregion>
-    ```
-
-    ##### Repository Name
-
-    ```
-    globalcorp
-    ```
-
-    ##### Package
-
-    ```
-    catalogapi
-    ```
-
-    ##### Version Details
-
-    (Change type with tiny box at end of field to _Expression_)
-
-    ```
-    <+project.name>
-    ```
-
-1.  Click Save! (top right) Pheeeeewwww!
+1.  Click Save! (top right)
 
 #### B) Build CD Stage
 
@@ -118,11 +89,11 @@ title: Kubernetes CD Stage
 1. Name the stage `Ticketing`
    ![Project Select](/images/set_up_stage.png)
 1. Click _+_ above _Add Stage_, then click _Deploy_.
-1. For Stage Name, enter `nonprod Kubernetes`, then click _Kubernetes_ deployment type below.
+1. For Stage Name, enter `Deploy Software`, then click _Kubernetes_ deployment type below.
 1. Click _Select Service_, then _catalogapi_
    ![Project Select](/images/apply_selected.png)
    ![Project Select](/images/continue.png)
-1. For _Specify Environment_, click box, then _organization_ then _nonprod_.
+1. For _Specify Environment_, click box, then _organization_ then _Production Environment_.
    ![Project Select](/images/apply_selected.png)
 1. For _Infrastructure_, click box, then your kubernetes infrastructure.
    ![Project Select](/images/continue.png)

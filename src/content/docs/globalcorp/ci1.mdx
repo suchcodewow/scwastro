@@ -1,7 +1,7 @@
 ---
 sidebar:
   order: 2
-title: Java CI Stage
+title: Build Software - CI
 ---
 
 ### Platform Concept: Application Integrations
@@ -42,7 +42,7 @@ title: Java CI Stage
 #### C) Create Template
 
 1. In the left nav, click _Pipelines_, then _+Create a Pipeline_. (You might need to scroll-wheel up to top)
-1. Name it `Fastlane-Java Build`, then click _Start_.
+1. Name it `Software Delivery Fastlane`, then click _Start_.
 1. Click _+_ sign above _Add Stage_, click _Custom Stage_, Name it `Ticketing`, then click `Set Up Stage`.
 1. In the bottom half, click _+_ above _Add Step_, then click _Add Step_.
 1. Scroll to _ServiceNow_, and click _ServiceNow Create_.
@@ -94,69 +94,27 @@ title: Java CI Stage
 ### Platform Concept: Golden Templates
 
 - We just built a stage template with infinite reusability and central upkeep.
-- Next, we'll setup a single pipeline to deliver any number of java applications.
+- Next, we'll setup a single pipeline to deliver any number of applications.
 
-#### D) CI Fastlane for Java
+#### D) Software Delivery Fastlane
 
 1. In the top-half, click _+_ above _Add Stage_, then click _Build_.
-1. Name the stage `Java Build`, then click _Third-party Git provider_, _Connector_, _GlobalcorpGithub_.
-1. For _Repository Name_, use the following:
-
-   ```
-   catalogapi-norefs
-   ```
-
-1. Click in the middle Overview tab, and uncheck _Enable cache intelligence_.
+1. Name the stage `Build Software`, then Click in _Repository_.
+1. Select _catalogapi-norefs_, then _Apply Selected_, then _Set Up Stage_.
 1. In the middle Infrastructure tab, click _Cloud_, review the Platform options, then click _Continue >_.
-1. In the bottom half, click _Add Step_, click _GitLeaks_, then _Apply Changes_.
-1. Click _Add Step_, click _Owasp_, then _Apply Changes_.
-1. Click _Add Step_, click _Build and Push to GAR_.
-1. Follow the table to configure:
-
-###### Name
-
-```
-Build and Push to GAR
-```
-
-###### GCP Connector
-
-Click _Select_, then _GlobalCorpGCP_.
-
-###### Host
-
-```
-<+variable.org.gcpregion>-docker.pkg.dev
-```
-
-###### Project ID
-
-```
-<+variable.org.gcpproject>
-```
-
-###### Image Name
-
-```
-globalcorp/catalogapi
-```
-
-###### Tags
-
-(Click _+Add_)
+1. In the bottom half, click _Add Step_, click Owasp.
+1. Update the name to `Owasp`, then click _Apply Changes_.
+1. Click _Add Step_, click _Build and Push an image to Docker_.
+1. Update the name to `Build and Push to Docker`.
+1. Click _+New Registry_ in the top right, select _Docker_, and name the registry `[your classname]-globalcorp`.
+1. Change the visibility to _public_.
+1. Click _Create Registry_.
+1. For Image name, enter `catalogapi`, then click the _+ catalogapi_ popup to select it.
+1. Add a new tag using the following:
 
 ```
 <+project.name>
 ```
 
-##### Enable Docker layer caching
-
-(Enable)
-
-1. Click _Apply Changes_, then _Save_.
-1. Click _Run_ in the top right corner, then _Run Pipeline_.
-
-### Confirm Success
-
-1. When complete, switch to google cloud tab and navigate to Artifact Registry.
-1. In the globalcorp respository, confirm a catalogapi artifact exists with your name.
+1. Enable Docker Layer caching, then click _apply changes_.
+1. Click _save_ in the top right corner, then _Run_.

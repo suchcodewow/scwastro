@@ -109,10 +109,10 @@ title: IaCM
 
     // Workspace
     workspace_name                 = "<+pipeline.variables.vm_name>"
-    workspace_provider_connector   = "account.globalcorpgcp"
+    workspace_provider_connector   = "org.GCP_Platform_Connector"
     workspace_repository_name      = "globalcorp-iacm"
     workspace_repository_path      = "harness/gcpvm"
-    workspace_repository_connector = "account.GlobalcorpGithub"
+    workspace_repository_connector = "org.GitHub_Connector"
 
     tf_vars = [
         {
@@ -130,7 +130,7 @@ title: IaCM
 
     ![Project Select](/images/submit.png)
 
-    ##### Export Huna Readable representation of Terraform Plan
+    ##### Export Human Readable representation of Terraform Plan
 
     _Click_ to enable
 
@@ -209,7 +209,7 @@ title: IaCM
 
     #### Add Workspace Apply Step
 
-1.  CLick _Provision Workspace_ stage at the top of screen if not selected.
+1.  Click _Provision Workspace_ stage at the top of screen if not selected.
 1.  Click the _+_ above _Add Step_, then _Add Step_, then select _Terraform Apply_.
 1.  Follow the table to configure:
 
