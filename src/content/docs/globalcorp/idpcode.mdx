@@ -1,0 +1,80 @@
+---
+sidebar:
+  order: 10
+title: IDP Workflow - Code Repo
+---
+
+### A) Create new workflow
+
+1. Duplicate the tab.
+1. In the left-nav, click the _mega-hamburger_ button, then select _Internal Developer Portal_.
+   ![](/images/megaidp.png)
+1. On the left-nav, click _create_, then _workflow_ on the right side.
+1. Follow the table to configure:
+
+   ##### Name
+
+   ```
+   <your attendee name> Create Code Repo
+   ```
+
+   ##### Type
+
+   Select (or type if first time) `workflow`
+
+   ##### Owner
+
+   Select _your id_.
+
+   ##### Description
+
+   ```
+    Automatic workflow to create a new code repository.
+   ```
+
+1. Scroll down slightly and confirm this workflow will be available to anyone in the account.
+1. Switch to the Yaml view with the button at the top.
+1. Find, select, and delete content starting with `spec:` on ~line 11.
+1. Add the follow content to the bottom of the file.
+
+   ```
+   spec:
+     output:
+       links:
+         - title: Pipeline Details
+           url: ${{ steps.trigger.output.PipelineUrl }}
+     lifecycle: production
+     parameters:
+       - title: About your new repository
+         required:
+           - repo_name
+         properties:
+           token:
+             title: Harness Token
+             type: string
+             ui:widget: password
+             ui:field: HarnessAuthToken
+           repo_name:
+             title: Repository Name
+             type: string
+             description: Name of repository
+     steps:
+       - id: trigger
+         name: Creating your repository
+         action: trigger:harness-custom-pipeline
+         input:
+           url: PIPELINE_HERE
+           inputset:
+             newrepo: ${{ parameters.repo_name }}
+           apikey: ${{ parameters.token }}
+   ```
+
+1. Switch back to your pipeline in the previous tab, ensure you are in the pipeline editor, and copy the full URL.
+1. Replace the `PIPELINE_HERE` section above the the URL to your pipeline.
+1. Save the template.
+1. In the left nav, click _Workflows_, your code repo workflow, provide a name, then _review_ and _Execute_ your workflow.
+
+#### B) Confirm your new repository was created.
+
+1. in the top left corner, click the mega hamburger button, then _Code Repository_.
+1. Confirm that the repository you requested was successfully created.
