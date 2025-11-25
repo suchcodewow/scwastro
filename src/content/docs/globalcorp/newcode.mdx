@@ -1,0 +1,58 @@
+---
+sidebar:
+  order: 8
+title: Workflow-Code Repo
+---
+
+### A) Create new workflow for Code Repository
+
+1. In the left-nav, click the _mega-hamburger_ button, then select _Internal Developer Portal_.
+   ![](/images/megacd.png)
+1. On the left-nav, click _pipelines_, then
+   ![](/images/createpipeline.png)
+1. Name it `New Application Setup`, then
+   ![](/images/start.png)
+1. On the far right, click variables.
+   1[](/images/variables.png)
+1. Under _Pipeline_ section, click `Add Variable`.
+1. In the variable setup, name it `newrepo`, then change the _value_ to _Runtime Input_.
+   ![](/images/runtime.png)
+1. Click ![](/images/save.png) then ![](/images/apply_changes.png) then ![](/images/save.png)
+1. Click:
+   ![](/images/addstage.png)
+1. Then click `Developer Portal`
+   ![](/images/developerportalstage.png)
+1. Name the stage `New Repository`, then
+   ![](/images/set_up_stage.png)
+1. Select `Cloud` under _Infrastructure_, then
+   ![](/images/continue.png)
+1. Click `Add Step`, then `Add Step`. Click `Create Repo` and update the name to `Create Repo`.
+1. Build the step with these details:
+
+   click: _Project_
+
+   **Project**
+
+   ```
+    <+project.identifier>
+   ```
+
+   **Organization**
+
+   ```
+   <+org.identifier>
+   ```
+
+   **Repository Name**
+
+   ```
+   <+pipeline.variables.newrepo>
+   ```
+
+   **Api Key**
+
+   Click: _Create or Select Secret a Secret_ then _Harness_API_Key_ then
+   ![](/images/apply_selected.png) then
+   ![](/images/apply_changes.png)
+
+1. Click ![](/images/save.png)
